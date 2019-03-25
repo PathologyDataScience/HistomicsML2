@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Formatting datasets &mdash; HistomicsML-TA 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Importing datasets" href="data-import.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> HistomicsML-TA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Training a classifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reports.html">Exporting results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-import.html">Importing datasets</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Formatting datasets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#whole-slide-images">Whole-slide images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#slide-description">Slide description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#object-boundaries">Object boundaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#histomic-features">Histomic features</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HistomicsML-TA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Formatting datasets</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/data-format.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="formatting-datasets">
+<h1>Formatting datasets<a class="headerlink" href="#formatting-datasets" title="Permalink to this headline">¶</a></h1>
+<p>This section describes how to format your own datasets for importing into HistomicsML. A datasets consists of whole-slide images (.tif), a slide description (.csv), object boundaries (.txt) and histomic features (.h5).</p>
+<div class="section" id="whole-slide-images">
+<h2>Whole-slide images<a class="headerlink" href="#whole-slide-images" title="Permalink to this headline">¶</a></h2>
+<p>Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the IIPImage server (<a class="reference external" href="http://iipimage.sourceforge.net/documentation/server/">http://iipimage.sourceforge.net/documentation/server/</a>). We have used Vips (<a class="reference external" href="http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS">http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS</a>)
+to perform this conversion for our datasets.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The path to the image needs to be saved in the database.
+HistomicsML uses the database to get the path when forming a request for the IIPIMage server.</p>
+</div>
+</div>
+<div class="section" id="slide-description">
+<h2>Slide description<a class="headerlink" href="#slide-description" title="Permalink to this headline">¶</a></h2>
+<p>A table (.csv) needs to be created to capture the dimensions, magnification, and location of the files for each slide image:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&lt;slide name&gt;,&lt;width in pixels&gt;,&lt;height in pixels&gt;,&lt;path to the pyramid on IIPServer&gt;,&lt;scale&gt;
+</pre></div>
+</div>
+<p>where scale = 1 for 20x and scale = 2 for 40x.</p>
+<p>For the sample data provided in the database container, our slide description file (GBM-pyramids.csv) has the following contents:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>TCGA-3C-AALJ-01Z-00-DX1,95744,86336,/localdata/pyramids/BRCA/TCGA-3C-AALJ-01Z-00-DX1.svs.dzi.tif,2
+</pre></div>
+</div>
+</div>
+<div class="section" id="object-boundaries">
+<h2>Object boundaries<a class="headerlink" href="#object-boundaries" title="Permalink to this headline">¶</a></h2>
+<p>Boundary information is formatted as a tab-delimited text file where each line describes the centroids and boundary coordinates for one object:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&lt;slide name&gt; <span class="se">\t</span> &lt;centroid x coordinate&gt; <span class="se">\t</span> &lt;centroid y coordinate&gt; <span class="se">\t</span> &lt;boundary points&gt;
+</pre></div>
+</div>
+<p>where t is a tab character and &lt;boundary points&gt; are formatted as:
+x1,y1 x2,y2 x3,y3 … xN,yN (with spaces between coordinate pairs)</p>
+<p>One line from the sample data boundaries file (GBM-boundaries.txt):</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>TCGA-3C-AALJ-01Z-00-DX1 <span class="m">2250</span>.1 <span class="m">4043</span>.0 <span class="m">2246</span>,4043 <span class="m">2247</span>,4043 <span class="m">2247</span> ... <span class="m">2247</span>,4043 <span class="m">2246</span>,4043
+</pre></div>
+</div>
+</div>
+<div class="section" id="histomic-features">
+<h2>Histomic features<a class="headerlink" href="#histomic-features" title="Permalink to this headline">¶</a></h2>
+<p>Features are stored in an HDF5 binary array format. The HDF5 file contains the following variables:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/features - A D x N array of floats containing the feature values <span class="k">for</span> each object in the dataset <span class="o">(</span>D objects, each with N features<span class="o">)</span>.
+/slides -     Names of the slides/images in the dataset
+/slideIdx - N-length array containing the slide index of each object. These indices can be used with the <span class="s1">&#39;slides&#39;</span> variable to determine what slide each object originates from.
+/x_centroid - N-length array of floats containing the x coordinate of object centroids.
+/y_centroid - N-length array of floats containing the x coordinate of object centroids.
+/dataIdx - Array containing the index of the first object of each slide in <span class="s1">&#39;features&#39;</span>, <span class="s1">&#39;x_centroid&#39;</span>, and <span class="s1">&#39;y_centroid&#39;</span> <span class="o">(</span>this information can also be obtained from <span class="s1">&#39;slideIdx&#39;</span> and will be eliminated in the future<span class="o">)</span>.
+/mean - A D-length array containing the mean of each feature prior to normalization. This provides a record of z-score normalization parameters so that the data can be de-normalized <span class="k">if</span> needed.
+/std_dev - A D-length array containing the standard deviation of each feature prior to normalization. This provides a record of z-score normalization parameters so that the data can be de-normalized <span class="k">if</span> needed.
+</pre></div>
+</div>
+<p>The sample file (BRCA-features-1.h5) provided in the database docker container can be queried to examine the structure with the following the command.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">h5py</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">file</span><span class="o">=</span><span class="s2">&quot;BRCA-features-1.h5&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contents</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">i</span>
+<span class="gp">...</span>
+<span class="go"># for loop will print out the feature information under the root of HDF5.</span>
+
+<span class="go">dataIdx</span>
+<span class="go">features</span>
+<span class="go">mean</span>
+<span class="go">slideIdx</span>
+<span class="go">slides</span>
+<span class="go">std_dev</span>
+<span class="go">x_centroid</span>
+<span class="go">y_centroid</span>
+
+<span class="go">#for further step, if you want to see the details.</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contents</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">array([-6.6270187e+01,  2.2519203e+01,  1.9128393e+01, -5.5189757e+00,</span>
+<span class="go">      4.8610997e+00,  6.4421225e-01, -2.8530896e+00,  4.4713855e+00,</span>
+<span class="go">      5.2029357e+00,  2.1140134e+00,  4.0678120e+00,  5.7025075e+00,</span>
+<span class="go">     -2.9773681e+00, -1.7740736e+00,  3.1053669e+00,  4.0015540e+00,</span>
+<span class="go">     -5.8424449e+00,  8.3535604e+00,  1.7886569e+00,  4.9754381e+00,</span>
+<span class="go">      9.0291014e+00, -5.0825782e+00,  4.6905100e-01,  8.8104753e+00,</span>
+<span class="go">      6.1607981e+00,  8.0138278e-01, -3.9697029e-02, -6.9302006e+00,</span>
+<span class="go">     -2.0634446e+00, -4.2065005e+00,  6.3333483e+00, -3.1875503e+00,</span>
+<span class="go">      6.5222058e+00, -6.2669392e+00,  2.1898651e+00,  8.6684000e-01,</span>
+<span class="go">     -1.6624545e+00,  1.0607558e+01,  1.8903568e+00, -2.6199970e+00,</span>
+<span class="go">     -4.1902885e+00, -1.0361324e+01, -7.3610363e+00, -6.8901229e+00,</span>
+<span class="go">      3.8562522e+00, -7.5902290e+00,  3.7865620e+00,  2.6605055e+00,</span>
+<span class="go">     -3.2112164e+00,  4.2868023e+00,  6.2832636e-01, -7.1512747e+00,</span>
+<span class="go">      7.1633124e+00,  4.2123771e+00,  5.8183951e+00, -1.5326637e+00,</span>
+<span class="go">     -4.2727118e+00,  1.4936157e+00,  2.4031213e-01,  5.3655642e-01,</span>
+<span class="go">     -6.8227062e+00, -5.5922155e+00, -1.1424997e+01, -4.3417501e+00],</span>
+<span class="go">    dtype=float32)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="data-import.html" class="btn btn-neutral float-left" title="Importing datasets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sanghoon Lee
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

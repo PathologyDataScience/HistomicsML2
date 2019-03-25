@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Training a classifier &mdash; HistomicsML-TA 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Exporting results" href="reports.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> HistomicsML-TA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Training a classifier</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#initializing-the-classifier">Initializing the classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#instance-based-active-learning">Instance-based active learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#heatmap-based-active-learning">Heatmap-based active learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reviewing-a-training-set">Reviewing a training set</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reports.html">Exporting results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-import.html">Importing datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-format.html">Formatting datasets</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HistomicsML-TA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Training a classifier</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/example.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="training-a-classifier">
+<h1>Training a classifier<a class="headerlink" href="#training-a-classifier" title="Permalink to this headline">¶</a></h1>
+<p>This page illustrates how to use the HistomicsML-TA interfaces to train classification rules using the example data provided in the Docker container.</p>
+<div class="section" id="initializing-the-classifier">
+<h2>Initializing the classifier<a class="headerlink" href="#initializing-the-classifier" title="Permalink to this headline">¶</a></h2>
+<p>Go to <a class="reference external" href="http://localhost/HistomicsML/">http://localhost/HistomicsML/</a>.</p>
+<p>Under <em>Start a session</em> enter a training set name and select the pre-loaded The Cancer Genome Atlas Breast Invasive Carcinoma (TCGA-BRCA) dataset from the drop-down menu. Enter names for your classes - in our case we will use <code class="docutils literal"><span class="pre">tumor</span></code> for the positive class and <code class="docutils literal"><span class="pre">other</span></code> for the negative class.</p>
+<img alt="_images/example-start.png" src="_images/example-start.png" />
+<p>After clicking <code class="docutils literal"><span class="pre">Begin</span></code> the <code class="docutils literal"><span class="pre">Prime</span></code> interface will be loaded to collect annotations in order to initialize the classifier. The drop-down can be used to select a slides to display in the slide viewer. Zoom to a region of interest in the slide, then click <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Segmentation</span></code> to display object boundaries. After clicking <code class="docutils literal"><span class="pre">Select</span> <span class="pre">Superpixels</span></code>, you will be prompted to select four objects from each class. Double-clicking an object in the slide viewer will add this object to the training set, and display a thumbnail image of the object above the slide viewer.</p>
+<img alt="_images/example-prime.png" src="_images/example-prime.png" />
+<p>We selected 4 examples of positive superpixels and 4 examples of negative superpixels in this example.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can remove objects from the training set in this menu by double clicking their thumbnail images.</p>
+</div>
+<p>With the initial annotation complete, click <code class="docutils literal"><span class="pre">Prime</span></code> to create the classifier. There will be a small delay while the classifier is trained and applied to the entire dataset to generate predictions for active learning.</p>
+</div>
+<div class="section" id="instance-based-active-learning">
+<h2>Instance-based active learning<a class="headerlink" href="#instance-based-active-learning" title="Permalink to this headline">¶</a></h2>
+<p>The instance-based learning interface presents objects selected by the active learning algorithm to the user for annotation. The selected objects are displayed along with their predicted class labels at the top of the slide viewer. Clicking one of these objects will bring it into focus in the slide viewer for inspection. Feedback is provided by double-clicking the thumbnails with incorrect predictions to cycle their class labels. After correcting the predictions the classifier can be updated with these new annotations by clicking <code class="docutils literal"><span class="pre">Update</span></code>.</p>
+<img alt="_images/example-instance.png" src="_images/example-instance.png" />
+</div>
+<div class="section" id="heatmap-based-active-learning">
+<h2>Heatmap-based active learning<a class="headerlink" href="#heatmap-based-active-learning" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">Gallery</span></code> menu provides a high-level overview of the current classification results for the entire dataset. Each row displays heatmaps for a single slide - the left heatmap indicates the classifier uncertainty (red = more uncertain) - and the right heatmap indicates the positive class object density (red = higher density of positively classified objects). Slides are sorted in this view based on average uncertainty, with the slide having the most uncertaintly placed at the top.</p>
+<img alt="_images/example-gallery.png" src="_images/example-gallery.png" />
+<p>Clicking a slide in the gallery will load this slide in the heatmap viewer, where the user can identify regions for annotation. Clicking <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Segmentation</span></code> will display the heatmap overlay on the slide viewer, and the user can zoom to hotspots to provide corrections to the classifier.</p>
+<img alt="_images/example-heatmap.png" src="_images/example-heatmap.png" />
+<p>At high-magnification, objects are displayed with color-coded superpixels to indicate their predicted class (green = positive). Prediction errors can be corrected directly in the slide viewer by double clicking an object to cycle it’s class, adding this object to the training set. The classifier can be retrained with the <code class="docutils literal"><span class="pre">Retrain</span></code> button.</p>
+<img alt="_images/example-heatmapzoom.png" src="_images/example-heatmapzoom.png" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Object labels can be cycled in the heatmap menu by a drag-drop function after selecting <code class="docutils literal"><span class="pre">Paint</span> <span class="pre">On</span></code>. An object can be removed from the training set by clicking <code class="docutils literal"><span class="pre">Del</span></code></p>
+</div>
+<p>When the training is completed, click the <code class="docutils literal"><span class="pre">Save</span></code> or <code class="docutils literal"><span class="pre">Finalize</span></code> button to save the training set to the database. This training set can be reloaded and resumed from using the <em>Continue a session</em> option on the main page.</p>
+</div>
+<div class="section" id="reviewing-a-training-set">
+<h2>Reviewing a training set<a class="headerlink" href="#reviewing-a-training-set" title="Permalink to this headline">¶</a></h2>
+<p>Annotations in a validation set can be reviewed using the review interface.</p>
+<p>At the home page under <em>Continue a session</em>, select the dataset and training set name and click <code class="docutils literal"><span class="pre">Continue</span></code>. Navigate to the <code class="docutils literal"><span class="pre">Review</span></code> interface by clicking the tab at the top menu.</p>
+<img alt="_images/example-continue.png" src="_images/example-continue.png" />
+<p>The review interface displays the annotated objects organized by class and slide. Thumbnail images of the objects are organized into columns by class. Clicking a thumbnail will bring that object into the field of view in the slide view. The thumbnails can be dragged/dropped to a different column to change the class label. Changes are instantly commited to the database (no additional button clicks are needed).</p>
+<img alt="_images/example-review.png" src="_images/example-review.png" />
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reports.html" class="btn btn-neutral float-right" title="Exporting results" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sanghoon Lee
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
