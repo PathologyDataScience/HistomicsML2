@@ -40,11 +40,11 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
 .. code-block:: bash
 
   # pull a docker image for HistomicsML-TA database
-  $ docker pull histomicsml/hmldb_brca:1.0
+  $ docker pull cancerdatascience/hmldb_brca:1.0
   # type the command below to use GPU
-  $ docker pull histomicsml/hmlweb_gpu:1.0
+  $ docker pull cancerdatascience/hmlweb_gpu:1.0
   # type the command below to use CPU
-  $ docker pull histomicsml/hmlweb_cpu:1.0
+  $ docker pull cancerdatascience/hmlweb_cpu:1.0
 
 3. Import sample data to database
 
