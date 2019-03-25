@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Importing datasets &mdash; HistomicsML-TA 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Formatting datasets" href="data-format.html" />
+    <link rel="prev" title="Exporting results" href="reports.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> HistomicsML-TA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Training a classifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reports.html">Exporting results</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Importing datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-format.html">Formatting datasets</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HistomicsML-TA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Importing datasets</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/data-import.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="importing-datasets">
+<h1>Importing datasets<a class="headerlink" href="#importing-datasets" title="Permalink to this headline">¶</a></h1>
+<p>A data import interface is provided to help users import new datasests into HistomicsML. This page demonstrates the data import function using the sample data located in the database container.</p>
+<p>The whole-slide image and the boundary, feature, and slide information files are located in separate folders on the database container</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/fastdata/features/BRCA/
+│
+├── BRCA-boundaries-1.txt
+│
+├── BRCA-features-1.h5
+│
+└── BRCA-pyramids-1.csv
+
+/localdata/pyramids/BRCA/
+│
+└── TCGA-3C-AALJ-01Z-00-DX1.svs.dzi.tif
+</pre></div>
+</div>
+<p>The following steps, the interface is used to import this dataset into this system</p>
+<ol class="arabic simple">
+<li>Create a folder on the container and modify permissions to enable import</li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ docker <span class="nb">exec</span> -t -i hml bash
+root@19cd8ef3e1ec:/# <span class="nb">cd</span> /fastdata/features
+root@19cd8ef3e1ec:/fastdata/features# mkdir NewProjectDirectory
+root@19cd8ef3e1ec:/fastdata/features# chmod <span class="m">777</span> NewProjectDirectory
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Copy the sample data to <code class="docutils literal"><span class="pre">NewProjectDirectory</span></code></li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>root@19cd8ef3e1ec:/fastdata/features# <span class="nb">cd</span> NewProjectDirectory
+root@19cd8ef3e1ec:/fastdata/features/NewProjectDirectory# cp -R ../BRCA/* ./
+<span class="c1"># This copies BRCA-boundaries-1.txt, GBM-features-1.h5, BRCA-pyramids-1.csv to NewProjectDirectory</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Import dataset using the web interface</li>
+</ol>
+<ul class="simple">
+<li>Open the web page <a class="reference external" href="http://localhost/HistomicsML/data.html">http://localhost/HistomicsML/data.html</a></li>
+<li>Enter a dataset name and select <code class="docutils literal"><span class="pre">NewProjectDirectory</span></code> from the Project Directory dropdown.</li>
+<li>The remaining fields will automatically populate once the directory is selected.</li>
+</ul>
+<img alt="_images/import.png" src="_images/import.png" />
+<ul class="simple">
+<li>Click Submit to confirm the import</li>
+</ul>
+<p>Now, you can see the new dataset on the main page, <a class="reference external" href="http://localhost/HistomicsML">http://localhost/HistomicsML</a>.</p>
+<img alt="_images/import-complete.png" src="_images/import-complete.png" />
+<p>The import interface can also be used to delete an existing dataset from the system</p>
+<ul class="simple">
+<li>To delete the current dataset, go to <a class="reference external" href="http://localhost/HistomicsML/data.html">http://localhost/HistomicsML/data.html</a> and select the current dataset from the dropdown on the top right, and then click Remove button.</li>
+</ul>
+<p>See the data formats section for detailed information on HistomicsML-TA data formats.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="data-format.html" class="btn btn-neutral float-right" title="Formatting datasets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="reports.html" class="btn btn-neutral float-left" title="Exporting results" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sanghoon Lee
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
