@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<!--
+	Copyright (c) 2014-2019, Emory University
+	All rights reserved.
+
+	Redistribution and use in source and binary forms, with or without modification, are
+	permitted provided that the following conditions are met:
+
+	1. Redistributions of source code must retain the above copyright notice, this list of
+	conditions and the following disclaimer.
+
+	2. Redistributions in binary form must reproduce the above copyright notice, this list
+ 	of conditions and the following disclaimer in the documentation and/or other materials
+	provided with the distribution.
+
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+	EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+	OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+	SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+	TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+	BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+	WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+	DAMAGE.
+
+-->
+
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>HistomicsML - a tissue-agnostic framework for classifying histologic structures</title>
+
+		<script src="js/jquery-1.9.0.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	</head>
+
+
+	<body>
+
+		<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					<ul class="nav navbar-nav"><li><a>HistomicsML</a></li></ul>
+				</div>
+
+				<div>
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="grid.html" id="nav_select">Instance</a></li>
+						<li><a href="viewer.html" id ="viewer">Heatmap</a></li>
+						<li><a href="heatmaps.html" id="nav_heatmaps">Gallery</a></li>
+						<li><a href="review.html" id="nav_review">Review</a></li>
+						<li><a href="data.html" id="nav_data">Import</a></li>
+						<li><a href="reports.html" id="nav_reports">Reports</a></li>
+					</ul>
+				</div>
+		</nav>
+
+		<div class="container">
+		    <div class="row">
+		    	<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+			    	<center><img src="images/banner.png" class="img-responsive"></center>
+ 				</div>
+			</div>
+
+			<br />
+
+			<div class="row">
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					<h2>Start a session</h2>
+				</div>
+
+				<div class="col-sm-2 col-md-2 col-lg-2">
+				</div>
+
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					<h2>Continue a session</h2>
+				</div>
+
+			</div>
+
+			<br />
+
+			<div class="row">
+
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					<form role="form" id="classifier_form" method="POST" action="php/initSession_nn.php" onsubmit=displayProg()>
+
+						<div class="form-group">
+							<label for="trainset">Training Set Name</label>
+							<input type="text" class="form-control" id="trainset"
+									name="classifiername" placeholder="Enter classifier name">
+						</div>
+						<div class="form-group">
+							<label for="datasetSel">Dataset</label>
+							<select class="form-control" id="datasetSel" name="dataset">
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="posClass">Positive class</label>
+							<input type="text" class="form-control" id="posClass"
+									name="posName" placeholder="Enter positive class name">
+						</div>
+
+						<div class="form-group">
+							<label for="negClass">Negative class</label>
+							<input type="text" class="form-control" id="negClass"
+									name="negName" placeholder="Enter negative class name">
+						</div>
+
+						<button id="beginSession" type="submit" name="submit" class="btn btn-default" value="submitted" >Begin</button>
+					</form>
+				</div>
+
+				<div class="col-sm-2 col-md-2 col-lg-2">
+				</div>
+
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					<form role="form" id="reload_form" method="POST" action="php/reloadSession_nn.php" onsubmit=displayProg()>
+					<input type="hidden" class="form-control" id="reloadPosClass"
+							name="reloadPosClass" readonly="readonly">
+					<input type="hidden" class="form-control" id="reloadNegClass"
+							name="reloadNegClass" readonly="readonly">
+					<input type="hidden" class="form-control" id="reloadIterClass"
+							name="reloadIterClass" readonly="readonly">
+						<div class="form-group">
+							<label for="reloadDatasetSel">Dataset</label>
+							<select class="form-control" id="reloadDatasetSel" name="reloadDataset">
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="reloadTrainSetSel">Training Set</label>
+							<select class="form-control" id="reloadTrainSetSel" name="trainingset">
+							</select>
+							<br/>
+							<div>
+								<span><strong>Pos class:</strong></span>
+								<span id="reloadPos">Pos</span>
+								<br/>
+								<span><strong>Count:</strong></span>
+								<span id="reloadPosCount">0</span>
+								<br/>
+								<span><strong>Neg class:</strong></span>
+								<span id="reloadNeg">Neg</span>
+								<br/>
+								<span><strong>Count:</strong></span>
+								<span id="reloadNegCount">0</span>
+								<br/>
+								<span><strong>Iterations:</strong></span>
+								<span id="reloadIter">0</span>
+							</div>
+						</div>
+
+						<button id="reloadSession" type="submit" name="continue" class="btn btn-default" value="submitted" >Continue</button>
+					</form>
+				</div>
+
+			</div>
+
+
+			<div class="row top-buffer"></div>
+
+			<div class="row">
+				<input type="button" id="resetBtn" value="Reset Session" class="btn btn-danger" onClick="cancelSession()">
+			</div>
+		</div>
+
+		<div class="modal fade" id="progDiag" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">
+							Loading Dataset
+						</h4>
+					</div>
+
+					<div class="modal-body">
+						Please wait while the dataset is loaded
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="cancelDiag" tabindex="-1" role="dialog"
+			aria-labelledby="myCancelLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myCancelLabel">
+							Cancel Current Session
+						</h4>
+					</div>
+					<div class="modal-body">
+						<div class="progress progress-popup">
+				 		<div class="progress-bar" id="cancelprogressBar"></div>
+						</div>
+						Please wait while current session is canceled
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/app_main.js"></script>
+	</body>
+</html>

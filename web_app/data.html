@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<!--
+	Copyright (c) 2014-2019, Emory University
+	All rights reserved.
+
+	Redistribution and use in source and binary forms, with or without modification, are
+	permitted provided that the following conditions are met:
+
+	1. Redistributions of source code must retain the above copyright notice, this list of
+	conditions and the following disclaimer.
+
+	2. Redistributions in binary form must reproduce the above copyright notice, this list
+ 	of conditions and the following disclaimer in the documentation and/or other materials
+	provided with the distribution.
+
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+	EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+	OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+	SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+	TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+	BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+	WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+	DAMAGE.
+
+-->
+
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>HistomicsML - Report</title>
+
+		<script src="js/jquery-1.9.0.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+
+	</head>
+
+
+	<body>
+
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="navbar-header">
+				<ul class="nav navbar-nav"><li><a>HistomicsML</a></li></ul>
+	</div>
+
+
+			<div>
+				<ul class="nav navbar-nav">
+					<li><a href="index.html" id='home'>Home</a></li>
+					<li><a href="viewer.html" id ="viewer">Heatmap</a></li>
+					<li class="active"><a href="#" id="nav_data">Import</a></li>
+					<li><a href="reports.html" id="nav_reports">Reports</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container">
+		    <div class="row">
+					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+						<center><img src="images/banner.png" class="img-responsive"></center>
+ 				</div>
+			</div>
+
+		</br>
+			<div class="row">
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					<h3>Import a dataset</h3>
+				</div>
+				<div class="col-sm-2 col-md-2 col-lg-2">
+				</div>
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					<h3>Delete a dataset</h3>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-sm-4 col-md-4 col-lg-4">
+
+						<form id="_form" name="_form" role="form" method="post" action="php/data.php">
+							<div class="form-group">
+								<label for="datasetName">Dataset name:</label>
+								<input type="text" class="form-control" id="datasetName"
+										name="datasetName" placeholder="Enter dataset name"/>
+							</div>
+							<div class="form-group">
+								<label for="projectSel">Project Directory</label>
+								<select class="form-control" id="projectSel" name="project">
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="pyramidSel">Slide Information (.csv file)</label>
+								<select class="form-control" id="pyramidSel" name="pyramid">
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="featureSel">Features (.h5 file)</label>
+								<select class="form-control" id="featureSel" name="feature">
+								</select>
+							</div>
+							<div class="form-group">
+							<label for="boundarySel">Boundaries (path to txt files)</label>
+							<select class="form-control" id="boundarySel" name="boundary">
+							</select>
+						</div>
+						<div><button id="_submit" type="submit" class="btn btn-success" > Submit</button></div>
+						</form>
+				</div>
+				<div class="col-sm-2 col-md-2 col-lg-2">
+				</div>
+				<div class="col-sm-4 col-md-4 col-lg-4">
+							<form onsubmit="return confirm('Do you really want to delete this dataset?');" id="_form_delete" role="form" method="post" action="php/data_delete.php">
+								<div class="form-group">
+									<label for="deleteDatasetSel">Dataset to delete:
+									</label>
+									<select class="form-control" id="deleteDatasetSel" name="deleteDatasetSel">
+								</select>
+							</div>
+							<div><button id="_submit_delete" type="submit" class="btn btn-danger" > Remove</button></div>
+						</form>
+
+			</div>
+		</div>
+		</div>
+		<div class="modal fade" id="progDiag" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">
+							Processing Dataset
+						</h4>
+					</div>
+					<div class="modal-body">
+						Please wait while processing...
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/data.js"></script>
+	</body>
+</html>
