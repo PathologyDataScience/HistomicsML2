@@ -76,15 +76,14 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
 .. code-block:: bash
 
   $ docker run -i -t -p 80:80 -p 6379:6379 --runtime=nvidia --link hmldb --name hml cancerdatascience/hmlweb_gpu:1.0 /bin/bash
-  # Modify IP address
-  root@5c6eb03c0e2f:/notebooks# vi /var/www/html/HistomicsML/db/accounts.php
   # change "$dbAddress = "192.80.0.2" to "$dbAddress = "192.80.0.1"
+  root@5c6eb03c0e2f:/notebooks# sed -i -e 's/"192.80.0.1"/"170.140.178.233"/g' /var/www/html/HistomicsML/db/accounts.php
 
 .. code-block:: bash
 
-  # Modify IP address when using Static IP address,
-  root@5c6eb03c0e2f:/notebooks# vi /var/www/html/HistomicsML/php/hostspecs.php
-  # change $IIPServer = "http://localhost/fcgi-bin/iipsrv.fcgi?" to $IIPServer = "http://Your_Static_IP_Address/fcgi-bin/iipsrv.fcgi?"
+  # Modify IP address when using Static IP address
+  # You don't need to change this if using Dynamic IP address
+  root@5c6eb03c0e2f:/notebooks# sed -i -e 's/"localhost"/"Your_Static_IP_Address"/g' /var/www/html/HistomicsML/php/hostspecs.php
 
 .. code-block:: bash
 
