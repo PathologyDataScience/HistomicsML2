@@ -93,6 +93,7 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
   root@5c6eb03c0e2f:/notebooks# service apache2 start
   root@5c6eb03c0e2f:/notebooks# cd /var/www/html/predict-rest-api
   root@5c6eb03c0e2f:/notebooks# python run_model_server.py
+  # Please wait until you see "Dataset Loaded."
 
 .. note:: If the server becomes unresponsive or generates a connection error during use, the al_server will need to be restarted.
 
