@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<!--
+	Copyright (c) 2014-2019, Emory University
+	All rights reserved.
+
+	Redistribution and use in source and binary forms, with or without modification, are
+	permitted provided that the following conditions are met:
+
+	1. Redistributions of source code must retain the above copyright notice, this list of
+	conditions and the following disclaimer.
+
+	2. Redistributions in binary form must reproduce the above copyright notice, this list
+ 	of conditions and the following disclaimer in the documentation and/or other materials
+	provided with the distribution.
+
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+	EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+	OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+	SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+	TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+	BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+	WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+	DAMAGE.
+
+-->
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Review</title>
+
+		<script src="js/jquery-1.9.0.min.js"></script>
+		<script src="js/openseadragon.min.js"></script>
+		<script src="js/openseadragon-imaginghelper.min.js"></script>
+		<script src="js/openseadragon-viewerinputhook.min.js"></script>
+		<script src="js/knockout-3.1.0.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/Sortable.js"></script>
+
+		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	</head>
+
+
+	<body>
+
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="navbar-header">
+				<ul class="nav navbar-nav"><li><a>HistomicsML</a></li></ul>
+			</div>
+
+			<div>
+				<ul class="nav navbar-nav">
+					<li><a href="index.html" id="home">Home</a></li>
+					<li><a href="grid.html" id="nav_select">Instance</a></li>
+					<li><a href="viewer.html" id="viewer">Heatmap</a></li>
+					<li><a href="heatmaps.html" id="nav_heatmaps">Gallery</a></li>
+					<li class="active"><a href="review.html" id="nav_review">Review</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4 col-md-4 col-lg-4 header" id="posHeader1">
+				</div>
+				<div class="col-sm-1 col-md-1 col-lg-1"></div>
+				<div class="col-sm-4 col-md-4 col-lg-4 header" id="negHeader1">
+					<font size=3> <b>Slideset : </b></font>
+					<select id="reviewSel" onchange="doreviewSel()" name="reviewset">
+					</select>
+				</div>
+			</div>
+
+			<div class="row" id="slides" style='overflow:auto; width:1500px;height:400px;'>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-4 col-md-4 col-lg-4">   <!-- Status -->
+					<div id="status" data-bind="with: statusObj">
+						<hr>
+						<strong>Current slide:</strong>
+						<span data-bind="text:haveImage() ? curSlide() : '-'"></span>
+						<br/>
+						<strong>Cell location:</strong>
+						<span data-bind="text:haveImage() ? currentX() : '-'"></span>
+						<span>, </span>
+						<span data-bind="text:haveImage() ? currentY() : '-'"></span>
+					</div>
+				</div>
+			</div>
+			<br/>
+
+			<div class="row">
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					<input type="button" id="toggleBtn" value="Hide Segmentation"
+						   class="btn btn-primary" disabled="disabled" onClick="toggleSegVisibility()">
+				</div>
+			</div>
+
+			<div class="row top-buffer"></div>
+
+			<div class="row-fluid">
+				<div id="imageViewerContiner" class="relative-fill-container">
+					<div id="slideZoom" class="openseadragon-view"></div>
+						<svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="overlaySvg" data-bind="with: svgOverlayVM"
+							 visibility="hidden" pointer-events="none" zoomAndPan="disable">
+							<defs></defs>
+							<!-- TODO - Can't get the binding to work with the transform function.
+								 Currently applying the transform manually in onImageViewChanged
+							-->
+							<g id="annoGrp" class="svgAnnoGrp" data-bind="attr: {transform: annoGrpTransformFunc}">
+								<g id="anno"></g>
+							</g>
+						</svg>
+				</div>
+			</div>
+
+			<script src="js/review.js"></script>
+
+		</div>
+
+	</body>
+</html>

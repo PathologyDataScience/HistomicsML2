@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<!--
+	Copyright (c) 2014-2019, Emory University
+	All rights reserved.
+
+	Redistribution and use in source and binary forms, with or without modification, are
+	permitted provided that the following conditions are met:
+
+	1. Redistributions of source code must retain the above copyright notice, this list of
+	conditions and the following disclaimer.
+
+	2. Redistributions in binary form must reproduce the above copyright notice, this list
+ 	of conditions and the following disclaimer in the documentation and/or other materials
+	provided with the distribution.
+
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+	EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+	OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+	SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+	TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+	BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+	WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+	DAMAGE.
+
+-->
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>HistomicsML - Instance</title>
+
+		<script src="js/jquery-1.9.0.min.js"></script>
+		<script src="js/openseadragon.min.js"></script>
+		<script src="js/openseadragon-imaginghelper.min.js"></script>
+		<script src="js/openseadragon-viewerinputhook.min.js"></script>
+		<script src="js/knockout-3.1.0.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+
+		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	</head>
+
+
+	<body>
+
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="navbar-header">
+				<!-- <div><ul class="nav navbar-nav"><li><a id="index">HistomicsML</a></li><ul></div> -->
+				<ul class="nav navbar-nav"><li><a>HistomicsML</a></li></ul>
+			</div>
+
+			<div>
+				<ul class="nav navbar-nav">
+					<li><a href="index.html" id="home">Home</a></li>
+					<li class="active"><a href="#">Instance</a></li>
+					<li><a href="viewer.html" id="viewer">Heatmap</a></li>
+					<li><a href="heatmaps.html" id="nav_heatmaps">Gallery</a></li>
+					<li><a href="review.html" id="nav_review">Review</a></li>
+					<!-- <li><a href="survival.html" id="nav_survival">Survival</a></li> -->
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container">
+
+			<div class="row" data-bind="with: statusObj">
+				<div class="col-sm-6 col-md-6 col-lg-6">
+					<strong>Iteration:</strong>
+					<span data-bind="text: iteration()"></span>
+
+				</div>
+
+				<div class="col-sm-6 col-md-6 col-lg-6" >
+					<div id="DebugData">
+						<span>Mouse Pos: </span>
+						<span>(</span>
+						<span data-bind="text:(haveImage() &&  haveMouse()) ? mouseImgX().toFixed(0) : '-'"></span>
+						<span>, </span>
+						<span data-bind="text:(haveImage() &&  haveMouse()) ? mouseImgY().toFixed(0) : '-'"></span>
+						<span>)</span>
+						<div>
+							<strong>Slide:</strong>
+							<span data-bind="text:haveImage() ? curSlide() : '-'"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row top-buffer"></div>
+
+			<div class="row">
+				<div class="col-sm-12 col-md-12 col-lg-12">
+					<div id="overflow">
+						<div class="slider">
+							<div class="slider_div" id="box_1">
+								<div class="classLabel"><strong id="label_1">Class</strong></div>
+								<div><img id="thumb_1" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_2">
+								<div class="classLabel"><strong id="label_2">Class</strong></div>
+								<div><img id="thumb_2" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_3">
+								<div class="classLabel"><strong id="label_3">Class</strong></div>
+								<div><img id="thumb_3" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_4">
+								<div class="classLabel"><strong id="label_4">Class</strong></div>
+								<div><img id="thumb_4" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_5">
+								<div class="classLabel"><strong id="label_5">Class</strong></div>
+								<div><img id="thumb_5" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_6">
+								<div class="classLabel"><strong id="label_6">Class</strong></div>
+								<div><img id="thumb_6" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_7">
+								<div class="classLabel"><strong id="label_7">Class</strong></div>
+								<div><img id="thumb_7" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_8">
+								<div class="classLabel"><strong id="label_8">Class</strong></div>
+								<div><img id="thumb_8" height="100" width="100"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row top-buffer"></div>
+
+
+			<div class="row">
+				<div class="col-sm-6 col-md-6 col-lg-6">
+					<input type="button" id="updateBtn" value="Update" class="btn btn-primary" onClick="submitLabels()">
+					<input type="button" id="finishBtn" value="Cancel" class="btn btn-danger" onClick="cancelSession()">
+					<input type="button" id="finalizeBtn" value="Finalize" class="btn btn-success" onClick="saveSession()">
+				</div>
+				<div class="col-sm-6 col-md-6 col-lg-6">
+					<input type="button" id="toggleBtn" value="Hide Segmentation"
+						   class="btn btn-primary" disabled="disabled" onClick="toggleSegVisibility()">
+				</div>
+			</div>
+
+			<div class="row top-buffer"></div>
+
+			<div class="row-fluid">
+				<div id="imageViewerContiner" class="relative-fill-container">
+					<div id="slideZoom" class="openseadragon-view"></div>
+						<svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="overlaySvg" data-bind="with: svgOverlayVM"
+							 visibility="hidden" pointer-events="none" zoomAndPan="disable">
+							<defs></defs>
+							<!-- TODO - Can't get the binding to work with the transform function.
+								 Currently applying the transform manually in onImageViewChanged
+							-->
+							<g id="annoGrp" class="svgAnnoGrp" data-bind="attr: {transform: annoGrpTransformFunc}">
+								<g id="anno"></g>
+							</g>
+						</svg>
+				</div>
+			</div>
+
+			<!-- knockout.js doesn't seem to work if the script isn't loaded last  -->
+			<script src="js/grid.js"></script>
+
+		</div>
+
+
+		<div class="modal fade" id="progDiag" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">
+							Updating samples
+						</h4>
+					</div>
+					<div class="modal-body">
+					<div class="progress progress-popup">
+			 		<div class="progress-bar" id="progressBar"></div>
+					</div>
+					Please wait while new samples are selected
+				</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="modal fade" id="saveDiag" tabindex="-1" role="dialog"
+			aria-labelledby="mySaveLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myDebugLabel">
+							Saving Training Set
+						</h4>
+					</div>
+					<div class="modal-body">
+						<div class="progress progress-popup">
+				 		<div class="progress-bar" id="saveprogressBar"></div>
+						</div>
+						Please wait while training set is saved
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="cancelDiag" tabindex="-1" role="dialog"
+			aria-labelledby="myCancelLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myCancelLabel">
+							Cancel Current Session
+						</h4>
+					</div>
+					<div class="modal-body">
+						<div class="progress progress-popup">
+				 		<div class="progress-bar" id="cancelprogressBar"></div>
+						</div>
+						Please wait while current session is canceled
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</body>
+</html>
