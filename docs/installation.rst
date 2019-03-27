@@ -24,7 +24,7 @@ HistomicsML-TA is implemented as a multi-container image consisting of CPU and G
 * /HistomicsML: a working directory on your system.
 * hmlweb_gpu:1.0: a docker image GPU-supported (Driver version: 390.87) for HistomicsML-TA web server.
 * hmlweb_cpu:1.0: a docker image for HistomicsML-TA web server.
-* hmldb_brca:0.10: a docker image for HistomcisML-TA database.
+* hmldb_brca:1.0: a docker image for HistomcisML-TA database.
 
 .. note:: Apache and Mysql servers on HistomicsML-TA docker run on Port 80 and 3306 respectively.
    If you already use these ports, you should stop the servers.
@@ -41,16 +41,17 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
 
   # pull a docker image for HistomicsML-TA database
   $ docker pull cancerdatascience/hmldb_brca:1.0
-  # type the command below to use GPU
+  # select either GPU or CPU version
+  # GPU version
   $ docker pull cancerdatascience/hmlweb_gpu:1.0
-  # type the command below to use CPU
+  # CPU version
   $ docker pull cancerdatascience/hmlweb_cpu:1.0
 
 3. Import sample data to database
 
 .. code-block:: bash
 
-  $ docker run -d -t -i -e MYSQL_ROOT_PASSWORD='pass' -e MYSQL_DATABASE='nuclei' -p 3306:3306 --name hmldb histomicsml/hmldb_brca:1.0
+  $ docker run -d -t -i -e MYSQL_ROOT_PASSWORD='pass' -e MYSQL_DATABASE='nuclei' -p 3306:3306 --name hmldb cancerdatascience/hmldb_brca:1.0
   $ docker exec -t -i hmldb bash
   root@c40e9159dfdb:/# cd /db
   root@c40e9159dfdb:/db# ./db_run.sh
@@ -74,7 +75,7 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
 
 .. code-block:: bash
 
-  $ docker run -i -t -p 80:80 -p 6379:6379 --runtime=nvidia --link hmldb --name hml histomicsml/hmlweb_gpu:1.0 /bin/bash
+  $ docker run -i -t -p 80:80 -p 6379:6379 --runtime=nvidia --link hmldb --name hml cancerdatascience/hmlweb_gpu:1.0 /bin/bash
   # Modify IP address
   root@5c6eb03c0e2f:/notebooks# vi /var/www/html/HistomicsML/db/accounts.php
   # change "$dbAddress = "192.80.0.2" to "$dbAddress = "192.80.0.1"

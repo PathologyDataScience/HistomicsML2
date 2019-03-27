@@ -17,6 +17,6 @@ Resources
 =========
 * **Paper**: [ et al, "HistomicsML: a tissue-agnostic framework for classifying histologic structures"](http://).
 
-* **Project source**: HistomicsML (https://).
+* **Project source**: HistomicsML (https://github.com/CancerDataScience/HistomicsML-TA).
 
 * **Related projects**: HistomicsTK (https://github.com/DigitalSlideArchive/HistomicsTK).
