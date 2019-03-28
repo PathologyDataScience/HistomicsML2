@@ -1,0 +1,180 @@
+div#sel_patient{height:130px;}
+div#sel_image_frame{height:1000px;position:absolute;top:250px;left:21px;z-index: 100}
+div#sel_image{width:324px;height:1000px;float:left;}
+div#sel_image_arrow{width:15px;height:1000px;float:left;background-color: grey}
+div#status_bar{width:100%;height:30px;background-color: grey}
+div#image_zoomer{height: 600px}
+div#slideZoom{height: 500px}
+
+* {
+	font-family: verdana, arial, sans-serif;
+}
+
+.container {
+	padding-right:	5px;
+	padding-left:	5px;
+	margin-right:	auto;
+	margin-left:	auto;
+}
+
+
+#overflow{
+	border:	1px solid #000000;
+	height: 150px;
+	width:	100%;
+	overflow-x:	scroll;
+	overflow-y: hidden;
+}
+
+
+.slider_div{
+	border:	1px solid #BBB;
+	float:	left;
+	width:	130px;
+	height:	130px;
+	float:	left;
+	text-align: center;
+}
+
+
+.posLabel {
+	border-radius: 10px;
+	background: linear-gradient(green, white);
+}
+
+
+.negLabel {
+	border-radius: 10px;
+	background: linear-gradient(red, white);
+}
+
+
+
+.ignoreLabel {
+	border-radius: 10px;
+	background: linear-gradient(grey, white);
+}
+
+
+.top-buffer {
+	margin-top:	20px;
+}
+
+
+.openseadragon-view {
+	color:	#cccccc;
+	background-color: black;
+	cursor: crosshair;
+}
+
+
+.absolute-fill-container
+{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.viewer-container
+{
+    margin-top: 4px;
+    padding: 0;
+}
+
+
+.relative-fill-container
+{
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+.overlaySvg
+{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip: auto;
+}
+
+
+.svgAnnoGrp {
+
+}
+
+.img-valign {
+	vertical-align: middle;
+}
+
+
+@media (min-width: 1500px) {
+	.container {
+		width:	1470px !important;
+	}
+}
+
+.sortable-ghost {
+	opacity: .2;
+}
+
+img {
+	border-radius: 10px;
+	vertical-align: left;
+	margin-top: 2px;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+/*
+img.no-border {
+	visibility: hidden;
+}
+*/
+
+.tile {
+	width: 33%;
+	min-width: 245px;
+	padding: 10px 30px;
+	text-align: left;
+	margin-top: 10px;
+	margin-left: 2px;
+	margin-right: 2px;
+	background-color: #fff;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.tile_name {
+	cursor: move;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #E4E4E4;
+}
+
+.tile_list {
+	margin-top: 10px;
+}
+	.tile_list:last-child {
+		margin-right: 0;
+		min-height: 50px;
+	}
+
+	.tile_list img {
+		cursor: move;
+		margin: 2px;
+	}
