@@ -1,0 +1,172 @@
+body{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #000000;
+	font-size: 14px;
+}
+
+/* Graph Stuff */
+
+.axis path, .axis line{
+	stroke: black;
+	fill: none;
+	shape-rendering: crispEdges;
+}
+
+.axis text{
+	font-family: sans-serif;
+	font-size: 14px;
+}
+
+.survline {
+	fill: none;
+	stroke-width: 2;
+    stroke: rgba(51, 170, 51,  1);
+	shape-rendering: crispEdges;
+}
+
+.survline.active{
+    stroke: rgba(255,255,0,0.7);
+	z-index: 100;
+}
+
+.survarea{
+	stroke-width: 0;
+    fill: rgba(51, 170, 51, .4)      40% opaque green
+}
+.survarea.active{
+    fill:  rgba(51, 170, 51, .4)
+}
+
+
+
+.survcircle{
+display: none;
+}
+.survcircle.active{
+    display: none;
+}
+
+/* UI Stuff */
+
+/*#message-holder{
+	height: 30px;
+}*/
+#pvalue_message{
+	width: 540px;
+	padding: 5px;
+	font-weight: bold;
+	font-size: 18px;
+}
+#message.active{
+	border: 1px solid #999;
+	border-radius: 5px;
+	background-color: #999;
+}
+.legend{
+	font-weight: bold;
+}
+#inputs-container-container{
+	float: left;
+	width: 520px;
+	border: 1px solid #A9A9A9;
+	border-radius: 25px;
+	padding: 15px;
+	margin-top: 5px;
+}
+.input-container{
+	float: left;
+	margin: 11px;
+}
+textarea{
+	resize: none;
+	border: 1px solid #A9A9A9;
+}
+#timesdata, #groupdata, #censoringdata{
+	background-color: #FFF;
+}
+#instructions{
+	float: left;
+	width: 500px;
+}
+button{
+	cursor: pointer;
+	cursor: hand;
+}
+
+
+
+
+.v-center {
+  min-height:200px;
+  display: flex;
+  justify-content:center;
+  flex-flow: column wrap;
+}
+.list-group {
+    border: 1px inset #eee;
+    height: 200px;
+    overflow-y: auto;
+}
+.list-group-item {
+    cursor: pointer;
+}
+
+#invisible {
+     display: none;
+}
+
+#page-wrap {
+	  margin: 0px 5px 5px -15px;
+  }
+table {
+/*
+width: 100%;
+border-spacing : 0px;
+*/
+margin: 0 auto;
+}
+	/* Zebra striping */
+	tr:nth-of-type(odd) {
+		background: #eee;
+	}
+	th {
+		background: #333;
+		color: white;
+		font-weight: bold;
+		cursor: s-resize;
+		background-repeat: no-repeat;
+        background-position: 3% center;
+	}
+	td, th {
+		padding: 6px 9px 6px 9px;
+		border: 1px solid #ccc;
+		text-align: center;
+	}
+
+	th.des:after {
+      content: "\21E9";
+    }
+
+    th.aes:after {
+      content: "\21E7";
+    }
+#crv_even {
+    fill: none;
+	stroke-width: 2;
+	stroke: rgba(0, 0, 255, 1);
+/*    stroke: rgba(51, 170, 51,  1);*/
+	shape-rendering: crispEdges;
+}
+#crv_odd {
+    fill: none;
+	stroke-width: 2;
+	stroke: rgba(255, 0, 0, 1);
+/*    stroke: rgba(51, 170, 51,  1);*/
+	shape-rendering: crispEdges;
+}
+#ci_even{
+    fill:rgba(0, 0, 255, 0.4);
+}
+#ci_odd{
+    fill: rgba(255, 0, 0, 0.4);
+}
