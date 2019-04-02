@@ -28,32 +28,9 @@
 //
 
 	require 'hostspecs.php';
+
 	session_start();
 
+	$_SESSION['reloaded'] = false;
 
-	$sessionInfo = array();
-
-	if( isset($_SESSION['uid']) ) {
-		$sessionInfo['uid'] = $_SESSION['uid'];
-		$sessionInfo['className'] = $_SESSION['classifier'];
-		$sessionInfo['posClass'] = $_SESSION['posClass'];
-		$sessionInfo['negClass'] = $_SESSION['negClass'];
-		$sessionInfo['dataset'] = $_SESSION['dataset'];
-		$sessionInfo['datapath'] = $_SESSION['datapath'];
-		$sessionInfo['reloaded'] = $_SESSION['reloaded'];
-		$sessionInfo['init_reloaded'] = $_SESSION['init_reloaded'];
-		$sessionInfo['iteration'] = $_SESSION['iteration'];
-		$sessionInfo['dataSetPath'] = $_SESSION['dataSetPath'];
-		$sessionInfo['trainingSetName'] = $_SESSION['trainingSetName'];
-		$sessionInfo['superpixelSize'] = $_SESSION['superpixelSize'];
-	} else {
-		$sessionInfo['uid'] = null;
-		$sessionInfo['dataset'] = null;
-	}
-
-	$sessionInfo['alServer'] = $host;
-	$sessionInfo['alServerPort'] = $port;
-	$sessionInfo['IIPServer'] = $IIPServer;
-
-	echo json_encode($sessionInfo);
 ?>
