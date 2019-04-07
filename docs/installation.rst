@@ -83,7 +83,8 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
 
   # Modify IP address when using Static IP address
   # You don't need to change this if using Dynamic IP address
-  root@5c6eb03c0e2f:/notebooks# sed -i -e 's/"localhost"/"Your_Static_IP_Address"/g' /var/www/html/HistomicsML/php/hostspecs.php
+  root@5c6eb03c0e2f:/notebooks# sed -i -e 's/\/localhost/\/Your_Static_IP_Address/g' /var/www/html/HistomicsML/php/hostspecs.php
+
 
 .. code-block:: bash
 
