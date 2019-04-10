@@ -90,9 +90,10 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
   # You don't need to change this if using Dynamic IP address
   root@5c6eb03c0e2f:/notebooks# sed -i -e 's/\/localhost/\/Your_Static_IP_Address/g' /var/www/html/HistomicsML/php/hostspecs.php
 
+7. Run the servers
+
 .. code-block:: bash
 
-  # Run the servers
   root@5c6eb03c0e2f:/notebooks# redis-server --daemonize yes
   root@5c6eb03c0e2f:/notebooks# service apache2 start
   root@5c6eb03c0e2f:/notebooks# cd /var/www/html/predict-rest-api
