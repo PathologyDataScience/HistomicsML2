@@ -89,6 +89,8 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
   # Modify IP address when using Static IP address
   # You don't need to change this if using Dynamic IP address
   root@5c6eb03c0e2f:/notebooks# sed -i -e 's/\/localhost/\/Your_Static_IP_Address/g' /var/www/html/HistomicsML/php/hostspecs.php
+  # change MYSQL_HOST to 192.80.0.1
+  root@5c6eb03c0e2f:/notebooks# sed -i -e 's/"172.17.0.5"/"192.80.0.1"/g' /var/www/html/predict-rest-api/settings.py
 
 7. Run the servers
 
