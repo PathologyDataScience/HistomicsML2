@@ -373,10 +373,10 @@ def run():
 
                 for i in object_idx:
                     for j in range(len(boundarySet)):
-                      x = float(boundarySet[j][0])
-                      y = float(boundarySet[j][1])
+                      x = int(boundarySet[j][0])
+                      y = int(boundarySet[j][1])
                       boundaryPoints = []
-                      if x == x_centroid_set[i, 0] and y == y_centroid_set[i, 0]:
+                      if x == int(x_centroid_set[i, 0]) and y == int(y_centroid_set[i, 0]):
                           object = boundarySet[j][2].encode('utf-8').split(' ')
                           object_points = []
                           for p in range(len(object)-1):
