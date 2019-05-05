@@ -28,14 +28,11 @@ HistomicsML-TA is implemented as a multi-container image consisting of CPU and G
 
 .. note:: Apache and Mysql servers on HistomicsML-TA docker run on Port 80 and 3306 respectively.
    If you already use these ports, you should stop the servers.
+   And, docker installation is required.
 
 The HistomicsML-TA docker can be run on any platform with the following steps:
 
-1. Install docker
-
-* For docker install, refer to https://docs.docker.com/engine/installation/
-
-2. Pull the HistomicsML-TA docker images to your system and start the containers
+1. Pull the HistomicsML-TA docker images to your system and start the containers
 
 .. code-block:: bash
 
@@ -47,14 +44,14 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
   # CPU version
   $ docker pull cancerdatascience/histomicsml_gpu:1.0
 
-3. Set network and run HistomicsML database
+2. Set network and run HistomicsML database
 
 .. code-block:: bash
 
   $ docker network create --subnet=172.18.0.0/16 hmlnet
   $ docker run -d --net hmlnet --ip="172.18.0.5" -t -i -e MYSQL_ROOT_PASSWORD='pass' -e MYSQL_DATABASE='nuclei' -p 3306:3306 --name hmldb cancerdatascience/histomicsml_db:1.0
 
-4. Run HistomicsML-TA web server
+3. Run HistomicsML-TA web server
 
 .. code-block:: bash
 
@@ -63,7 +60,7 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
   # For GPU version
   $ docker run --net hmlnet -i -t -p 80:80 -p 6379:6379 --runtime=nvidia --link hmldb --name hml cancerdatascience/histomicsml_gpu:1.0 /bin/bash
 
-5. Run the servers
+4. Run the servers
 
 .. code-block:: bash
 
@@ -79,4 +76,4 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
 
 .. note:: If the server becomes unresponsive or generates a connection error during use, the al_server will need to be restarted.
 
-6. Navigate your browser to the HistomicsML-TA page http://localhost/HistomicsML.
+5. Navigate your browser to the HistomicsML-TA page http://localhost/HistomicsML.
