@@ -11,7 +11,7 @@ class Settings():
         self.REDIS_HOST = "localhost"
         self.REDIS_PORT = 6379
         self.REDIS_DB = 0
-        self.MYSQL_HOST = "172.17.0.5"
+        self.MYSQL_HOST = "172.18.0.5"
 
         # initialize constants
         self.REQUEST_QUEUE = "request_queue"
