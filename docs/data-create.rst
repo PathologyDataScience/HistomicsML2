@@ -10,16 +10,12 @@ A docker image is provided to help users create new datasest for HistomicsML. Th
 
 Four directories should be ready before creating a new dataset.
 
-svs - slide image directory name. Users have to place their images to the directory.
-
-dataset - dataset directory name. New dataset is storied in the directory.
-
-boundary - boundary directory name. Superpixel boundaries are storied in the directory.
-
-centroid - centroid directory name. Superpixel centroids are storied in the directory.
-
 .. code-block:: bash
 
+  # svs - slide image directory name. Users have to place their images to the directory.
+  # dataset - dataset directory name. New dataset is storied in the directory.
+  # boundary - boundary directory name. Superpixel boundaries are storied in the directory.
+  # centroid - centroid directory name. Superpixel centroids are storied in the directory.
   # create directories for slide image, dataset, boundary, centroid
   $ mkdir ~/svs ~/dataset ~/boundary ~/centroid
 
