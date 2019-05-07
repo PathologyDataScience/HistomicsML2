@@ -9,6 +9,7 @@ HistomicsML-TA is a tissue-agnostic framework for classifying histologic structu
    installation
    example
    reports
+   data-create
    data-import
    data-format
 
