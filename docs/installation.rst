@@ -38,10 +38,10 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
 
   # pull a docker image for HistomicsML-TA database
   $ docker pull cancerdatascience/histomicsml_db:1.0
-  # select either GPU or CPU version
-  # GPU version
-  $ docker pull cancerdatascience/histomicsml:1.0
+  # select either CPU or GPU version
   # CPU version
+  $ docker pull cancerdatascience/histomicsml:1.0
+  # GPU version
   $ docker pull cancerdatascience/histomicsml_gpu:1.0
 
 2. Set network and run HistomicsML database
