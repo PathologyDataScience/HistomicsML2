@@ -11,7 +11,7 @@ Initializing the classifier
 
 Go to http://localhost/HistomicsML/.
 
-Under *Start a session* enter a training set name and select the pre-loaded The Cancer Genome Atlas Breast Invasive Carcinoma (TCGA-BRCA) dataset from the drop-down menu. Enter names for your classes - in our case we will use ``tumor`` for the positive class and ``other`` for the negative class.
+Under *Start a session* enter a training set name and select the pre-loaded The Cancer Genome Atlas Breast Invasive Carcinoma (TCGA-BRCA) dataset from the drop-down menu. Enter names for your classes - in our case we will use ``TILs`` for the positive class and ``non-TILs`` for the negative class.
 
 .. image:: images/main.png
 
@@ -25,13 +25,6 @@ We selected 4 examples of positive superpixels and 4 examples of negative superp
 
 With the initial annotation complete, click ``Prime`` to create the classifier. There will be a small delay while the classifier is trained and applied to the entire dataset to generate predictions for active learning.
 
-Instance-based active learning
--------------------------
-
-The instance-based learning interface presents objects selected by the active learning algorithm to the user for annotation. The selected objects are displayed along with their predicted class labels at the top of the slide viewer. Clicking one of these objects will bring it into focus in the slide viewer for inspection. Feedback is provided by double-clicking the thumbnails with incorrect predictions to cycle their class labels. After correcting the predictions the classifier can be updated with these new annotations by clicking ``Update``.
-
-.. image:: images/instance.png
-
 Heatmap-based active learning
 -------------------------
 
@@ -43,9 +36,9 @@ Clicking a slide in the gallery will load this slide in the heatmap viewer, wher
 
 .. image:: images/heatmap.png
 
-At high-magnification, objects are displayed with color-coded superpixels to indicate their predicted class (green = positive). Prediction errors can be corrected directly in the slide viewer by double clicking an object to cycle it's class, adding this object to the training set. The classifier can be retrained with the ``Retrain`` button.
+At high-magnification, objects are displayed with color-coded superpixels to indicate their predicted class (green = positive). Prediction errors can be corrected directly in the slide viewer by painting superpixels after clicking ``Paint on``, adding this object to the training set. The classifier can be retrained with the ``Retrain`` button.
 
-.. image:: images/heatmapzoom.png
+.. image:: images/label.png
 
 .. note:: Object labels can be cycled in the heatmap menu by a drag-drop function after selecting ``Paint On``. An object can be removed from the training set by clicking ``Del``
 
