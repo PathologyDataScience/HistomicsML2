@@ -17,4 +17,4 @@ The Reports menu provides four different types of exports:
 
 See the data formats page for more information on the .h5 contents and prediction score interpretations.
 
-.. image:: images/report-1.png
+.. image:: images/example-report.png
