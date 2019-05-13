@@ -9,7 +9,7 @@ HistomicsML-TA can be installed from source, but we recommend using the provided
 Installing HistomicsML-TA via Docker
 ---------------------------------
 
-HistomicsML-TA is implemented as a multi-container image consisting of CPU and GPU-supported versions:
+HistomicsML-TA is implemented as a multi-container images:
 
 .. code-block:: bash
 
@@ -17,13 +17,10 @@ HistomicsML-TA is implemented as a multi-container image consisting of CPU and G
   │
   ├── histomicsml:1.0
   │
-  ├── histomicsml_gpu:1.0
-  │
   └── histomicsml_db:1.0
 
 * /HistomicsML: a working directory on your system.
 * histomicsml:1.0: a docker image for HistomicsML-TA web server.
-* histomicsml_gpu:1.0: a docker image GPU-supported (Driver version: 390.87) for HistomicsML-TA web server.
 * histomicsml_db:1.0: a docker image for HistomcisML-TA database.
 
 .. note:: Apache and Mysql servers on HistomicsML-TA docker run on Port 80 and 3306 respectively.
@@ -38,11 +35,7 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
 
   # pull a docker image for HistomicsML-TA database
   $ docker pull cancerdatascience/histomicsml_db:1.0
-  # select either CPU or GPU version
-  # CPU version
   $ docker pull cancerdatascience/histomicsml:1.0
-  # GPU version
-  $ docker pull cancerdatascience/histomicsml_gpu:1.0
 
 2. Set network and run HistomicsML database
 
@@ -55,10 +48,7 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
 
 .. code-block:: bash
 
-  # For CPU version
   $ docker run --net hmlnet -i -t -p 80:80 -p 6379:6379 --link hmldb --name hml cancerdatascience/histomicsml:1.0 /bin/bash
-  # For GPU version
-  $ docker run --net hmlnet -i -t -p 80:80 -p 6379:6379 --runtime=nvidia --link hmldb --name hml cancerdatascience/histomicsml_gpu:1.0 /bin/bash
 
 4. Run the servers
 
