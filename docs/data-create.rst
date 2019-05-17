@@ -29,13 +29,13 @@ Four directories should be ready before creating a new dataset.
 
 .. code-block:: bash
 
-  $ docker run -it --rm --name createboundary -v "$PWD"/svs:/svs -v "$PWD"/dataset:/dataset -v "$PWD"/boundary:/boundary -v "$PWD"/centroid:/centroid histomicsml/hml_dataset:1.0 python SuperpixelSegmentation.py
+  $ docker run -it --rm --name createboundary -v "$PWD"/svs:/svs -v "$PWD"/dataset:/dataset -v "$PWD"/boundary:/boundary -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset:1.0 python SuperpixelSegmentation.py
 
 4. Run the docker image for feature extraction
 
 .. code-block:: bash
 
-  $ docker run -it --rm --name extractfeatures -v "$PWD"/svs:/svs -v "$PWD"/dataset:/dataset -v "$PWD"/boundary:/boundary -v "$PWD"/centroid:/centroid histomicsml/hml_dataset:1.0 python FeatureExtraction.py
+  $ docker run -it --rm --name extractfeatures -v "$PWD"/svs:/svs -v "$PWD"/dataset:/dataset -v "$PWD"/boundary:/boundary -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset:1.0 python FeatureExtraction.py
 
 5. Confirm dataset
 
