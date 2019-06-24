@@ -26,7 +26,7 @@ A table (.csv) needs to be created to capture the dimensions, magnification, and
 
 where scale = 1 for 20x and scale = 2 for 40x.
 
-For the sample data provided in the database container, our slide description file (GBM-pyramids.csv) has the following contents:
+For the sample data provided in the database container, our slide description file (BRCA-pyramids.csv) has the following contents:
 
 .. code-block:: bash
 
@@ -45,7 +45,7 @@ Boundary information is formatted as a tab-delimited text file where each line d
 where \t is a tab character and <boundary points> are formatted as:
 x1,y1 x2,y2 x3,y3 ... xN,yN (with spaces between coordinate pairs)
 
-One line from the sample data boundaries file (GBM-boundaries.txt):
+One line from the sample data boundaries file (BRCA-boundaries.txt):
 
 .. code-block:: bash
 
