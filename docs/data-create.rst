@@ -4,22 +4,22 @@
 Creating datasets
 =================
 
-A docker image is provided to help users create new datasest for HistomicsML. This page describes how users create their new dataset using the docker image.
+A docker image is provided to help users create new datasest for HistomicsML. This page describes how the users create their new dataset using the docker image.
 As an example, .svs file is included in the docker image.
 
 1. Set your local directories.
 
-Four directories should be ready before creating a new dataset.
+Following directories should be ready before creating a new dataset.
 
 .. code-block:: bash
 
-  # svs - slide image directory name. Users have to place their images to the directory.
+  # svs - a slide image directory name. Users have to place their images to this directory.
   For your convenience, we provide a .svs file in "/svs" directory of the docker image as an example.
-  # dataset - dataset directory name. New dataset will be storied in the directory.
-  # feature - feature directory name. Superpixel features are storied in the directory.
-  # boundary - boundary directory name. Superpixel boundaries are storied in the directory.
-  # centroid - centroid directory name. Superpixel centroids are storied in the directory.
-  # create directories for slide image, dataset, feature, boundary, centroid
+  # feature - a feature directory name. Feature data for each slide will be storied in this directory.
+  # boundary - a boundary directory name. Boundary data for each slide will be storied in this directory.
+  # centroid - a centroid directory name. Centroid data for each slide will be storied in this directory.
+  # dataset - a dataset directory name. A dataset will be created in this directory.
+  # create directories for feature, boundary, centroid, and dataset.
   $ mkdir "$PWD"/dataset "$PWD"/feature "$PWD"/boundary "$PWD"/centroid
 
 2. Pull the HistomicsML docker image
