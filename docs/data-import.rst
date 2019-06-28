@@ -4,13 +4,11 @@
 Importing datasets
 ==============
 
-A data import interface is provided to help users import new datasests into HistomicsML. This page demonstrates the data import function using the sample data located in the database container.
-
-The following steps, the interface is used to import this dataset into this system
+A data import interface is provided to help users import new datasests into HistomicsML. This page demonstrates the data import function using the sample data located in the database container. The following steps, the interface is used to import this dataset into this system.
 
 * Note that you already have dataset and boundary data in "$PWD"/dataset and "$PWD"/boundary (See "Creating datasets" section)
 
-1. Copy boundaries to the database container
+1. Copy boundaries to the database container.
 
 .. code-block:: bash
 
@@ -52,7 +50,7 @@ The following steps, the interface is used to import this dataset into this syst
    Bye
    root@eb3f26621386:/db# exit
 
-2. Copy dataset to the main server container
+2. Copy dataset to the main server container.
 
 .. code-block:: bash
 
@@ -64,7 +62,7 @@ The following steps, the interface is used to import this dataset into this syst
   # copy dataset to the web server docker container
   $ docker cp "$PWD"/dataset/BRCA-spfeatures-2.h5 0abb0c6f7f3b:/fastdata/features/BRCA/BRCA-spfeatures-2.h5
 
-3. Import dataset using the web interface
+3. Import dataset using the web interface.
 
 * Open the web page http://localhost/HistomicsML/data.html
 * Enter a dataset name and select ``Project Directory``,  ``Slide Information``, ``Features`` from the dropdown list.
