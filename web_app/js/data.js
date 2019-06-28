@@ -84,7 +84,6 @@ function updateFeature() {
 
 	$('#pyramidSel').empty();
 	$('#featureSel').empty();
-	$('#boundarySel').empty();
 
 
 	$.ajax({
@@ -98,20 +97,6 @@ function updateFeature() {
 			for (var i = 0; i < data['featureName'].length; i++) {
 				$("#featureSel").append(new Option(data['featureName'][i], data['featureName'][i]));
 			}
-		}
-	});
-
-	$.ajax({
-		type: "POST",
-		url: "php/data_getboundariesfromdir.php",
-		data: { projectDir: projectDir },
-		dataType: "json",
-		success: function(data) {
-
-			for (var i = 0; i < data['boundaryDir'].length; i++) {
-				$("#boundarySel").append(new Option(data['boundaryDir'][i], data['boundaryDir'][i]));
-			}
-			//updateFeatures();
 		}
 	});
 
