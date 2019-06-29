@@ -37,8 +37,10 @@ Following directories should be ready before creating a new dataset.
 4. Run the docker image for feature extraction
 
 .. code-block:: bash
-
+  # use the command line below if using CPU.
   $ docker run -it --rm --name extractfeatures -v "$PWD"/feature:/feature -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset:1.0 python scripts/FeatureExtraction.py
+  # use the command line below if using GPU. Current verion supports CUDA 9.0, Linux x86_64 Driver Version >= 384.81
+  $ docker run --runtime=nvidia -it --rm --name extractfeatures -v "$PWD"/feature:/feature -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_cuda_90:latest python scripts/FeatureExtraction.py
 
 5. Run the docker image to create a dataset
 
@@ -50,4 +52,4 @@ Following directories should be ready before creating a new dataset.
 
 .. code-block:: bash
 
-  $ ls "$PWD"/dataset "$PWD"/boundary "$PWD"/centroid
+  $ ls "$PWD"/dataset "$PWD"/feature "$PWD"/boundary "$PWD"/centroid
