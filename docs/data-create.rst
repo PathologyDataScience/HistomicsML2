@@ -24,7 +24,7 @@ A docker image is provided to help users create new datasest for HistomicsML. Th
 
 .. code-block:: bash
 
-  $ docker pull cancerdatascience/hml_dataset:1.0
+  $ docker pull cancerdatascience/hml_dataset_gpu:1.0
 
 3. Run the docker image for superpixel segmentation
 
