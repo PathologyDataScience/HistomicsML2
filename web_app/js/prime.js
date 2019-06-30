@@ -375,7 +375,9 @@ function updateSeg() {
 						ele.setAttribute('points', data[cell][0]);
 						ele.setAttribute('id', 'N' + data[cell][1]);
 						ele.setAttribute('stroke', 'aqua');
-						ele.setAttribute("stroke-dasharray", "5,5");
+						//ele.setAttribute('stroke', 'black');
+						ele.setAttribute("stroke-dasharray", "4 1");
+						ele.setAttribute("stroke-width", "1");
 						ele.setAttribute('fill', 'none');
 
 						segGrp.appendChild(ele);
@@ -848,7 +850,7 @@ function setSelectMode() {
 	var	selBtn = $('#selBtn');
 	if( selectNuc ) {
 		// Currently selecting nuclei, stop
-		selBtn.val("Select Superpixels");
+		selBtn.val("Select Nuclei");
 		selBtn.css('color', 'white');
 		selectNuc = false;
 		$('#instruct').text("");

@@ -1,11 +1,3 @@
-"""
-Map class
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
-
-Init map variables.
-Set map information.
-"""
-
 import numpy as np
 import dataset
 
@@ -22,7 +14,7 @@ class map():
 	def setData(self, q):
 		self.uid = q["uid"]
 		self.slide = str(q["slide"])
-		self.trainSet = '/localdata/classifiers/' + str(q["trainset"]) + '.h5'
+		self.trainSet = '/localdata/classifiers/' + str(q["trainset"])
 		self.classifier = str(q["trainset"])
 		self.dataSet = str(q["dataset"])
 		self.inFile = '/localdata/classifiers/tmp/' + self.slide + '_' + str(q["trainset"]) + '_' + self.dataSet.split('/')[1] + '.h5'

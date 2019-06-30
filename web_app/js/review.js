@@ -96,6 +96,9 @@ $(function() {
 				window.history.back();
 			}
 			else{
+				// will be used when the class names are requried.
+				//$("#posHeader1").text("Positive class : "+ posClass);
+				//$("#negHeader1").text("Negative class : "+ negClass);
 				getSamples();
 
 			}
@@ -607,8 +610,19 @@ function displayOneslide(sampleArray, slide_num){
 	negtile_list.setAttribute('class', 'tile_list');
 	negtile_list.setAttribute('id', 'neg_tile');
 
+	// igrtile = document.createElement("div");
+	// igrtile.setAttribute('class', 'layer tile');
+	// igrtile_name = document.createElement("div");
+	// igrtile_name.setAttribute('class', 'tile_name');
+	// igrtile_list = document.createElement("div");
+	// igrtile_list.setAttribute('class', 'tile_list');
+	// igrtile_list.setAttribute('id', 'igr_tile');
+
+
 	for( sample in sampleArray ) {
 
+		//var div_im = document.createElement('div');
+		//div_im.setAttribute('id','box_'+slide_num+'_'+sample);
 		var im = document.createElement('img');
 		scale = sampleArray[sample]['scale'];
 		slide = sampleArray[sample]['slide'];
@@ -641,10 +655,15 @@ function displayOneslide(sampleArray, slide_num){
 		im.setAttribute('src',thumbNail);
 		im.setAttribute('id','box_'+slide_num+'_'+sample);
 
+		//div_im.appendChild(im);
+
 		if( sampleArray[sample]['label'] === 1 ) {
 			postile_list.appendChild(im);
+		// } else if( sampleArray[sample]['label'] === -1 ) {
 		}	else{
 			negtile_list.appendChild(im);
+		// }	else{
+		// 	igrtile_list.appendChild(im);
 		}
 
 	}
@@ -652,8 +671,10 @@ function displayOneslide(sampleArray, slide_num){
 	// find max number of samples in each section
 	var a = postile_list.childElementCount;
 	var b = negtile_list.childElementCount;
+	// var c = igrtile_list.childElementCount;
 
 	var max = Math.max(a, b);
+	// max = Math.max(max, c);
 
 	var sample_num = sampleArray.length;
 	var sizeX = 100;
@@ -677,6 +698,15 @@ function displayOneslide(sampleArray, slide_num){
 			negtile_list.appendChild(im);
 			sample_num = sample_num + 1;
 		}
+		// if ((c-i) < 0) {
+		// 	var im = document.createElement('img');
+		// 	im.setAttribute('class',"no-border");
+		// 	im.setAttribute('width',sizeX);
+		// 	im.setAttribute('height',sizeY);
+		// 	im.setAttribute('id','box_'+slide_num+'_'+sample_num);
+		// 	igrtile_list.appendChild(im);
+		// 	sample_num = sample_num + 1;
+		// }
 	}
 
 	postile_name.innerHTML = posClass;
@@ -685,9 +715,13 @@ function displayOneslide(sampleArray, slide_num){
 	negtile_name.innerHTML = negClass;
 	negtile.appendChild(negtile_name);
 	negtile.appendChild(negtile_list);
+	// igrtile_name.innerHTML = "Ignore";
+	// igrtile.appendChild(igrtile_name);
+	// igrtile.appendChild(igrtile_list);
 
 	row.appendChild(postile);
 	row.appendChild(negtile);
+	// row.appendChild(igrtile);
 
 	container.appendChild(row);
 
@@ -724,6 +758,34 @@ function thumbSingleClick(index) {
 	cur_box = index;
 	boundaryOn = true;
 }
+//
+//	A double click in the thumbnail box toggles the current classification
+//	of the object.
+//
+//
+// function thumbDoubleClick(index) {
+//
+// 	var label = sampleDataJson['review'][index]['label'];
+// 	var updateItem = new Object();
+//
+// 	// Toggle through the 3 states, pos, neg and ignore
+// 	//
+// 	if( label === 1 ) {
+// 		sampleDataJson['review'][index]['label'] = -1;
+// 	} else if( label === -1 ) {
+// 		sampleDataJson['review'][index]['label'] = 1;
+// 	} else {
+// 		sampleDataJson['review'][index]['label'] = 0;
+// 	}
+//
+// 	updateItem.id = sampleDataJson['review'][index]['id'];
+// 	updateItem.label = sampleDataJson['review'][index]['label'];
+// 	updates.push(updateItem);
+//
+// 	updateLabels();
+// 	doreviewSel();
+// 	// slidesInfo(sampleDataJson['review']);
+// }
 
 //	Updates labels in al server
 //

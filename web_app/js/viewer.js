@@ -27,6 +27,7 @@
 var annoGrpTransformFunc;
 var IIPServer="";
 
+//var SlideSuffix = ".svs-tile.dzi.tif";
 var SlideSuffix = ".svs.dzi.tif";
 var SlideLocPre = "&RGN=";
 var SlideLocSuffix = "&CVT=jpeg";
@@ -67,6 +68,7 @@ var iteration = 0;
 var datapath = "";
 var reloaded = false;
 var init_reloaded = false;
+// var XandYLabelsJson = {};
 var viewresultJson = {};
 var heatmapresultJson = {};
 var isretrained = false;
@@ -211,6 +213,8 @@ $(function() {
 				$('#heatmap').hide();
 				$('#retrainInfo').hide();
 				$('#legend').hide();
+
+				// document.getElementById("index").setAttribute("href","index.html");
 
 			} else {
 				// Active session, dataset selection not allowed
@@ -567,7 +571,8 @@ function updateSlideSeg() {
 					ele.setAttribute('id', 'N' + data[cell][1]);
 					ele.setAttribute('stroke', 'aqua');
 					// ele.setAttribute('stroke-width', 4);
-					ele.setAttribute("stroke-dasharray", "5,5");
+					//ele.setAttribute("stroke-dasharray", "5,5");
+					ele.setAttribute("stroke-dasharray", "4 1");
 					// color
 					ele.setAttribute('fill', 'aqua');
 					ele.setAttribute("fill-opacity", "0.2");
@@ -726,8 +731,13 @@ function getSampleColors() {
 						ele.setAttribute('stroke', 'aqua');
 						// ele.setAttribute('stroke-width', '2');
 						ele.setAttribute('fill', data[cell][2]);
-						ele.setAttribute("fill-opacity", "0.2");
-						ele.setAttribute("stroke-dasharray", "5,5");
+						if (data[cell][2] == 'lightgrey') {
+							ele.setAttribute("fill-opacity", "0");
+						}
+						if (data[cell][2] == 'lime') {
+							ele.setAttribute("fill-opacity", "0.4");
+						}
+						ele.setAttribute("stroke-dasharray", "4 1");
 
 						segGrp.appendChild(ele);
 					}
@@ -796,6 +806,8 @@ function gotoView() {
 		viewJSON['right'] = Math.round(right).toString();
 		viewJSON['top'] = Math.round(top).toString();
 		viewJSON['bottom'] = Math.round(bottom).toString();
+		// viewJSON['dataset'] = dataset;
+		// viewJSON['trainset'] = trainset;
 
 		$.ajax({
 				type: 'POST',
@@ -804,6 +816,7 @@ function gotoView() {
 				contentType: 'application/json;charset=UTF-8',
 				dataType: "json",
 				success: function(data){
+					// var XandYLabelsJson = {left: 0, right: 0, top: 0, bottom: 0, samples: []};
 					viewresultJson = JSON.parse(data);
 					if( statusObj.scaleFactor() > 0.2 ) {
 						getSampleColors();
@@ -878,6 +891,7 @@ function gotoHeatmap() {
 				heatmapLoaded = true;
 			}
 
+			// console.log("Uncertainty min: "+uncertMin+", max: "+uncertMax+", median: "+XandYLabelsJson.uncertMedian);
 		}
 	});
 }
@@ -1105,12 +1119,49 @@ function nucleiPaint() {
 										statusObj.samplesToFix(statusObj.samplesToFix()-1);
 										undo = false;
 									}
+									// else if the cell is labeled to -1 or 1
+									// else if( (obj['label'] == -1) || (obj['label'] == 1) ) {
 									else {
 
-										// call updateBoundColors to update to color
+										// var slide, centX, centY, sizeX, sizeY, loc, thumbNail, scale;
+										// var sampleobjs;
+										// var scale_cent = 32;
+										// var scale_size = 64.0;
+										// var fixes_length = fixes['samples'].length;
+
 										fixes['samples'].push(obj);
+										// call updateBoundColors to update to color
 										updateRegionBoundColors(obj);
 										statusObj.samplesToFix(statusObj.samplesToFix()+1);
+
+										// $.ajax({
+										// 	type: "POST",
+										// 	url: "db/getImgurls.php",
+										// 	data: {samples: obj},
+										// 	dataType: "json",
+										// 	success: function(data) {
+										//
+										// 		// console.log("Pass get");
+										// 		sampleobjs = data;
+										//
+										// 			scale = sampleobjs['scale'];
+										// 			slide = sampleobjs['slide'];
+										//
+										// 			centX = (sampleobjs['centX'] - (scale_cent * scale)) / sampleobjs['maxX'];
+										// 			centY = (sampleobjs['centY'] - (scale_cent * scale)) / sampleobjs['maxY'];
+										// 			sizeX = (scale_size * scale) / sampleobjs['maxX'];
+										// 			sizeY = (scale_size * scale) / sampleobjs['maxY'];
+										// 			loc = centX+","+centY+","+sizeX+","+sizeY;
+										//
+										// 			thumbNail = IIPServer+"FIF="+sampleobjs['path']+SlideLocPre+loc+"&WID=128"+SlideLocSuffix;
+										//
+										// 			fixes['samples'][fixes_length]['aurl'] = thumbNail;
+										//
+										// 		}
+										//
+										// });
+
+
 
 		          		}
 
@@ -1269,12 +1320,17 @@ function retrain() {
 						if( $('#heatmapUncertain').is(':checked') ) {
 							// heatmap should be reloaded with different time after updating heatmap image on local directory
 							ele.setAttributeNS(xlinkns, "href", "heatmaps/"+uid+"/"+heatmapresultJson.uncertFilename+"?v="+(new Date()).getTime());
+							// document.getElementById('heatMin').innerHTML = XandYLabelsJson.uncertMin.toFixed(2);
+							// document.getElementById('heatMax').innerHTML = XandYLabelsJson.uncertMax.toFixed(2);
 						} else {
 							ele.setAttributeNS(xlinkns, "href", "heatmaps/"+uid+"/"+heatmapresultJson.classFilename+"?v="+(new Date()).getTime());
+							// document.getElementById('heatMin').innerHTML = XandYLabelsJson.classMin.toFixed(2);
+							// document.getElementById('heatMax').innerHTML = XandYLabelsJson.classMax.toFixed(2);
 						}
 						segGrp.appendChild(ele);
 
 						heatmapLoaded = true;
+						// console.log("Uncertainty min: "+uncertMin+", max: "+uncertMax+", median: "+XandYLabelsJson.uncertMedian);
 
 						fixes['samples'] = [];
 						statusObj.samplesToFix(0);
@@ -1344,6 +1400,18 @@ function onViewerDrag(event) {
 		if (paintOn == true) {
 			event.preventDefaultAction = true;
 			nucleiPaint();
+			// if (firstPaint == "") {
+			// 	getFirstnucleiPaint();
+			// }
+			// else{
+			// 	nucleiPaint();
+			// }
+			// if (isNegPaint == false) {
+			// 	nucleiPosPaint();
+			// }
+			// else {
+			// 	nucleiNegPaint();
+			// }
 	}
 }
 

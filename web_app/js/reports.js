@@ -36,7 +36,7 @@ $(function() {
 	var	datasetslideSummary = $("#datasetSel"), trainsetSel = $("#trainsetSel"),
 		downloadsetSel = $("#downloadsetSel"), datasetpredictDataset = $("#applyDatasetSel"),
 		datasetpredictSlide = $('#datasetMapSel'), datasetLabel = $("#datasetLabelSel"),
-		maskTrainSel = $('#trainsetLabelSel');
+		maskTrainSel = $('#trainsetLabelSel'), trainPath = "";
 
 	// Populate Dataset dropdown
 	//
@@ -136,7 +136,12 @@ $(function() {
 			dataLabel['uid'] = tempUID;
 			dataLabel['target'] = 'count';
 			dataLabel['dataset'] = document.getElementById("datasetSel").value;
-			dataLabel['trainset'] = document.getElementById("trainsetSel").value;
+			for (var i = 0; i < downloadsetSel[0].length; i++) {
+				if (document.getElementById("trainsetSel").value == downloadsetSel[0][i].innerHTML) {
+						trainPath = downloadsetSel[0][i].value;
+				}
+			}
+			dataLabel['trainset'] = trainPath;
 
 			$.ajax({
 				 type: 'POST',
@@ -170,7 +175,14 @@ $(function() {
 				dataLabel['uid'] = tempUID;
 				dataLabel['target'] = 'map';
 				dataLabel['dataset'] = document.getElementById("datasetMapSel").value;
-				dataLabel['trainset'] = document.getElementById("trainsetMapSel").value;
+
+				for (var i = 0; i < downloadsetSel[0].length; i++) {
+					if (document.getElementById("trainsetMapSel").value == downloadsetSel[0][i].innerHTML) {
+							trainPath = downloadsetSel[0][i].value;
+					}
+				}
+
+				dataLabel['trainset'] = trainPath;
 				dataLabel['slide'] = document.getElementById("slideMapSel").value;
 
 				$.ajax({
@@ -414,3 +426,4 @@ function $_GET(name) {
 	var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
 	return match && decodeURIComponent(match[1].replace(/\+/g,' '));
 }
+
