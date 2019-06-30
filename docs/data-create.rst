@@ -30,26 +30,33 @@ A docker image is provided to help users create new datasest for HistomicsML. Th
 
 .. code-block:: bash
 
-  $ docker run -it --rm --name createboundary -v "$PWD"/boundary:/boundary -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset:1.0 python scripts/SuperpixelSegmentation.py
-  # Adjustable parameters
-  # superpixelSize - Default is 64.
-  # patchSize - Patch size for a superpixel region. Default is 128.
-  # compactness - Superpixel compactness. Default is 50.
+  $ docker run -it --rm --name createboundary -v "$PWD"/boundary:/boundary -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_gpu:1.0 python scripts/SuperpixelSegmentation.py --superpixelSize 64 --patchSize 128
+
+.. note:: Adjustable parameters in ``SuperpixelSegmentation.py`` and ``FeatureExtraction.py`` are following:
+
+.. code-block:: bash
+  1. superpixelSize - Superpixel size. Range is between 8 and 256. Default is 64.
+  2. patchSize - Patch size for a superpixel. Range is between 8 and 512. Default is 128.
+  3. compactness - Color and space proximity of SLIC algorithm. Range is between 0.01 and 100. Default is 50.
+  4. min_fgnd_superpixel - The number of minimum foreground pixels in a superpixel. Default is 10.
+  5. min_var_superpixel - Minumum variance of a superpixel. Range is between 0 and 1. Default is 0.0015.
+  6. min_fgnd_frac - The minimum amount of foreground that must be present in a tile for it to be analyzed. Range is between 0 and 1. Default is 0.001.
+  7. sample_fraction - Fraction of pixels to sample for normalization. Range is between 0 and 1. Default is 0.1.
 
 4. Run the docker image for feature extraction
 
 .. code-block:: bash
 
   # use the command line below if using CPU.
-  $ docker run -it --rm --name extractfeatures -v "$PWD"/feature:/feature -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset:1.0 python scripts/FeatureExtraction.py
+  $ docker run -it --rm --name extractfeatures -v "$PWD"/feature:/feature -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py --superpixelSize 64 --patchSize 128
   # use the command line below if using GPU. Current verion supports CUDA 9.0, Linux x86_64 Driver Version >= 384.81
-  $ docker run --runtime=nvidia -it --rm --name extractfeatures -v "$PWD"/feature:/feature -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_cuda_90:1.0 python scripts/FeatureExtraction.py
+  $ docker run --runtime=nvidia -it --rm --name extractfeatures -v "$PWD"/feature:/feature -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py --superpixelSize 64 --patchSize 128
 
 5. Run the docker image to create a dataset
 
 .. code-block:: bash
 
-  $ docker run -it --rm --name createdataset -v "$PWD"/dataset:/dataset -v "$PWD"/feature:/feature cancerdatascience/hml_dataset:1.0 python scripts/CreateDataset.py
+  $ docker run -it --rm --name createdataset -v "$PWD"/dataset:/dataset -v "$PWD"/feature:/feature cancerdatascience/hml_dataset_gpu:1.0 python scripts/CreateDataset.py
 
 5. Confirm dataset
 
