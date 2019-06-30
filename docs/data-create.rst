@@ -59,7 +59,7 @@ A docker image is provided to help users create new datasest for HistomicsML. Th
 
   $ docker run -it --rm --name createdataset -v "$PWD"/dataset:/dataset -v "$PWD"/feature:/feature cancerdatascience/hml_dataset_gpu:1.0 python scripts/CreateDataset.py
 
-5. Confirm dataset
+6. Confirm dataset
 
 .. code-block:: bash
 
