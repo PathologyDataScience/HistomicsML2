@@ -60,14 +60,14 @@ Features are stored in an HDF5 binary array format. The HDF5 file contains the f
 
 .. code-block:: bash
 
-  /features - A D x N array of floats containing the feature values for each object in the dataset (D objects, each with N features).
   /slides -	Names of the slides/images in the dataset
+  /features - A D x N array of floats containing the feature values for each object in the dataset (D objects, each with N features).
   /slideIdx - N-length array containing the slide index of each object. These indices can be used with the 'slides' variable to determine what slide each object originates from.
   /x_centroid - N-length array of floats containing the x coordinate of object centroids.
   /y_centroid - N-length array of floats containing the x coordinate of object centroids.
   /dataIdx - Array containing the index of the first object of each slide in 'features', 'x_centroid', and 'y_centroid' (this information can also be obtained from 'slideIdx' and will be eliminated in the future).
-  /mean - A D-length array containing the mean of each feature prior to normalization. This provides a record of z-score normalization parameters so that the data can be de-normalized if needed.
-  /std_dev - A D-length array containing the standard deviation of each feature prior to normalization. This provides a record of z-score normalization parameters so that the data can be de-normalized if needed.
+  /wsi_mean - Sample mean of the image in LAB color space for Reinhard color normalization.
+  /wsi_std - Sample standard deviation of the image in LAB color space for Reinhard color normalization.
 
 The sample file (BRCA-features-1.h5) provided in the database docker container can be queried to examine the structure with the following the command.
 
@@ -83,10 +83,10 @@ The sample file (BRCA-features-1.h5) provided in the database docker container c
 
   dataIdx
   features
-  mean
   slideIdx
   slides
-  std_dev
+  wsi_mean
+  wsi_std
   x_centroid
   y_centroid
 
