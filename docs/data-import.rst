@@ -48,9 +48,3 @@ A data import interface is provided to help users import new datasests into Hist
 .. image:: images/import.png
 
 * Click Submit to confirm the import
-
-Now, you can see the new dataset on the main page, http://localhost/HistomicsML.
-
-* To delete the current dataset, go to http://localhost/HistomicsML/data.html and select the current dataset from the dropdown on the top right, and then click Remove button.
-
-See the data formats section for detailed information on HistomicsML-TA data formats.
