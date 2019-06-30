@@ -35,6 +35,7 @@ A docker image is provided to help users create new datasest for HistomicsML. Th
 .. note:: Adjustable parameters of ``SuperpixelSegmentation.py`` and ``FeatureExtraction.py`` are following:
 
 .. code-block:: bash
+
   1. superpixelSize - Superpixel size. Range is between 8 and 256. Default is 64.
   2. patchSize - Patch size for a superpixel. Range is between 8 and 512. Default is 128.
   3. compactness - Color and space proximity of SLIC algorithm. Range is between 0.01 and 100. Default is 50.
