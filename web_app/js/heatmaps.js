@@ -159,7 +159,10 @@ function createRow(rowNo, index) {
 
 	var container = document.getElementById('heatmaps');
 	var	row, col, ele, svg, anchor, anchorRef, ele2;
+	// var slide = String(slideSet['scores'][index]['slide']);			// Slide name may be a number
+
 	var slide = slideSet['scores'][index]['slide'];			// Slide name may be a number
+
 
 	row = document.createElement("div");
 	row.setAttribute('id', 'row'+rowNo);
