@@ -32,7 +32,7 @@ A docker image is provided to help users create new datasest for HistomicsML. Th
 
   $ docker run -it --rm --name createboundary -v "$PWD"/boundary:/boundary -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_gpu:1.0 python scripts/SuperpixelSegmentation.py --superpixelSize 64 --patchSize 128
 
-.. note:: Adjustable parameters in ``SuperpixelSegmentation.py`` and ``FeatureExtraction.py`` are following:
+.. note:: Adjustable parameters of ``SuperpixelSegmentation.py`` and ``FeatureExtraction.py`` are following:
 
 .. code-block:: bash
   1. superpixelSize - Superpixel size. Range is between 8 and 256. Default is 64.
