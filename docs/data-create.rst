@@ -4,7 +4,7 @@
 Creating datasets
 =================
 
-A docker image is provided to help users create new datasest for HistomicsML. This page describes how the users create their new dataset using the docker image.
+A docker image is provided to help users create new datasest for HistomicsML-TA. This page describes how the users create their new dataset using the docker image.
 
 1. Create your local directories.
 
@@ -20,7 +20,7 @@ A docker image is provided to help users create new datasest for HistomicsML. Th
   # create directories for feature, boundary, centroid, and dataset.
   $ mkdir "$PWD"/dataset "$PWD"/feature "$PWD"/boundary "$PWD"/centroid
 
-2. Pull the HistomicsML docker image
+2. Pull the HistomicsML-TA docker image
 
 .. code-block:: bash
 

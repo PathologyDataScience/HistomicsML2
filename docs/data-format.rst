@@ -4,7 +4,7 @@
 Formatting datasets
 ==============
 
-This section describes how to format your own datasets for importing into HistomicsML. A datasets consists of whole-slide images (.tif), a slide description (.csv), object boundaries (.txt) and histomic features (.h5).
+This section describes how to format your own datasets for importing into HistomicsML-TA. A datasets consists of whole-slide images (.tif), a slide description (.csv), object boundaries (.txt) and histomic features (.h5).
 
 Whole-slide images
 ------------------
@@ -13,7 +13,7 @@ Whole-slide images need to be converted to a pyramidal .tif format that is compa
 to perform this conversion for our datasets.
 
 .. note:: The path to the image needs to be saved in the database.
-   HistomicsML uses the database to get the path when forming a request for the IIPIMage server.
+   HistomicsML-TA uses the database to get the path when forming a request for the IIPIMage server.
 
 
 Slide description
