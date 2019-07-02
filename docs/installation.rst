@@ -54,16 +54,17 @@ The HistomicsML-TA docker can be run on any platform with the following steps:
 
 .. code-block:: bash
 
+  # Run redis server.
   root@5c6eb03c0e2f:/notebooks# redis-server --daemonize yes
-  # Run apache server
+  # Run apache server.
   root@5c6eb03c0e2f:/notebooks# service apache2 start
-  # If you use Static IP address, you have to modify IP address using below
+  # Use commande below if you're using a server and has static IP address, otherwise go to next command line.
   root@5c6eb03c0e2f:/notebooks# sed -i -e 's/\/localhost/\/Your_Static_IP_Address/g' /var/www/html/HistomicsML/php/hostspecs.php
-  # Run model server
+  # Run model server.
   root@5c6eb03c0e2f:/notebooks# cd /var/www/html/predict-rest-api
   root@5c6eb03c0e2f:/notebooks# python run_model_server.py
   # Please wait until you see "Dataset Loaded."
 
-.. note:: If the server becomes unresponsive or generates a connection error during use, the al_server will need to be restarted.
+.. note:: If the server becomes unresponsive or generates a connection error during use, the run_model_server.py should be restarted.
 
 5. Navigate your browser to the HistomicsML-TA page http://localhost/HistomicsML.
