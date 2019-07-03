@@ -11,7 +11,7 @@ Initializing the classifier
 
 Go to http://localhost/HistomicsML/.
 
-Under *Start a session* enter a training set name and select the pre-loaded The Cancer Genome Atlas Breast Invasive Carcinoma (TCGA-BRCA) dataset from the drop-down menu. Enter names for your classes - in our case we will use ``TILs`` for the positive class and ``non-TILs`` for the negative class.
+Under *Start a session* enter a training set name and select the pre-loaded The Cancer Genome Atlas Breast Invasive Carcinoma (TCGA-BRCA) dataset from the drop-down menu. Enter names for your classes - in our case we will follow the example of our paper use ``TILs`` for the positive class and ``non-TILs`` for the negative class.
 
 .. image:: images/main.png
 
