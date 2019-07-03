@@ -49,6 +49,7 @@ A docker image is provided to help users create new datasest for HistomicsML-TA.
 
 4. Run the docker image for feature extraction
 
+.. code-block:: bash
 
   # use the command line below if using CPU.
   $ docker run -it --rm --name extractfeatures -v "$PWD"/feature:/feature -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py --superpixelSize 64 --patchSize 128
