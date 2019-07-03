@@ -34,19 +34,21 @@ A docker image is provided to help users create new datasest for HistomicsML-TA.
 
 .. note:: Adjustable parameters of ``SuperpixelSegmentation.py`` and ``FeatureExtraction.py`` are following:
 
-.. code-block:: bash
-
-  1. superpixelSize - Superpixel size. Range is between 8 and 256. Default is 64.
-  2. patchSize - Patch size for a superpixel. Range is between 8 and 512. Default is 128.
-  3. compactness - Color and space proximity of SLIC algorithm. Range is between 0.01 and 100. Default is 50.
-  4. min_fgnd_superpixel - The number of minimum foreground pixels in a superpixel. Default is 10.
-  5. min_var_superpixel - Minumum variance of a superpixel. Range is between 0 and 1. Default is 0.0015.
-  6. min_fgnd_frac - The minimum amount of foreground that must be present in a tile for it to be analyzed. Range is between 0 and 1. Default is 0.001.
-  7. sample_fraction - Fraction of pixels to sample for normalization. Range is between 0 and 1. Default is 0.1.
++--------------------------------------------------------------------------------------------------------------------+
+|                                                                                                                    |
+|                                                                                                                    |
+|  --superpixelSize        Superpixel size. Range is [8, 256]. Default 64.                                           |
+|  --patchSize             Patch size range [8, 512]. Default 128.                                                   |
+|  --compactness           SLIC algorithm compactness parameter. Range is [0.01, 100]. Default 50.                   |
+|  --min_fgnd_superpixel   Minimum foreground pixels in a superpixel. Default is 10.                                 |
+|  --min_var_superpixel    Minumum variance of a superpixel. Range is between 0 and 1. Default is 0.0015.            |
+|  --min_fgnd_frac         The minimum amount of foreground that must be present in a tile for it to be analyzed.    |
+|                          Range is between 0 and 1. Default is 0.001.                                               |
+|  --sample_fraction       Fraction of pixels to sample for normalization. Range is between 0 and 1. Default is 0.1. |
++--------------------------------------------------------------------------------------------------------------------+
 
 4. Run the docker image for feature extraction
 
-.. code-block:: bash
 
   # use the command line below if using CPU.
   $ docker run -it --rm --name extractfeatures -v "$PWD"/feature:/feature -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py --superpixelSize 64 --patchSize 128

@@ -13,7 +13,7 @@ Whole-slide images need to be converted to a pyramidal .tif format that is compa
 to perform this conversion for our datasets.
 
 .. note:: The path to the image needs to be saved in the database.
-   HistomicsML-TA uses the database to get the path when forming a request for the IIPIMage server.
+   HistomicsML-TA uses the database to get the path when forming a request for the IIPImage server.
 
 
 Slide description
