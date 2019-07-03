@@ -51,11 +51,6 @@ Below is an example of our environments::
 --superpixelSize        An approximate edge length of each superpixel.
                         Range is [8, 256]. Default 64.
 --patchSize             Patch size range [8, 512]. Default 128.
---min_fgnd_superpixel   Minimum foreground pixels in a superpixel. Default is 10.
---min_var_superpixel    Minumum variance of a superpixel. Range is between 0 and 1.
-                        Default is 0.0015.
---min_fgnd_frac         The minimum amount of foreground that must be present in a tile for it to be analyzed.
-                        Range is between 0 and 1. Default is 0.001.
 
 4. Create features of superpixels.
 
