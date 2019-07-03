@@ -6,7 +6,7 @@ Importing datasets
 
 A data import interface is provided to help users import new datasests into HistomicsML-TA. This page demonstrates the data import function using the sample data located in the database container. The following steps, the interface is used to import this dataset into this system.
 
-.. note:: Check the dataset and boundary data in "$PWD"/dataset and "$PWD"/boundary (See "Creating datasets" section)
+.. note:: Check that your dataset and boundary data are located in directories "$PWD"/dataset and "$PWD"/boundary (See "Creating datasets" for details).
 
 1. Copy boundaries to the database container.
 
