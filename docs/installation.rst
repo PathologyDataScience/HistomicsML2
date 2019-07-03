@@ -4,7 +4,7 @@
 Installation
 ============
 
-HistomicsML-TA can be installed from source, but we recommend using the provided Docker image to simplify the process. This image provides a "software container" that is platform independent, and bundled with pre-built libraries and executables.
+HistomicsML-TA can be installed from source, but we recommend using the provided Docker image to simplify the process. This image provides a "software container" that is platform independent, and bundled with pre-built libraries and executables. `Read more about Docker here <https://docs.docker.com/get-started/>`_.
 
 Installing HistomicsML-TA via Docker
 ---------------------------------
