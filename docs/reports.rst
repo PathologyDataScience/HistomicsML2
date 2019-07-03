@@ -4,7 +4,7 @@
 Exporting results
 ============
 
-The Reports interface can be used to apply classifiers to datasets and to generate object-level and slide-level prediction results for download.
+The Reports interface can be used to apply classifiers to datasets and generate summary statistics, detailed classification tables, or classification mask images for download.
 
 Report with training dataset
 ------------------------------
