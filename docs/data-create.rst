@@ -50,7 +50,7 @@ Below is an example of our environments::
 
 --superpixelSize        An approximate edge length of each superpixel.
                         Range is [8, 256]. Default 64.
---patchSize             Patch size range [8, 512]. Default 128.
+--patchSize             Patch size of each superpixel. Range is [8, 512]. Default 128.
 
 4. Create features of superpixels.
 
