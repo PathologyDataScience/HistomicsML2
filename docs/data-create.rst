@@ -1,24 +1,12 @@
 .. highlight:: shell
 
 ===================================================
-Creating boundaries and features for HistomicsML
+Creating datasets for HistomicsML
 ===================================================
 
-A docker image that performs superpixel segmentation, feature extraction, and dataset creation is provided to help users create a new datasest for HistomicsML-TA. This page describes how the users create their new dataset using the docker image.
+Dataset creation is performed using a single docker image that performs superpixel segmentation, feature extraction, and dataset creation. This page describes how to use this docker image to create new datasets from whole-slide images.
 
-.. note:: The processing time of creating boundaries and features for HistomicsML varies on different environments.
-Below is an example of our environments::
-
-      -- Two-socket server with 2 x 16 Intel Xeon cores, 256 GB memory, and NVIDIA Telsa P100 GPU.
-
-      -- Slide Size: 66816 x 75520 pixels, Magnification: 40x
-
-      -- superpixelSize: 64, patchSize: 128
-
-      -- Superpixel segmentation: 40 minutes (only uses CPU)
-
-      -- Feature extraction: 1 hour and 30 minutes (GPU) more than 6 hours (CPU)
-
+.. note:: Processing time for dataset creation depends on hardware. On a two-CPU system equipped with two NVIDIA P100 GPUs we observed 40 minutes for superpixel segmentation (CPU) and 1.5 hours for feature extraction (GPU) on a 66K x 76K 40X objective slide.::
 
 1. Create your local directories.
 
