@@ -43,9 +43,11 @@ Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroid
 .. note:: 
   Parameters of the superpixel segmentation script ``SuperpixelSegmentation.py`` can be adjusted to change the size, shape, and thresholding of superpixels to discard background regions
   
-  -superpixelSize        An approximate edge length of each superpixel. Range is [8, 256]. Default 64.
+  --superpixelSize
+    Superpixel edge length in pixels. Range is [8, 256] (default 64).
   
-  -patchSize             Patch size of each superpixel. Range is [8, 512]. Default 128.
+  --patchSize
+    Patch size of each superpixel. Range is [8, 512] (default 128).
 
 3. Extract features
 ====================================================================
