@@ -6,7 +6,7 @@ Creating datasets for HistomicsML
 
 Dataset creation is performed using a single docker image that performs superpixel segmentation, feature extraction, and dataset creation. This page describes how to use this docker image to create new datasets from whole-slide images.
 
-.. note:: Processing time for dataset creation depends on hardware. On a two-CPU system equipped with two NVIDIA P100 GPUs we observed 40 minutes for superpixel segmentation (CPU) and 1.5 hours for feature extraction (GPU) on a 66K x 76K 40X objective slide.::
+.. note:: Processing time for dataset creation depends on hardware. On a two-CPU system equipped with two NVIDIA P100 GPUs we observed 40 minutes for superpixel segmentation (CPU) and 1.5 hours for feature extraction (GPU) on a 66K x 76K 40X objective slide.
 
 1. Create your local directories.
 
