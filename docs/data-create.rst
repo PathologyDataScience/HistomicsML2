@@ -1,10 +1,24 @@
 .. highlight:: shell
 
-=================
-Creating datasets
-=================
+===================================================
+Creating boundaries and features for HistomicsML
+===================================================
 
-A docker image is provided to help users create new datasest for HistomicsML-TA. This page describes how the users create their new dataset using the docker image.
+A docker image that performs superpixel segmentation, feature extraction, and dataset creation is provided to help users create a new datasest for HistomicsML-TA. This page describes how the users create their new dataset using the docker image.
+
+.. note:: The processing time of creating boundaries and features for HistomicsML varies on different environments.
+Below is an example of our environments::
+
+      -- Two-socket server with 2 x 16 Intel Xeon cores, 256 GB memory, and NVIDIA Telsa P100 GPU.
+
+      -- Slide Size: 66816 x 75520 pixels, Magnification: 40x
+
+      -- superpixelSize: 64, patchSize: 128
+
+      -- Superpixel segmentation: 40 minutes (only uses CPU)
+
+      -- Feature extraction: 1 hour and 30 minutes (GPU) more than 6 hours (CPU)
+
 
 1. Create your local directories.
 
@@ -20,34 +34,30 @@ A docker image is provided to help users create new datasest for HistomicsML-TA.
   # create directories for feature, boundary, centroid, and dataset.
   $ mkdir "$PWD"/dataset "$PWD"/feature "$PWD"/boundary "$PWD"/centroid
 
-2. Pull the HistomicsML-TA docker image
+2. Pull the HistomicsML-TA docker image.
 
 .. code-block:: bash
 
   $ docker pull cancerdatascience/hml_dataset_gpu:1.0
 
-3. Run the docker image for superpixel segmentation
+3. Create boundaries and centroids of superpixels.
 
 .. code-block:: bash
 
   $ docker run -it --rm --name createboundary -v "$PWD"/boundary:/boundary -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_gpu:1.0 python scripts/SuperpixelSegmentation.py --superpixelSize 64 --patchSize 128
 
-.. note:: Adjustable parameters of ``SuperpixelSegmentation.py`` and ``FeatureExtraction.py`` are following:
+.. note:: Adjustable parameters of ``SuperpixelSegmentation.py`` and ``FeatureExtraction.py`` are following::
 
-+--------------------------------------------------------------------------------------------------------------------+
-|                                                                                                                    |
-|                                                                                                                    |
-|  --superpixelSize        Superpixel size. Range is [8, 256]. Default 64.                                           |
-|  --patchSize             Patch size range [8, 512]. Default 128.                                                   |
-|  --compactness           SLIC algorithm compactness parameter. Range is [0.01, 100]. Default 50.                   |
-|  --min_fgnd_superpixel   Minimum foreground pixels in a superpixel. Default is 10.                                 |
-|  --min_var_superpixel    Minumum variance of a superpixel. Range is between 0 and 1. Default is 0.0015.            |
-|  --min_fgnd_frac         The minimum amount of foreground that must be present in a tile for it to be analyzed.    |
-|                          Range is between 0 and 1. Default is 0.001.                                               |
-|  --sample_fraction       Fraction of pixels to sample for normalization. Range is between 0 and 1. Default is 0.1. |
-+--------------------------------------------------------------------------------------------------------------------+
+--superpixelSize        An approximate edge length of each superpixel.
+                        Range is [8, 256]. Default 64.
+--patchSize             Patch size range [8, 512]. Default 128.
+--min_fgnd_superpixel   Minimum foreground pixels in a superpixel. Default is 10.
+--min_var_superpixel    Minumum variance of a superpixel. Range is between 0 and 1.
+                        Default is 0.0015.
+--min_fgnd_frac         The minimum amount of foreground that must be present in a tile for it to be analyzed.
+                        Range is between 0 and 1. Default is 0.001.
 
-4. Run the docker image for feature extraction
+4. Create features of superpixels.
 
 .. code-block:: bash
 
@@ -56,14 +66,19 @@ A docker image is provided to help users create new datasest for HistomicsML-TA.
   # use the command line below if using GPU. Current verion supports CUDA 9.0, Linux x86_64 Driver Version >= 384.81
   $ docker run --runtime=nvidia -it --rm --name extractfeatures -v "$PWD"/feature:/feature -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py --superpixelSize 64 --patchSize 128
 
-5. Run the docker image to create a dataset
+5. Create HistomicsML dataset.
 
 .. code-block:: bash
 
   $ docker run -it --rm --name createdataset -v "$PWD"/dataset:/dataset -v "$PWD"/feature:/feature cancerdatascience/hml_dataset_gpu:1.0 python scripts/CreateDataSet.py
 
-6. Confirm dataset
+6. Outputs.
 
 .. code-block:: bash
 
   $ ls "$PWD"/dataset "$PWD"/feature "$PWD"/boundary "$PWD"/centroid
+  # Note that the default dataset name of the current docker image is "BRCA-spfeatures-2.h5"
+  dataset/BRCA-spfeatures-2.h5
+  feature/your-slidename.h5
+  boundary/your-slidename.txt
+  centroid/your-slidename.h5
