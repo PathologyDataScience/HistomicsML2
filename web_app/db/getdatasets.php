@@ -36,8 +36,7 @@
 
 	$dbConn = guestConnect();
 
-	$sql = "SELECT name,features_file,superpixel_size from datasets
-		where features_file like '%spfeatures%' order by name";
+	$sql = "SELECT name,features_file,pca_file,superpixel_size from datasets";
 
 	 if( $result = mysqli_query($dbConn, $sql) ) {
 
@@ -48,6 +47,7 @@
 	 			$obj[] = $array[0];
 	 			$obj[] = $array[1];
 				$obj[] = $array[2];
+				$obj[] = $array[3];
 
 	 			$jsonData[] = $obj;
 	 		}
