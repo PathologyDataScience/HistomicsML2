@@ -43,6 +43,7 @@ var	slideCenxCenyJson = "";
 var	boxes = ["box_1", "box_2", "box_3", "box_4", "box_5", "box_6","box_7", "box_8"];
 var curDataset;
 var datapath = "";
+var pcapath = "";
 var curBox = -1;
 var curX = 0, curY = 0;
 
@@ -88,6 +89,7 @@ $(function() {
 			negClass = data['negClass'];
 			curDataset = data['dataset'];
 			datapath = data['datapath'];
+			pcapath = data['pcapath'];
 			IIPServer = data['IIPServer'];
 			reloaded = data['reloaded'];
 			init_reloaded = data['init_reloaded'];
@@ -360,6 +362,7 @@ function first_train_predict_get_samples() {
 							target: target,
 							iteration: iteration.toString(),
 							dataset: datapath,
+							pca: pcapath,
 			},
 			dataType: "json",
 			success: function(data){
@@ -389,6 +392,7 @@ function next_train_predict_get_samples() {
 						target: target,
 						iteration: iteration.toString(),
 						dataset: datapath,
+						pca: pcapath,
 		},
 		success: function(data) {
 
@@ -527,7 +531,8 @@ function cancelSession() {
 		data: {
 						uid: uid,
 						target: target,
-						dataset: datapath
+						dataset: datapath,
+						pca: pcapath
 		},
 		success: function(data) {
 
@@ -562,6 +567,7 @@ function reloadTrainingSet() {
 						uid: uid,
 						target: target,
 						dataset: datapath,
+						pca: pcapath,
 						trainingSetName: trainingSetName,
 		},
 		success: function(data) {
@@ -610,6 +616,7 @@ function submitLabels() {
 	viewJSON['target'] = 'train';
 	viewJSON['classifier'] = classifier;
 	viewJSON['dataset'] = datapath;
+	viewJSON['pca'] = pcapath;
 	viewJSON['samples'] = sampleDataJson['samples'];
 	viewJSON['iteration'] = iteration;
 
@@ -713,6 +720,7 @@ function saveSession() {
 									posclass: posClass,
 									negclass: negClass,
 									dataset: datapath,
+									pca: pcapath,
 									iteration: iteration.toString(),
 									reloaded: init_reloaded.toString()
 					},
@@ -739,6 +747,7 @@ function saveSession() {
 								posclass: posClass,
 								negclass: negClass,
 								dataset: datapath,
+								pca: pcapath,
 								iteration: iteration.toString(),
 								reloaded: init_reloaded.toString()
 				},

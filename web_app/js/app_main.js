@@ -57,6 +57,7 @@ $(function() {
 			curDataset = data['dataset'];
 			IIPServer = data['IIPServer'];
 			datapath = data['datapath'];
+			pcapath = data['pcapath'];
 			superpixelSize = data['superpixelSize'];
 
 			if( uid === null ) {
@@ -220,7 +221,8 @@ function cancelSession() {
 		data: {
 						uid: uid,
 						target: target,
-						dataset: datapath
+						dataset: datapath,
+						pca: pcapath
 		},
 		success: function(data) {
 

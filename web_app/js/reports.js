@@ -36,7 +36,7 @@ $(function() {
 	var	datasetslideSummary = $("#datasetSel"), trainsetSel = $("#trainsetSel"),
 		downloadsetSel = $("#downloadsetSel"), datasetpredictDataset = $("#applyDatasetSel"),
 		datasetpredictSlide = $('#datasetMapSel'), datasetLabel = $("#datasetLabelSel"),
-		maskTrainSel = $('#trainsetLabelSel'), trainPath = "";
+		maskTrainSel = $('#trainsetLabelSel'), trainPath = "", pcaPath = "";
 
 	// Populate Dataset dropdown
 	//
@@ -48,6 +48,7 @@ $(function() {
 		success: function(data) {
 
 			var curDataset = data[0];
+			pcaPath = curDataset[2];
 
 			for( var item in data ) {
 				datasetslideSummary.append(new Option(data[item][0], data[item][1]));
@@ -96,6 +97,7 @@ $(function() {
 		dataLabel['id'] = tempUID;
 		dataLabel['uid'] = tempUID;
 		dataLabel['target'] = 'label';
+		dataLabel['pca'] = pcaPath;
 		dataLabel['dataset'] = document.getElementById("datasetLabelSel").value;
 		dataLabel['trainset'] = document.getElementById("trainsetLabelSel").value;
 		dataLabel['slide'] = document.getElementById("slideLabelSel").value;
@@ -135,6 +137,7 @@ $(function() {
 			dataLabel['id'] = tempUID;
 			dataLabel['uid'] = tempUID;
 			dataLabel['target'] = 'count';
+			dataLabel['pca'] = pcaPath;
 			dataLabel['dataset'] = document.getElementById("datasetSel").value;
 			for (var i = 0; i < downloadsetSel[0].length; i++) {
 				if (document.getElementById("trainsetSel").value == downloadsetSel[0][i].innerHTML) {
@@ -174,6 +177,7 @@ $(function() {
 				dataLabel['id'] = tempUID;
 				dataLabel['uid'] = tempUID;
 				dataLabel['target'] = 'map';
+				dataLabel['pca'] = pcaPath;
 				dataLabel['dataset'] = document.getElementById("datasetMapSel").value;
 
 				for (var i = 0; i < downloadsetSel[0].length; i++) {
@@ -426,4 +430,3 @@ function $_GET(name) {
 	var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
 	return match && decodeURIComponent(match[1].replace(/\+/g,' '));
 }
-

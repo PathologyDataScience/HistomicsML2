@@ -30,6 +30,8 @@ var slideSet = {"scores":[], "paths":[]};
 var slideReq = null;
 var uid = null;
 var datapath = "";
+var pcapath = "";
+
 var reloaded = false;
 var init_reloaded = false;
 
@@ -55,6 +57,7 @@ $(function() {
 			IIPServer = data['IIPServer'];
 			curDataset = data['dataset'];
 			datapath = data['datapath'];
+			pcapath = data['pcapath'];
 			reloaded = data['reloaded'];
 			init_reloaded = data['init_reloaded'];
 
@@ -80,6 +83,7 @@ function genHeatmaps() {
 		data: { dataset: curDataset,
 				uid: uid,
 				datapath: datapath,
+				pcapath: pcapath,
 			  },
 		dataType: "json",
 		success: function(data) {
@@ -94,6 +98,7 @@ function genHeatmaps() {
 			viewJSONs['uid'] = uid;
 			viewJSONs['target'] = 'heatmapAll';
 			viewJSONs['dataset'] = datapath;
+			viewJSONs['pca'] = pcapath;
 			viewJSONs['viewJSONs'] = [];
 
 			var viewJSON = {};
@@ -105,6 +110,7 @@ function genHeatmaps() {
 				viewJSON['uid'] = uid;
 				viewJSON['target'] = 'heatmap';
 				viewJSON['dataset'] = datapath;
+				viewJSON['pca'] = pcapath;
 				viewJSON['slide'] = array_slides[i];
 				viewJSON['width'] = array_x_size[i];
 				viewJSON['height'] = array_y_size[i];

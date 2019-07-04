@@ -62,6 +62,7 @@ var sortable_group_list = [];
 
 var superpixelSize = 0;
 var datapath = "";
+var pcapath = "";
 var reloaded = false;
 var init_reloaded = false;
 
@@ -88,6 +89,7 @@ $(function() {
 			curDataset = data['dataset'];
 			superpixelSize = data['superpixelSize'];
 			datapath = data['datapath'];
+			pcapath = data['pcapath'];
 			reloaded = data['reloaded'];
 			init_reloaded = data['init_reloaded'];
 
@@ -224,6 +226,7 @@ function getSamples() {
 						uid: uid,
 						target: target,
 						dataset: datapath,
+						pca: pcapath,
 		},
 		success: function(data) {
 
@@ -807,7 +810,8 @@ function updateLabels() {
 			uid: uid,
 			target: target,
 			samples: update_samples,
-			dataset: datapath
+			dataset: datapath,
+			pca: pcapath
 		},
 		success: function() {
 
