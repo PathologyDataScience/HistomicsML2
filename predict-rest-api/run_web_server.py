@@ -31,10 +31,12 @@ def selectonly():
 	target = request.form['target']
 	iteration = request.form['iteration']
 	dataset = request.form['dataset']
+	pca = request.form['pca']
 
 	# d = {"id": uid, "uid": uid, "target": target, "iteration": iteration, "dataset": dataset}
 	d = dict(id=uid, uid=uid, target=target,
-			 iteration=iteration, dataset=dataset)
+			 iteration=iteration, dataset=dataset,
+			 pca=pca)
 
 	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
 
@@ -58,12 +60,14 @@ def save():
 	negclass = request.form['negclass']
 	iteration = request.form['iteration']
 	dataset = request.form['dataset']
+	pca = request.form['pca']
 	reloaded = request.form['reloaded']
 
 	d = dict(id=uid, uid=uid, target=target,
 			 classifier=classifier, reloaded=reloaded,
 			 posclass=posclass, negclass=negclass,
-			 iteration=iteration, dataset=dataset)
+			 iteration=iteration, dataset=dataset,
+			 pca=pca)
 
 	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
 
@@ -135,9 +139,11 @@ def reload():
 	uid = request.form['uid']
 	target = request.form['target']
 	dataset = request.form['dataset']
+	pca = request.form['pca']
 	trainingSetName = request.form['trainingSetName']
 	d = dict(id=uid, uid=uid, target=target,
-			 trainingSetName=trainingSetName, dataset=dataset)
+			 trainingSetName=trainingSetName, dataset=dataset,
+			 pca=pca)
 
 	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
 	while True:
@@ -205,8 +211,9 @@ def review():
 	uid = request.form['uid']
 	target = request.form['target']
 	dataset = request.form['dataset']
+	pca = request.form['pca']
 
-	d = dict(id=uid, uid=uid, target=target, dataset=dataset)
+	d = dict(id=uid, uid=uid, target=target, dataset=dataset, pca=pca)
 
 	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
 
@@ -227,9 +234,11 @@ def reviewSave():
 	target = request.form['target']
 	samples = request.form['samples']
 	dataset = request.form['dataset']
+	pca = request.form['pca']
 
 	d = dict(id=uid, uid=uid, target=target,
-			 samples=samples, dataset=dataset)
+			 samples=samples, dataset=dataset,
+			 pca=pca)
 
 	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
 
@@ -250,8 +259,9 @@ def cancel():
 	uid = request.form['uid']
 	target = request.form['target']
 	dataset = request.form['dataset']
+	pca = request.form['pca']
 
-	d = dict(id=uid, uid=uid, target=target, dataset=dataset)
+	d = dict(id=uid, uid=uid, target=target, dataset=dataset, pca=pca)
 
 	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
 
