@@ -37,17 +37,15 @@
 	  if ($dh = opendir($projectDir)){
 	    	while (($file = readdir($dh)) !== false){
 					$info = pathinfo($file);
-					if ($info["extension"] == "h5") {
-							// if (strpos($file, 'spfeatures') !== false) {
+					if ($info["extension"] == "pkl") {
 								$array_features[] = $file;
-							// }							
 				 }
 	    }
 	    closedir($dh);
 	  }
 	}
 
-	$response = array("featureName" => $array_features);
+	$response = array("pcaInfo" => $array_features);
 
 	echo json_encode($response);
 

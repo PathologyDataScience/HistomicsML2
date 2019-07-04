@@ -35,6 +35,7 @@
 	$projectDirectory = '/fastdata/features/'.$_POST['project'];
 	$slideInfoFile = $_POST['pyramid'];
 	$featureFile = $_POST['feature'];
+	$pcaFile = $_POST['pca'];
 	$boundaryDir = $_POST['boundary'];
 
 	// empty check for dataset name
@@ -197,7 +198,7 @@
 	$out = $guestAccount.' '.$guestPass.' '.$datasetName.' '.$_POST['project'].'/'.$featureFile.' '.$projectDirectory.'/slidelist.txt';
 
 	// add datasets and dataset_slides tables
-	$result = shell_exec('python ../scripts/create_dataset_importtab.py '.escapeshellarg($dbAddress).' '.escapeshellarg($guestAccount).' '.escapeshellarg($guestPass).' '.escapeshellarg($datasetName).' '.$_POST['project'].'/'.escapeshellarg($featureFile).' '.escapeshellarg($projectDirectory.'/slidelist.txt'));
+	$result = shell_exec('python ../scripts/create_dataset_importtab.py '.escapeshellarg($dbAddress).' '.escapeshellarg($guestAccount).' '.escapeshellarg($guestPass).' '.escapeshellarg($datasetName).' '.$_POST['project'].'/'.escapeshellarg($featureFile).' '.$_POST['project'].'/'.escapeshellarg($pcaFile).' '.escapeshellarg($projectDirectory.'/slidelist.txt'));
 
 	write_log("INFO"," Directory".$out);
 
