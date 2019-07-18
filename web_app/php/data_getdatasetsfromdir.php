@@ -38,9 +38,9 @@
 	    	while (($file = readdir($dh)) !== false){
 					$info = pathinfo($file);
 					if ($info["extension"] == "h5") {
-							if (strpos($file, 'spfeatures') !== false) {
+							// if (strpos($file, 'spfeatures') !== false) {
 								$array_features[] = $file;
-							}							
+							// }							
 				 }
 	    }
 	    closedir($dh);

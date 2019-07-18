@@ -17,6 +17,7 @@ import mysql.connector
 from copy import copy
 from time import time
 from scipy.misc import imsave
+from sklearn.externals import joblib
 
 # inner functions
 import init
@@ -89,6 +90,7 @@ def run():
             target = q["target"]
             session_uid = q["uid"]
             dataSetPath = set.DATASET_DIR + q["dataset"]
+            pcaPath = set.DATASET_DIR + q["pca"]
             # if specific features then set m_loaded to true
             is_normal_loaded = False if dataSetPath == set.PATH_TO_SPECIAL else True
 
@@ -153,6 +155,8 @@ def run():
                 dset = dataset.Dataset(dataSetPath)
             else:
                 dset = dset_special
+
+            PCA = joblib.load(pcaPath)
 
             if target == 'selectonly':
                 uset.setIter(uidx, select.iter)
@@ -625,7 +629,7 @@ def run():
 
                     a_imgs = agen.prepare_image(init_sample['aurl'], slide_mean, slide_std)
                     a_featureSet = iset.FC1_MODEL.predict(a_imgs)
-                    a_featureSet = iset.PCA.transform(a_featureSet)
+                    a_featureSet = PCA.transform(a_featureSet)
                     a_labelSet = np.zeros((agen.AUG_BATCH_SIZE, )).astype(np.uint8)
                     a_idSet = []
                     a_checkpointSet = []
@@ -736,7 +740,7 @@ def run():
 
                     a_imgs = agen.prepare_image(init_sample['aurl'], slide_mean, slide_std)
                     a_featureSet = iset.FC1_MODEL.predict(a_imgs)
-                    a_featureSet = iset.PCA.transform(a_featureSet)
+                    a_featureSet = PCA.transform(a_featureSet)
                     a_labelSet = np.zeros((agen.AUG_BATCH_SIZE, )).astype(np.uint8)
                     a_idSet = []
                     a_checkpointSet = []
@@ -864,7 +868,7 @@ def run():
 
                     a_imgs = agen.prepare_image(init_sample['aurl'], slide_mean, slide_std)
                     a_featureSet = iset.FC1_MODEL.predict(a_imgs)
-                    a_featureSet = iset.PCA.transform(a_featureSet)
+                    a_featureSet = PCA.transform(a_featureSet)
                     a_labelSet = np.zeros((agen.AUG_BATCH_SIZE, )).astype(np.uint8)
                     a_idSet = []
                     a_checkpointSet = []

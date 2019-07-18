@@ -40,7 +40,9 @@ var negClass = "";
 var posClass = "";
 var viewer = null;
 var imgHelper = null, osdCanvas = null, viewerHook = null;
-var curSlide = "", curDataset = ""; datapath= "";
+var curSlide = "", curDataset = "";
+var datapath= "";
+var pcapath="";
 
 var displaySeg = false, selectNuc = false;
 var lastScaleFactor = 0;
@@ -181,6 +183,7 @@ $(function() {
 			negClass = data['negClass'];
 			curDataset = data['dataset'];
 			datapath = data['datapath'];
+			pcapath = data['pcapath'];
 			IIPServer = data['IIPServer'];
 			reloaded = data['reloaded'];
 			superpixelSize = data['superpixelSize'];
@@ -784,6 +787,7 @@ function primeSession() {
 		viewJSON['target'] = 'train';
 		viewJSON['classifier'] = classifier;
 		viewJSON['dataset'] = datapath;
+		viewJSON['pca'] = pcapath;
 		viewJSON['samples'] = selectedJSON['samples'];
 		viewJSON['iteration'] = iteration;
 

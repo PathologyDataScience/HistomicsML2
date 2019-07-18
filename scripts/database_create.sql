@@ -34,6 +34,7 @@ CREATE TABLE `datasets` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(80) NOT NULL,
   `features_file` varchar(1024) NOT NULL,
+  `pca_file` varchar(1024) NOT NULL,
   `superpixel_size` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (name)

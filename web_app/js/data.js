@@ -84,6 +84,7 @@ function updateFeature() {
 
 	$('#pyramidSel').empty();
 	$('#featureSel').empty();
+	$('#pcaSel').empty();
 
 
 	$.ajax({
@@ -113,6 +114,18 @@ function updateFeature() {
 		}
 	});
 
+	$.ajax({
+		type: "POST",
+		url: "php/data_getpcainfofromdir.php",
+		data: { projectDir: projectDir },
+		dataType: "json",
+		success: function(data) {
+
+			for (var i = 0; i < data['pcaInfo'].length; i++) {
+				$("#pcaSel").append(new Option(data['pcaInfo'][i], data['pcaInfo'][i]));
+			}
+		}
+	});
 }
 
 

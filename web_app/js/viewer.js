@@ -66,6 +66,8 @@ var ispannedXY = false;
 var target = "";
 var iteration = 0;
 var datapath = "";
+var pcapath = "";
+
 var reloaded = false;
 var init_reloaded = false;
 // var XandYLabelsJson = {};
@@ -188,6 +190,7 @@ $(function() {
 			IIPServer = data['IIPServer'];
 			curDataset = data['dataset'];
 			datapath = data['datapath'];
+			pcapath = data['pcapath'];
 			reloaded = data['reloaded'];
 			init_reloaded = data['init_reloaded'];
 
@@ -269,6 +272,7 @@ function reloadTrainingSet() {
 						uid: uid,
 						target: target,
 						dataset: datapath,
+						pca: pcapath,
 						trainingSetName: trainingSetName,
 		},
 		success: function(data) {
@@ -798,6 +802,7 @@ function gotoView() {
 		viewJSON['uid'] = uid;
 		viewJSON['target'] = 'view';
 		viewJSON['dataset'] = datapath;
+		viewJSON['pca'] = pcapath;
 		viewJSON['samples'] = 'None';
 		viewJSON['width'] = curWidth;
 		viewJSON['height'] = curHeight;
@@ -838,6 +843,7 @@ function gotoHeatmap() {
 	viewJSON['uid'] = uid;
 	viewJSON['target'] = 'heatmap';
 	viewJSON['dataset'] = datapath;
+	viewJSON['pca'] = pcapath;
 	viewJSON['slide'] = curSlide;
 	viewJSON['width'] = curWidth;
 	viewJSON['height'] = curHeight;
@@ -1227,6 +1233,7 @@ function retrain() {
 		viewJSON['target'] = 'retrainView';
 		viewJSON['classifier'] = classifier;
 		viewJSON['dataset'] = datapath;
+		viewJSON['pca'] = pcapath;
 		viewJSON['samples'] = fixes['samples'];
 		viewJSON['width'] = curWidth;
 		viewJSON['height'] = curHeight;
@@ -1276,6 +1283,7 @@ function retrain() {
 				viewJSON['classifier'] = classifier;
 				viewJSON['samples'] = fixes['samples'];
 				viewJSON['dataset'] = datapath;
+				viewJSON['pca'] = pcapath;
 				viewJSON['slide'] = curSlide;
 				viewJSON['iteration'] = iteration;
 				viewJSON['width'] = curWidth;
@@ -1522,7 +1530,8 @@ function cancelSession() {
 		data: {
 						uid: uid,
 						target: target,
-						dataset: datapath
+						dataset: datapath,
+						pca: pcapath
 		},
 		success: function(data) {
 
@@ -1562,6 +1571,7 @@ function saveTrainSet() {
 							posclass: posClass,
 							negclass: negClass,
 							dataset: datapath,
+							pca: pcapath,
 							iteration: iteration.toString(),
 							reloaded: init_reloaded.toString()
 			},
@@ -1607,6 +1617,7 @@ function saveSession() {
 									posclass: posClass,
 									negclass: negClass,
 									dataset: datapath,
+									pca: pcapath,
 									iteration: iteration.toString(),
 									reloaded: init_reloaded.toString()
 					},
@@ -1633,6 +1644,7 @@ function saveSession() {
 								posclass: posClass,
 								negclass: negClass,
 								dataset: datapath,
+								pca: pcapath,
 								iteration: iteration.toString(),
 								reloaded: init_reloaded.toString()
 				},
