@@ -8,24 +8,24 @@ Datasets are created using a single Docker container that performs superpixel se
 
 .. note:: Processing time depends on hardware. On a two-CPU system equipped with two NVIDIA P100 GPUs we observed 40 minutes for superpixel segmentation (CPU) and 1.5 hours for feature extraction (GPU) on a 40X objective 66K x 76K slide with 382,225 superpixels.
 
-1. Create folders
+1. Create project folders
 ====================================================================
 
-Navigate to the base dataset folder
+Navigate to the folder where you want to generate a dataset
 
 .. code-block:: bash
 
   $ cd myproject
 
-Create subdirectories inside the base folder
+Create directories in this base project folder to store superpixel boundaries and centroids
 
 .. code-block:: bash
 
   $ mkdir boundary centroid svs
 
-  Superpixel boundaries and centroids (x,y) coordinates are stored in the *boundary* and *centroid* folders. The *myproject* folder contains the final transformed data in .h5 format that is ready for ingestion (see below). Finally, an *svs* directory contains whole-slide image files. Data from a single slide is included in the Docker image as an example.
+*myproject* will contain the final transformed data in .h5 format that is ready for ingestion (see below). The *svs* directory contains the whole-slide image files to be analyzed. Data from a single slide is provided in the Docker images as an example.
 
-2. Download the dataset creation Docker container
+2. Generate superpixel segmentation
 ====================================================================
 
 Download the HistomicsML dataset creation Docker container
@@ -47,10 +47,10 @@ Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroid
     Superpixel edge length in pixels. Range is [8, 256] (default 64).
 
   --patchSize
-    Patch size of each superpixel. Range is [8, 512] (default 128).
+    Patch edge length in pixels. Range is [8, 512] (default 128).
 
   --compactness
-    Compactness of SLIC algorithm. Range is [0.01, 100] (default 50).
+    SLIC compactness parameter. Range is [0.01, 100] (default 50).
 
   --inputSlidePath
     Path to the directory of input slides. Set 'inputSlidePath' to '/dataset/svs/' when using your own slides. (default /svs/).
@@ -64,10 +64,10 @@ Check the generated outputs: boundaries and centroids
   centroid/your-slidename.h5
 
 
-3. Create HistomicsML dataset
+3. Generate features
 ====================================================================
 
-Create HistomicsML dataset.
+Extract features using the whole-slide images and superpixel segmentation
 
 .. note::
   Parameters of the feature extraction script ``FeatureExtraction.py`` can be adjusted to change the size and shape of superpixels. In addition, a boolean is added to provide the existing PCA transformation.
