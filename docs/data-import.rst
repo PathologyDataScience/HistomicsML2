@@ -15,9 +15,19 @@ Import boundary data and slide information to the database docker container and 
 
 .. code-block:: bash
 
-   $ script command
-   script output
-
+   $ docker ps
+   CONTAINER ID        IMAGE                                  COMMAND                  CREATED             STATUS              PORTS                                                   NAMES
+   4e73571843f3        cancerdatascience/histomicsml:1.0      "/bin/bash"              4 hours ago         Up 3 hours          0.0.0.0:80->80/tcp, 0.0.0.0:6379->6379/tcp, 20000/tcp   hml
+   cf2213792571        cancerdatascience/histomicsml_db:1.0   "docker-entrypoint.s…"   4 hours ago         Up 4 hours          0.0.0.0:3306->3306/tcp                                  hmldb
+   $ cd myproject
+   # create your slide information (see ``Formatting datasets`` for details)
+   $ cat HistomicsML_dataset.csv
+   your-slidename,66816,75520,/localdata/pyramids/myproject/your-slidename.svs.dzi.tif,2
+   $ docker cp boundary/your-slidename.txt cf2213792571:/db/your-slidename.txt
+   $ docker cp HistomicsML_dataset.csv cf2213792571:/db/HistomicsML_dataset.csv
+   $ docker exec -it cf2213792571 /bin/bash
+   root@cf2213792571:/# db/import_boundary_slideinformation.sh path-to-slideinformation-file path-to-boundary-directory
+   root@cf2213792571:/db# exit
 
 2. Add PCA model to base folder (optional - for inference only)
 ====================================================================
@@ -38,4 +48,3 @@ With the webserver and database containers running, mount your base directory to
 * Click Submit to confirm
 
 .. image:: images/import.png
-
