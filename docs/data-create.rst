@@ -83,6 +83,9 @@ Extract features using the whole-slide images and superpixel segmentation
   --usePCAModel
     Boolean value to check whether the existing PCA transformation will be used or not. true/false (default true).
 
+  --inputPCAModel
+    Path to the PCA file.
+
   --inputSlidePath
     Path to the directory of input slides as mounted in the Docker container. Typically '/dataset/svs/'.
 
