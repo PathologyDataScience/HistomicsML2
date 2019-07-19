@@ -96,8 +96,8 @@ Extract features using the whole-slide images and superpixel segmentation
   --patchSize
     Patch size of each superpixel. Range is [8, 512] (default 128).
 
-  --usePCAModel
-    Boolean value to check whether the existing PCA transformation will be used or not. true/false (default true).
+  --inference
+    'true' if performing inference. In this case an existing PCA transform will be used. 'false' if generating dataset to train a model (default 'false').
 
   --inputSlidePath
     Path to the directory of input slides as mounted in the Docker container. Typically '/dataset/svs/'.
