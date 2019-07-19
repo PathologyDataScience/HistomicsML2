@@ -25,7 +25,23 @@ Create directories in this base project folder to store superpixel boundaries an
 
 *myproject* will contain the final transformed data in .h5 format that is ready for ingestion (see below). The *svs* directory contains the whole-slide image files to be analyzed. Data from a single slide is provided in the Docker images as an example.
 
-2. Generate superpixel segmentation
+
+2. Convert whole-slide images to pyramidal tif format
+====================================================================
+
+Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the IIPImage server (http://iipimage.sourceforge.net/documentation/server/). The data generation docker contains the VIPs library to support this conversion (http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS).
+
+VIPs steps here
+
+.. code-block:: bash
+
+  $ mkdir tif && cd tif
+  # convert slides to .tif format
+  $ ls
+  your-slidename.svs.dzi.tif
+
+
+3. Generate superpixel segmentation
 ====================================================================
 
 Download the HistomicsML dataset creation Docker container
@@ -66,7 +82,7 @@ Check the generated outputs: boundaries and centroids
   centroid/your-slidename.h5
 
 
-3. Generate features
+4. Generate features
 ====================================================================
 
 Extract features using the whole-slide images and superpixel segmentation
@@ -80,8 +96,8 @@ Extract features using the whole-slide images and superpixel segmentation
   --patchSize
     Patch size of each superpixel. Range is [8, 512] (default 128).
 
-  --usePCAModel
-    Boolean value to check whether the existing PCA transformation will be used or not. true/false (default true).
+  --inference
+    'true' if performing inference. In this case an existing PCA transform will be used. 'false' if generating dataset to train a model (default 'false').
 
   --inputPCAModel
     Path to the PCA file.
