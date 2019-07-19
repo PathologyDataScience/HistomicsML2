@@ -4,21 +4,20 @@
 Formatting datasets
 ==============
 
-This section describes how to format your own datasets for importing into HistomicsML-TA. A datasets consists of whole-slide images (.tif), a slide description (.csv), object boundaries (.txt) and histomic features (.h5).
+Datasets for HistomicsML can be generated using the data generation docker, or you can import data from your own methods. This section describes how to format data from your own methods for importing into HistomicsML-TA. A datasets consists of whole-slide images (.tif), a slide description (.csv), object boundaries (.txt) and histomic features (.h5).
 
-Whole-slide images
+Whole-slide image file conversion
 ------------------
 
-Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the IIPImage server (http://iipimage.sourceforge.net/documentation/server/). We have used Vips (http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS)
-to perform this conversion for our datasets.
+Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the IIPImage server (http://iipimage.sourceforge.net/documentation/server/). We have used Vips (http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS) to perform this conversion for our datasets.
 
 .. note:: The path to the image needs to be saved in the database.
    HistomicsML-TA uses the database to get the path when forming a request for the IIPImage server.
 
 
-Slide description
+Slide description file
 ------------------------------------
-A table (.csv) needs to be created to capture the dimensions, magnification, and location of the files for each slide image:
+A .csv table needs to be created to describe the dimensions, magnification, and location of the files for each slide image:
 
 .. code-block:: bash
 
@@ -34,7 +33,7 @@ For the sample data provided in the database container, our slide description fi
 
 
 
-Object boundaries
+Object boundaries file
 ----------
 Boundary information is formatted as a tab-delimited text file where each line describes the centroids and boundary coordinates for one object:
 
@@ -53,7 +52,7 @@ One line from the sample data boundaries file (BRCA-boundaries.txt):
 
 
 
-Histomic features
+Features file
 --------
 
 Features are stored in an HDF5 binary array format. The HDF5 file contains the following variables:
@@ -62,10 +61,10 @@ Features are stored in an HDF5 binary array format. The HDF5 file contains the f
 
   /slides -	Names of the slides/images in the dataset
   /features - A D x N array of floats containing the feature values for each object in the dataset (D objects, each with N features).
-  /slideIdx - N-length array containing the slide index of each object. These indices can be used with the 'slides' variable to determine what slide each object originates from.
-  /x_centroid - N-length array of floats containing the x coordinate of object centroids.
-  /y_centroid - N-length array of floats containing the x coordinate of object centroids.
-  /dataIdx - Array containing the index of the first object of each slide in 'features', 'x_centroid', and 'y_centroid' (this information can also be obtained from 'slideIdx' and will be eliminated in the future).
+  /slideIdx - D-length array containing the slide index of each object. Integer indices are assigned to each entry in 'slides' and are used to determine what slide each object originates from.
+  /x_centroid - D-length array of floats containing the x coordinate of object centroids. Units are pixels in the base magnification layer, typically 20X or 40X.
+  /y_centroid - D-length array of floats containing the y coordinate of object centroids. Units are pixels in the base magnification layer, typically 20X or 40X.
+  /dataIdx - Array containing the object indices of the first object in each slide. Used to access entries of 'features', 'x_centroid', and 'y_centroid' by slide.
   /wsi_mean - Sample mean of the image in LAB color space for Reinhard color normalization.
   /wsi_std - Sample standard deviation of the image in LAB color space for Reinhard color normalization.
 
@@ -79,7 +78,7 @@ The sample file (BRCA-features-1.h5) provided in the database docker container c
   >>> for i in contents:
   ...     print i
   ...
-  # for loop will print out the feature information under the root of HDF5.
+  # for loop will print out the feature information under the root of the HDF5.
 
   dataIdx
   features
@@ -90,7 +89,7 @@ The sample file (BRCA-features-1.h5) provided in the database docker container c
   x_centroid
   y_centroid
 
-  #for further step, if you want to see the details.
+  #contents of the 'features' array
 
   >>> contents['features'][0]
   array([-6.6270187e+01,  2.2519203e+01,  1.9128393e+01, -5.5189757e+00,
