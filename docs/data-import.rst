@@ -4,11 +4,9 @@
 Importing datasets
 ============================
 
-A data import interface is provided to help users import new datasests into HistomicsML-TA. This page demonstrates the data import function using the sample data located in the database container. The following steps, the interface is used to import this dataset into this system.
+This section demonstrates the data import process using the example data provided with the database container. Datasets in HistomicsML are first registered in the database container at the command line. Following database registration, datasets can be imported through the HistomicsML user interface.
 
-.. note:: Check that the dataset and boundary data are located in your project directory (See "Creating datasets for HistomicsML" for details).
-
-1. Import boundary and slide information
+1. Register dataset in the database
 ====================================================================
 Import boundary data and slide information to the database docker container
 
