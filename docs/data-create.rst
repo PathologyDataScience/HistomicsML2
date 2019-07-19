@@ -40,6 +40,8 @@ Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroid
 
   $ docker run -it --rm --name createboundary -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/SuperpixelSegmentation.py --superpixelSize 64 --patchSize 128
 
+The -v option here mounts the base project folder inside the Docker container so the data can be output there.
+
 .. note::
   Parameters of the superpixel segmentation script ``SuperpixelSegmentation.py`` can be adjusted to change the size, shape, and threshold of superpixels to discard background regions
 
@@ -82,7 +84,7 @@ Extract features using the whole-slide images and superpixel segmentation
     Boolean value to check whether the existing PCA transformation will be used or not. true/false (default true).
 
   --inputSlidePath
-    Path to the directory of input slides. Set 'inputSlidePath' to '/dataset/svs/' when using your own slides. (default /svs/).
+    Path to the directory of input slides as mounted in the Docker container. Typically '/dataset/svs/'.
 
   --outputDataSetName
     Name of the HistomicsML dataset. '.h5' format should be used for ingestion (default HistomicsML_dataset.h5).
