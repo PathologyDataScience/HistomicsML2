@@ -155,30 +155,30 @@
 	/************	End existing slide name check ************/
 	// if new slide list exists, import slide information
 	// this should be fixed later if new slide includes current slides.
-	if(count($newslidelist) > 0){
-		$link = mysqli_init();
-		mysqli_options($link, MYSQLI_OPT_LOCAL_INFILE, true);
-		mysqli_real_connect($link, $dbAddress, $guestAccount, $guestPass, "nuclei");
-
-		$sql = 'LOAD DATA LOCAL INFILE "'.$projectDirectory.'/'.$slideInfoFile.'"
-				INTO TABLE slides fields terminated by \',\' lines
-				terminated by \'\n\' (name, x_size, y_size, pyramid_path, scale)';
-
-		if( $result = mysqli_query($link, $sql) ) {
-			mysqli_free_result($result);
-		}
-		else{
-			echo "<script type='text/javascript'>window.alert('Boundaries: Cannot import slide information to database !! ');
-			window.location.href = '../data.html';</script>";
-			exit;
-		}
-		mysqli_close($link);
-	}
-
-	if( file_exists($projectDirectory.'/slidelist.txt') ) {
-		$cmd = '/bin/rm '.$projectDirectory.'/slidelist.txt';
-		exec($cmd, $output, $result);
-	}
+	// if(count($newslidelist) > 0){
+	// 	$link = mysqli_init();
+	// 	mysqli_options($link, MYSQLI_OPT_LOCAL_INFILE, true);
+	// 	mysqli_real_connect($link, $dbAddress, $guestAccount, $guestPass, "nuclei");
+	//
+	// 	$sql = 'LOAD DATA LOCAL INFILE "'.$projectDirectory.'/'.$slideInfoFile.'"
+	// 			INTO TABLE slides fields terminated by \',\' lines
+	// 			terminated by \'\n\' (name, x_size, y_size, pyramid_path, scale)';
+	//
+	// 	if( $result = mysqli_query($link, $sql) ) {
+	// 		mysqli_free_result($result);
+	// 	}
+	// 	else{
+	// 		echo "<script type='text/javascript'>window.alert('Boundaries: Cannot import slide information to database !! ');
+	// 		window.location.href = '../data.html';</script>";
+	// 		exit;
+	// 	}
+	// 	mysqli_close($link);
+	// }
+	//
+	// if( file_exists($projectDirectory.'/slidelist.txt') ) {
+	// 	$cmd = '/bin/rm '.$projectDirectory.'/slidelist.txt';
+	// 	exec($cmd, $output, $result);
+	// }
 
 	// create a slide list
 	$cmd = '/bin/bash ./gen_slide_list.sh '.$projectDirectory.'/'.$slideInfoFile.' '.$projectDirectory.'/slidelist.txt';
