@@ -46,7 +46,7 @@
 		log_error("Unable to get training set from the database");
 	}
 
-	$sql = 'SELECT features_file, superpixel_size FROM datasets WHERE name="'.$_POST["reloadDataset"].'"';
+	$sql = 'SELECT features_file, pca_file, superpixel_size FROM datasets WHERE name="'.$_POST["reloadDataset"].'"';
 	if( $result = mysqli_query($dbConn, $sql) ) {
 
 		$featureFile = mysqli_fetch_row($result);
@@ -69,10 +69,11 @@
 	$_SESSION['negClass'] = $_POST['reloadNegClass'];
 	$_SESSION['iteration'] = $_POST['reloadIterClass'];
 	$_SESSION['datapath'] = $featureFile[0];
+	$_SESSION['pcapath'] = $featureFile[1];
 	$_SESSION['trainingSetName'] = $filename[0];
 	$_SESSION['reloaded'] = true;
 	$_SESSION['init_reloaded'] = true;
-	$_SESSION['superpixelSize'] = $featureFile[1];
+	$_SESSION['superpixelSize'] = $featureFile[2];
 	header("Location: ../viewer.html");
 
 ?>

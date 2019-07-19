@@ -99,7 +99,7 @@
 	// Get the dataset file from the database
 	//
 	$dbConn = guestConnect();
-	$sql = 'SELECT features_file, superpixel_size FROM datasets WHERE name="'.$_POST["dataset"].'"';
+	$sql = 'SELECT features_file, pca_file, superpixel_size FROM datasets WHERE name="'.$_POST["dataset"].'"';
 
 	if( $result = mysqli_query($dbConn, $sql) ) {
 
@@ -120,9 +120,10 @@
 		$_SESSION['iteration'] = 0;
 		$_SESSION['dataset'] = $_POST["dataset"];
 		$_SESSION['datapath'] = $featureFile[0];
+		$_SESSION['pcapath'] = $featureFile[1];
 		$_SESSION['reloaded'] = false;
 		$_SESSION['init_reloaded'] = false;
-		$_SESSION['superpixelSize'] = $featureFile[1];
+		$_SESSION['superpixelSize'] = $featureFile[2];
 		header("Location: ../prime.html");
 	}
 ?>

@@ -29,8 +29,8 @@ import string
 import mysql.connector as mysql
 
 
-if len(sys.argv) != 7:
-	print "Usage: ", sys.argv[0], "<db address> <user account> <pass> <dataset to create> <features file> <slide list>"
+if len(sys.argv) != 8:
+	print "Usage: ", sys.argv[0], "<db address> <user account> <pass> <dataset to create> <features file> <pca file> <slide list>"
 	exit(1)
 
 dbAddress = sys.argv[1]
@@ -38,7 +38,8 @@ userId = sys.argv[2]
 passWord = sys.argv[3]
 dataset = sys.argv[4]
 featuresFile = sys.argv[5]
-slideListFile = sys.argv[6]
+pcaFile = sys.argv[6]
+slideListFile = sys.argv[7]
 
 db = mysql.connect(host=dbAddress, user=userId, passwd=passWord, database="nuclei")
 cursor = db.cursor()
@@ -47,8 +48,8 @@ cursor = db.cursor()
 #	Create dataset
 #
 try:
-	sql = "INSERT INTO datasets (name, features_file, superpixel_size) VALUES (%s, %s, %s)"
-	val = (dataset, featuresFile, 8)
+	sql = "INSERT INTO datasets (name, features_file, pca_file, superpixel_size) VALUES (%s, %s, %s, %s)"
+	val = (dataset, featuresFile, pcaFile, 8)
 	cursor.execute(sql, val)
 	db.commit()
 

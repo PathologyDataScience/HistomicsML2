@@ -1,79 +1,112 @@
 .. highlight:: shell
 
 ===================================================
-Creating boundaries and features for HistomicsML
+Creating datasets for HistomicsML
 ===================================================
 
-A docker image that performs superpixel segmentation, feature extraction, and dataset creation is provided to help users create a new datasest for HistomicsML-TA. This page describes how the users create their new dataset using the docker image.
+Datasets are created using a single Docker container that performs superpixel segmentation, feature extraction, and dimensionality reduction. This page describes how to use this docker image to generate new datasets from whole-slide images.
 
-.. note:: The processing time of creating boundaries and features for HistomicsML varies on different environments.
-Below is an example of our environments::
+.. note:: Processing time depends on hardware. On a two-CPU system equipped with two NVIDIA P100 GPUs we observed 40 minutes for superpixel segmentation (CPU) and 1.5 hours for feature extraction (GPU) on a 40X objective 66K x 76K slide with 382,225 superpixels.
 
-      -- Two-socket server with 2 x 16 Intel Xeon cores, 256 GB memory, and NVIDIA Telsa P100 GPU.
+1. Create project folders
+====================================================================
 
-      -- Slide Size: 66816 x 75520 pixels, Magnification: 40x
-
-      -- superpixelSize: 64, patchSize: 128
-
-      -- Superpixel segmentation: 40 minutes (only uses CPU)
-
-      -- Feature extraction: 1 hour and 30 minutes (GPU) more than 6 hours (CPU)
-
-
-1. Create your local directories.
+Navigate to the folder where you want to generate a dataset
 
 .. code-block:: bash
 
-  # Directories below should be ready before creating a new dataset.
-  # svs - a slide image directory name. Users have to place their images to this directory.
-  # A .svs file in "/svs" directory of the docker image is provided as an example.
-  # feature - a feature directory name. Feature data for each slide will be storied in this directory.
-  # boundary - a boundary directory name. Boundary data for each slide will be storied in this directory.
-  # centroid - a centroid directory name. Centroid data for each slide will be storied in this directory.
-  # dataset - a dataset directory name. A dataset will be created in this directory.
-  # create directories for feature, boundary, centroid, and dataset.
-  $ mkdir "$PWD"/dataset "$PWD"/feature "$PWD"/boundary "$PWD"/centroid
+  $ cd myproject
 
-2. Pull the HistomicsML-TA docker image.
+Create directories in this base project folder to store superpixel boundaries and centroids
+
+.. code-block:: bash
+
+  $ mkdir boundary centroid svs
+
+*myproject* will contain the final transformed data in .h5 format that is ready for ingestion (see below). The *svs* directory contains the whole-slide image files to be analyzed. Data from a single slide is provided in the Docker images as an example.
+
+2. Generate superpixel segmentation
+====================================================================
+
+Download the HistomicsML dataset creation Docker container
 
 .. code-block:: bash
 
   $ docker pull cancerdatascience/hml_dataset_gpu:1.0
 
-3. Create boundaries and centroids of superpixels.
+Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroids
 
 .. code-block:: bash
 
-  $ docker run -it --rm --name createboundary -v "$PWD"/boundary:/boundary -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_gpu:1.0 python scripts/SuperpixelSegmentation.py --superpixelSize 64 --patchSize 128
+  $ docker run -it --rm --name createboundary -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/SuperpixelSegmentation.py --superpixelSize 64 --patchSize 128
 
-.. note:: Adjustable parameters of ``SuperpixelSegmentation.py`` and ``FeatureExtraction.py`` are following::
+The -v option here mounts the base project folder inside the Docker container so the data can be output there.
 
---superpixelSize        An approximate edge length of each superpixel.
-                        Range is [8, 256]. Default 64.
---patchSize             Patch size of each superpixel. Range is [8, 512]. Default 128.
+.. note::
+  Parameters of the superpixel segmentation script ``SuperpixelSegmentation.py`` can be adjusted to change the size, shape, and threshold of superpixels to discard background regions
 
-4. Create features of superpixels.
+  --superpixelSize
+    Superpixel edge length in pixels. Range is [8, 256] (default 64).
 
-.. code-block:: bash
+  --patchSize
+    Patch edge length in pixels. Range is [8, 512] (default 128).
 
-  # use the command line below if using CPU.
-  $ docker run -it --rm --name extractfeatures -v "$PWD"/feature:/feature -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py --superpixelSize 64 --patchSize 128
-  # use the command line below if using GPU. Current verion supports CUDA 9.0, Linux x86_64 Driver Version >= 384.81
-  $ docker run --runtime=nvidia -it --rm --name extractfeatures -v "$PWD"/feature:/feature -v "$PWD"/centroid:/centroid cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py --superpixelSize 64 --patchSize 128
+  --compactness
+    SLIC compactness parameter. Range is [0.01, 100] (default 50).
 
-5. Create HistomicsML dataset.
+  --inputSlidePath
+    Path to the directory of input slides. Set 'inputSlidePath' to '/dataset/svs/' when using your own slides. (default /svs/).
 
-.. code-block:: bash
-
-  $ docker run -it --rm --name createdataset -v "$PWD"/dataset:/dataset -v "$PWD"/feature:/feature cancerdatascience/hml_dataset_gpu:1.0 python scripts/CreateDataSet.py
-
-6. Outputs.
+Check the generated outputs: boundaries and centroids
 
 .. code-block:: bash
 
-  $ ls "$PWD"/dataset "$PWD"/feature "$PWD"/boundary "$PWD"/centroid
-  # Note that the default dataset name of the current docker image is "BRCA-spfeatures-2.h5"
-  dataset/BRCA-spfeatures-2.h5
-  feature/your-slidename.h5
+  $ ls boundary centroid
+  boundary/your-slidename.txt
+  centroid/your-slidename.h5
+
+
+3. Generate features
+====================================================================
+
+Extract features using the whole-slide images and superpixel segmentation
+
+.. note::
+  Parameters of the feature extraction script ``FeatureExtraction.py`` can be adjusted to change the size and shape of superpixels. In addition, a boolean is added to provide the existing PCA transformation.
+
+  --superpixelSize
+    Superpixel edge length in pixels. Range is [8, 256] (default 64).
+
+  --patchSize
+    Patch size of each superpixel. Range is [8, 512] (default 128).
+
+  --usePCAModel
+    Boolean value to check whether the existing PCA transformation will be used or not. true/false (default true).
+
+  --inputSlidePath
+    Path to the directory of input slides as mounted in the Docker container. Typically '/dataset/svs/'.
+
+  --outputDataSetName
+    Name of the HistomicsML dataset. '.h5' format should be used for ingestion (default HistomicsML_dataset.h5).
+
+On a CPU system
+
+.. code-block:: bash
+
+  $ docker run -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py
+
+On a GPU system (currently supporting CUDA 9.0, Linux x86_64 Driver Version >= 384.81):
+
+.. code-block:: bash
+
+  $ docker run --runtime=nvidia -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py
+
+Check the generated outputs: HistomicsML dataset
+
+.. code-block:: bash
+
+  $ ls
+  HistomicsML_dataset.h5
+  pca_model_sample.pkl (will be created when 'usePCAModel' is set to false)
   boundary/your-slidename.txt
   centroid/your-slidename.h5

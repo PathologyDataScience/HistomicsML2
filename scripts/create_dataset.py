@@ -31,14 +31,15 @@ import getpass as pw
 
 
 if len(sys.argv) != 6:
-	print "Usage: ", sys.argv[0], "<user name> <dataset to create> <features file> <slide list> <superpixel size>"
+	print "Usage: ", sys.argv[0], "<user name> <dataset to create> <features file> <pca file> <slide list> <superpixel size>"
 	exit(1)
 
 dataset = sys.argv[2]
 userId = sys.argv[1]
-slideListFile = sys.argv[4]
+slideListFile = sys.argv[5]
 featuresFile = sys.argv[3]
-superpixelSize = sys.argv[5]
+pcaFile = sys.argv[4]
+superpixelSize = sys.argv[6]
 
 
 
@@ -50,7 +51,7 @@ cursor = db.cursor()
 #	Create dataset
 #
 try:
-	cursor.execute("INSERT into datasets (name, features_file, superpixel_size) VALUES(%s, %s, %s)", (dataset, featuresFile, int(superpixelSize)))
+	cursor.execute("INSERT into datasets (name, features_file, pca_file, superpixel_size) VALUES(%s, %s, %s, %s)", (dataset, featuresFile, pcaFile, int(superpixelSize)))
 	db.commit()
 
 except mysql.Error, e:

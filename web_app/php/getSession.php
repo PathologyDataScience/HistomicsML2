@@ -40,6 +40,7 @@
 		$sessionInfo['negClass'] = $_SESSION['negClass'];
 		$sessionInfo['dataset'] = $_SESSION['dataset'];
 		$sessionInfo['datapath'] = $_SESSION['datapath'];
+		$sessionInfo['pcapath'] = $_SESSION['pcapath'];
 		$sessionInfo['reloaded'] = $_SESSION['reloaded'];
 		$sessionInfo['init_reloaded'] = $_SESSION['init_reloaded'];
 		$sessionInfo['iteration'] = $_SESSION['iteration'];

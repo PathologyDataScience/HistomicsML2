@@ -27,34 +27,26 @@
 //
 //
 
-	//require 'connect.php';
-	require 'logging.php';		// Also includes connect.php
+	require '../db/logging.php';		// Also includes connect.php
 
-	/* 	Retrieve a list of datasets from the data base.
-		Return as a json object
-	*/
+	$projectDir = $_POST['projectDir'];
 
-	$dbConn = guestConnect();
+	$array_features = array();
+	// Open a directory, and read its contents
+	if (is_dir($projectDir)){
+	  if ($dh = opendir($projectDir)){
+	    	while (($file = readdir($dh)) !== false){
+					$info = pathinfo($file);
+					if ($info["extension"] == "pkl") {
+								$array_features[] = $file;
+				 }
+	    }
+	    closedir($dh);
+	  }
+	}
 
-	$sql = "SELECT name,features_file,pca_file,superpixel_size from datasets";
+	$response = array("pcaInfo" => $array_features);
 
-	 if( $result = mysqli_query($dbConn, $sql) ) {
+	echo json_encode($response);
 
-		 	$jsonData = array();
-			while( $array = mysqli_fetch_row($result) ) {
-	 			$obj = array();
-
-	 			$obj[] = $array[0];
-	 			$obj[] = $array[1];
-				$obj[] = $array[2];
-				$obj[] = $array[3];
-
-	 			$jsonData[] = $obj;
-	 		}
- 			mysqli_free_result($result);
-
- 			echo json_encode($jsonData);
-  }
-
-	mysqli_close($dbConn);
-?>
+	?>
