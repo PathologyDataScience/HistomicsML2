@@ -21,9 +21,9 @@ Create directories in this base project folder to store superpixel boundaries an
 
 .. code-block:: bash
 
-  $ mkdir boundary centroid svs
+  $ mkdir boundary centroid svs tif
 
-*myproject* will contain the final transformed data in .h5 format that is ready for ingestion (see below). The *svs* directory contains the whole-slide image files to be analyzed. Data from a single slide is provided in the Docker images as an example.
+*myproject* is the base folder will contain all data needed to produce and import a HistomicsML dataset. The *svs* directory contains the whole-slide image files to be analyzed. The *tif* directory will contain tif conversions of the whole-slide image files needed for visualization. Data from a single slide is provided in the Docker images as an example.
 
 
 2. Convert whole-slide images to pyramidal tif format
@@ -126,6 +126,6 @@ Check the generated outputs: HistomicsML dataset
 
   $ ls
   HistomicsML_dataset.h5
-  pca_model_sample.pkl (will be created when 'usePCAModel' is set to false)
+  pca_model_sample.pkl (will be created when 'usePCAModel' = false)
   boundary/your-slidename.txt
   centroid/your-slidename.h5
