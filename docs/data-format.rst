@@ -27,7 +27,7 @@ For the sample data provided in the database container the slide description fil
 
 Object boundaries file
 ----------
-Boundary information is formatted as a tab-delimited text file where each line describes the centroids and boundary coordinates for one object:
+Boundary information is formatted as a tab-delimited text file where each line describes the centroids and boundary coordinates for one superpixel:
 
 .. code-block:: bash
 
@@ -39,7 +39,8 @@ x1,y1 x2,y2 x3,y3 ... xN,yN (with a single space separating coordinates)
 One line from the sample data boundaries file (BRCA-boundaries.txt):
 
 .. code-block:: bash
-
+  
+  $ head -n1 BRCA-boundaries.txt
   TCGA-3C-AALJ-01Z-00-DX1 2250.1 4043.0 2246,4043 2247,4043 2247 ... 2247,4043 2246,4043
 
 
@@ -64,10 +65,10 @@ The sample file (BRCA-features-1.h5) provided in the database docker container c
 
 .. code-block:: python
 
-  >>> import h5py
-  >>> file="BRCA-features-1.h5"
-  >>> contents = h5py.File(file)
-  >>> for i in contents:
+  $ import h5py
+  $ file="BRCA-features-1.h5"
+  $ contents = h5py.File(file)
+  $ for i in contents:
   ...     print i
   ...
   # for loop will print out the feature information under the root of the HDF5.
@@ -83,7 +84,7 @@ The sample file (BRCA-features-1.h5) provided in the database docker container c
 
   #contents of the 'features' array
 
-  >>> contents['features'][0]
+  $ contents['features'][0]
   array([-6.6270187e+01,  2.2519203e+01,  1.9128393e+01, -5.5189757e+00,
         4.8610997e+00,  6.4421225e-01, -2.8530896e+00,  4.4713855e+00,
         5.2029357e+00,  2.1140134e+00,  4.0678120e+00,  5.7025075e+00,
