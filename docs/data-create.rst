@@ -96,11 +96,11 @@ Extract features using the whole-slide images and superpixel segmentation
   --patchSize
     Patch size of each superpixel. Range is [8, 512] (default 128).
 
-  --inference
-    'true' if performing inference. In this case an existing PCA transform will be used. 'false' if generating dataset to train a model (default 'false').
+  --usePCAmodel
+    'true' if re-using an exsiting PCA transformation. When applying a trained model to a new dataset (inference) the PCA transform from the training dataset should be re-used. 'false' to generate a new PCA transformation (default 'true').
 
   --inputPCAModel
-    Path to the PCA file.
+    Path to .pkl file defining existing PCA transformation.
 
   --inputSlidePath
     Path to the directory of input slides as mounted in the Docker container. Typically '/dataset/svs/'.
