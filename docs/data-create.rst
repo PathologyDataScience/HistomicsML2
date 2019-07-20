@@ -31,7 +31,7 @@ Create directories in this base project folder to store superpixel boundaries an
 
 Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the IIPImage server (http://iipimage.sourceforge.net/documentation/server/). The data generation docker contains the VIPs library to support this conversion (http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS).
 
-VIPs steps here
+Download the HistomicsML dataset creation Docker container
 
 .. code-block:: bash
 
@@ -47,8 +47,6 @@ Parameters of the bash script ``create_tiff.sh`` can be adjusted to change the i
 
 3. Generate superpixel segmentation
 ====================================================================
-
-Download the HistomicsML dataset creation Docker container
 
 Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroids
 
@@ -134,3 +132,4 @@ Check the generated outputs: HistomicsML dataset
   pca_model_sample.pkl (will be created when 'usePCAModel' = false)
   boundary/your-slidename.txt
   centroid/your-slidename.h5
+  tif/your-slidename.dzi.tif
