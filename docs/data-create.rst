@@ -35,20 +35,20 @@ VIPs steps here
 
 .. code-block:: bash
 
-  $ mkdir tif && cd tif
-  # convert slides to .tif format
-  $ ls
-  your-slidename.svs.dzi.tif
+  $ docker pull cancerdatascience/hml_dataset_gpu:1.0
 
+Use ``create_tiff.sh`` to convert '.svs' to '.tif' format
+
+.. code-block:: bash
+
+  $ docker run -it --rm --name convertslide -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 bash scripts/create_tiff.sh /svs tif
+
+Parameters of the bash script ``create_tiff.sh`` can be adjusted to change the input and output directories. Change '/svs' to '/dataset/svs' when using your own slides. (default /svs).
 
 3. Generate superpixel segmentation
 ====================================================================
 
 Download the HistomicsML dataset creation Docker container
-
-.. code-block:: bash
-
-  $ docker pull cancerdatascience/hml_dataset_gpu:1.0
 
 Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroids
 
