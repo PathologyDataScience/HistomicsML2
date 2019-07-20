@@ -36,7 +36,7 @@ If you applying an existing classifier to this dataset to perform inference, you
 
 .. code-block:: bash
 
-  $ .
+  $ docker cp 4e73571843f3:/src/gitrepo/scripts/brca_pca_model_sample.pkl ./
 
 
 3. Import dataset using the web interface
