@@ -85,11 +85,12 @@ Check the generated outputs: boundaries and centroids
 Extract features using the whole-slide images and superpixel segmentation
 
 .. note:: Training, inference, and PCA transformation
+
   HistomicsML can be used to either train new classifiers, or to apply trained classifiers to new datasets (inference). When an existing classifier is applied to a new dataset it is important that the features in the training dataset and new dataset are extracted in a consistent manner.
 
   During feature extraction a principal component analysis (PCA) is applied to the features to improve speed and performance. When a dataset is generated the PCA transformation can either be derived anew from the extracted features or imported from an existing dataset. If the goal is inference then the PCA transformation should be imported from the training set to ensure consistency with the trained classifier.
 
-  HistomicsML stores a PCA transformation as a .pkl file. These files should be managed by the user and linked during dataset generation and import based on their needs.
+  HistomicsML stores a PCA transformation as a .pkl file. These files should be managed by the user and linked during dataset generation and imported based on their needs.
 
 Parameters of the feature extraction script ``FeatureExtraction.py`` can be adjusted to change the size and shape of superpixels. In addition, a boolean is added to provide the existing PCA transformation.
 
