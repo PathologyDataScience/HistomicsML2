@@ -12,7 +12,7 @@ The dataset creation docker container provides all the functionality needed to g
 1. Download the dataset creation container
 ====================================================================
 
-Download the HistomicsML dataset creation container using the docker pull command
+Use the docker pull command to download the dataset creation container
 
 .. code-block:: bash
 
