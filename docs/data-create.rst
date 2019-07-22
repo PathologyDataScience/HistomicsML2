@@ -30,7 +30,7 @@ Create subdirectories inside this base project directory to store superpixel bou
 2. Convert whole-slide images to pyramidal tif format
 ====================================================================
 
-Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the IIPImage server (http://iipimage.sourceforge.net/documentation/server/). The data generation docker contains the VIPs library to support this conversion (http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS).
+Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the `IIPImage server <http://iipimage.sourceforge.net/documentation/server/)>`_. The data generation docker contains the `VIPs library <http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS>`_ to support this conversion.
 
 Download the HistomicsML dataset creation Docker container
 
