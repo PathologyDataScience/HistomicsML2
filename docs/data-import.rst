@@ -47,7 +47,7 @@ This folder /myproject is mounted on the docker container and so the .pkl file w
 With the webserver and database containers running, mount your base directory to the web-server container and navigate to the user interface to import the data.
 
 * Open the web page http://localhost/HistomicsML/data.html
-* Enter a dataset name and select ``Project Directory``,  ``Slide Information``, ``PCA Information``, ``Features`` from the dropdown list.
+* Enter a dataset name and select your base project directory from ``Project Directory``. The fields for ``Slide Information``, ``PCA Information``, ``Features`` will automatically populate after selecting the project folder. If you have multiple versions of these files in a project folder then these alternative files can be accessed with the list buttons.
 * Click Submit to confirm
 
 .. image:: images/import.png
