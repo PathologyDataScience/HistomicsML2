@@ -9,12 +9,7 @@ This section describes how to format your own datasets for importing into Histom
 Whole-slide images
 ------------------
 
-Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the IIPImage server (http://iipimage.sourceforge.net/documentation/server/). We have used Vips (http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS)
-to perform this conversion for our datasets.
-
-.. note:: The path to the image needs to be saved in the database.
-   HistomicsML-TA uses the database to get the path when forming a request for the IIPImage server.
-
+Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the IIPImage server (http://iipimage.sourceforge.net/documentation/server/). We have used Vips (http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS) to perform this conversion for our datasets. VIPs is included in the data creation docker container (see Creating datasets for HistomicsML for details).
 
 Slide description
 ------------------------------------
