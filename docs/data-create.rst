@@ -6,24 +6,24 @@ Creating datasets for HistomicsML
 
 Datasets are created using a single Docker container that performs superpixel segmentation, feature extraction, and dimensionality reduction. This page describes how to use this docker image to generate new datasets from whole-slide images.
 
-.. note:: Processing time depends on hardware. On a two-CPU system equipped with two NVIDIA P100 GPUs we observed 40 minutes for superpixel segmentation (CPU) and 1.5 hours for feature extraction (GPU) on a 40X objective 66K x 76K slide with 382,225 superpixels.
+.. note:: Processing time varies depending on hardware. On a two-CPU system equipped with two NVIDIA P100 GPUs we observed 40 minutes for superpixel segmentation (CPU) and 1.5 hours for feature extraction (GPU) on a 40X objective 66K x 76K slide with 382,225 superpixels.
 
-1. Create project folders
+1. Create project directories
 ====================================================================
 
-Navigate to the folder where you want to generate a dataset
+Navigate to the directory where you want to generate a dataset
 
 .. code-block:: bash
 
   $ cd myproject
 
-Create directories in this base project folder to store superpixel boundaries and centroids
+Create subdirectories inside this base project directory to store superpixel boundaries, centroids, and whole-slide images
 
 .. code-block:: bash
 
   $ mkdir boundary centroid svs tif
 
-*myproject* is the base folder will contain all data needed to produce and import a HistomicsML dataset. The *svs* directory contains the whole-slide image files to be analyzed. The *tif* directory will contain tif conversions of the whole-slide image files needed for visualization. Data from a single slide is provided in the Docker images as an example.
+*myproject* is the base folder that exists on your system outside of the docker container. The *svs* directory contains the whole-slide image files to be analyzed. The *tif* directory will contain tif conversions of the whole-slide image files needed for visualization. Data from a single slide is provided in the Docker images as an example.
 
 
 2. Convert whole-slide images to pyramidal tif format
@@ -41,9 +41,9 @@ Use ``create_tiff.sh`` to convert '.svs' to '.tif' format
 
 .. code-block:: bash
 
-  $ docker run -it --rm --name convertslide -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 bash scripts/create_tiff.sh /svs tif
+  $ docker run -it --rm --name convertslide -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 bash scripts/create_tiff.sh /dataset/svs tif
 
-Parameters of the bash script ``create_tiff.sh`` can be adjusted to change the input and output directories. Change '/svs' to '/dataset/svs' when using your own slides. (default /svs).
+Here the -v option mounts the base project folder to ``/dataset`` inside the docker container. Parameters of the bash script ``create_tiff.sh`` can be adjusted to change the input and output directories.
 
 3. Generate superpixel segmentation
 ====================================================================
@@ -68,9 +68,9 @@ Parameters of the superpixel segmentation script ``SuperpixelSegmentation.py`` c
     SLIC compactness parameter. Range is [0.01, 100] (default 50).
 
   --inputSlidePath
-    Path to the directory of input slides. Set 'inputSlidePath' to '/dataset/svs/' when using your own slides. (default /svs/).
+    Path to the directory of input slides (default /dataset/svs/).
 
-Check the generated outputs: boundaries and centroids
+Check the generated outputs
 
 .. code-block:: bash
 
@@ -78,8 +78,9 @@ Check the generated outputs: boundaries and centroids
   boundary/your-slidename.txt
   centroid/your-slidename.h5
 
+A boundary and centroid file will be generated for each input slide.
 
-4. Generate features
+4. Generate features and PCA transformation
 ====================================================================
 
 Extract features using the whole-slide images and superpixel segmentation
@@ -88,9 +89,9 @@ Extract features using the whole-slide images and superpixel segmentation
 
   HistomicsML can be used to either train new classifiers, or to apply trained classifiers to new datasets (inference). When an existing classifier is applied to a new dataset it is important that the features in the training dataset and new dataset are extracted in a consistent manner.
 
-  During feature extraction a principal component analysis (PCA) is applied to the features to improve speed and performance. When a dataset is generated the PCA transformation can either be derived anew from the extracted features or imported from an existing dataset. If the goal is inference then the PCA transformation should be imported from the training set to ensure consistency with the trained classifier.
+  During feature extraction a principal component analysis (PCA) is applied to the features to improve speed and performance. This PCA transformation can either be derived anew from the extracted features or imported from an existing dataset. If performing inference then the PCA transformation should be imported from the training dataset to ensure consistency. If training we recommend generating a new transformation.
 
-  HistomicsML stores a PCA transformation as a .pkl file. These files should be managed by the user and linked during dataset generation and imported based on their needs.
+  HistomicsML stores a PCA transformation as a .pkl file in the base project directory. These files should be managed by the user and copied as needed when re-using a transformation.
 
 Parameters of the feature extraction script ``FeatureExtraction.py`` can be adjusted to change the size and shape of superpixels. In addition, a boolean is added to provide the existing PCA transformation.
 
@@ -101,10 +102,10 @@ Parameters of the feature extraction script ``FeatureExtraction.py`` can be adju
     Patch size of each superpixel. Range is [8, 512] (default 128).
 
   --usePCAmodel
-    'true' if re-using an exsiting PCA transformation. When applying a trained model to a new dataset (inference) the PCA transform from the training dataset should be re-used. 'false' to generate a new PCA transformation (default 'true').
+    'true' to use an existing transform for inference (default 'true'). Setting 'true' requires copying the existing .pkl file to the base directory and setting parameter 'inputPCAModel'. Setting 'false' generates a new PCA transformation with default filename 'pca_model_sample.pkl'.
 
   --inputPCAModel
-    Path to .pkl file defining existing PCA transformation.
+    Path and filename of .pkl for PCA transformation as mounted in the Docker container.
 
   --inputSlidePath
     Path to the directory of input slides as mounted in the Docker container. Typically '/dataset/svs/'.
@@ -112,19 +113,19 @@ Parameters of the feature extraction script ``FeatureExtraction.py`` can be adju
   --outputDataSetName
     Name of the HistomicsML dataset. '.h5' format should be used for ingestion (default HistomicsML_dataset.h5).
 
-On a CPU system
+To extract features on a CPU system
 
 .. code-block:: bash
 
   $ docker run -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py
 
-On a GPU system (currently supporting CUDA 9.0, Linux x86_64 Driver Version >= 384.81):
+To extract features on a GPU system (currently supporting CUDA 9.0, Linux x86_64 Driver Version >= 384.81):
 
 .. code-block:: bash
 
   $ docker run --runtime=nvidia -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py
 
-Check the generated outputs: HistomicsML dataset
+Check the generated outputs
 
 .. code-block:: bash
 
