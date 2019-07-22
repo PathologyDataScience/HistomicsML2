@@ -4,9 +4,10 @@
 Creating datasets for HistomicsML
 ===================================================
 
-Datasets are created using a single Docker container that performs superpixel segmentation, feature extraction, and dimensionality reduction. This page describes how to use this docker image to generate new datasets from whole-slide images.
+The dataset creation docker container provides all the functionality needed to generate HistomicsML datasets including slide format conversion, superpixel segmentation, feature extraction, and dimensionality reduction. This page describes how to use this docker image to generate new datasets from whole-slide image collections.
 
-.. note:: Processing time varies depending on hardware. On a two-CPU system equipped with two NVIDIA P100 GPUs we observed 40 minutes for superpixel segmentation (CPU) and 1.5 hours for feature extraction (GPU) on a 40X objective 66K x 76K slide with 382,225 superpixels.
+.. note:: Processing time for creating datasets varies depending on hardware. We observed 40 minutes for superpixel segmentation (CPU) and 1.5 hours for feature extraction (GPU) on a 40X objective 66K x 76K slide with 382,225 superpixels performed on a two-CPU system equipped with two NVIDIA P100 GPUs.
+
 
 1. Create project directories
 ====================================================================
@@ -102,7 +103,7 @@ Parameters of the feature extraction script ``FeatureExtraction.py`` can be adju
     Patch size of each superpixel. Range is [8, 512] (default 128).
 
   --usePCAmodel
-    'true' to use an existing transform for inference (default 'true'). Setting 'true' requires copying the existing .pkl file to the base directory and setting parameter 'inputPCAModel'. Setting 'false' generates a new PCA transformation with default filename 'pca_model_sample.pkl'.
+    'true' to use an existing transform for inference (default 'true'). Setting 'true' requires copying the existing .pkl file to the base directory and setting parameter 'inputPCAModel'. Setting 'false' generates a new PCA transformation with default filename 'pca_model_sample.pkl' in the base project folder.
 
   --inputPCAModel
     Path and filename of .pkl for PCA transformation as mounted in the Docker container.
