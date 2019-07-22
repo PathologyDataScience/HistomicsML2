@@ -25,6 +25,7 @@ First, check the identifier of the running database container ("cf2213792571" he
 Next use this ID to copy the boundary and slide information file to the database container
 
 .. code-block:: bash
+
    $ cd myproject
    $ docker cp boundary/your-slidename.txt cf2213792571:/db/your-slidename.txt
    $ docker cp HistomicsML_dataset.csv cf2213792571:/db/HistomicsML_dataset.csv
@@ -32,6 +33,7 @@ Next use this ID to copy the boundary and slide information file to the database
 Then perform the commit using the provided script
 
 .. code-block:: bash
+   
    $ docker exec -it cf2213792571 /bin/bash
    root@cf2213792571:/# db/import_boundary_slideinformation.sh path-to-slideinformation-file path-to-boundary-directory
    root@cf2213792571:/db# exit
