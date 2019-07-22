@@ -50,6 +50,8 @@ Use ``create_tiff.sh`` to convert '.svs' to '.tif' format
 
 Here the -v option mounts the base project folder to ``/dataset`` inside the docker container. Parameters of the bash script ``create_tiff.sh`` can be adjusted to change the input and output directories.
 
+.. note:: The conversion process also generates a .csv file describing the converted file dimensions and magnifications that will be committed to the database server during import.
+
 
 4. Generate superpixel segmentation
 ====================================================================
@@ -76,15 +78,13 @@ Parameters of the superpixel segmentation script ``SuperpixelSegmentation.py`` c
   --inputSlidePath
     Path to the directory of input slides (default /dataset/svs/).
 
-Check the generated outputs
+A boundary file and centroid fils will be generated for each input slide
 
 .. code-block:: bash
 
   $ ls boundary centroid
   boundary/your-slidename.txt
   centroid/your-slidename.h5
-
-A boundary and centroid file will be generated for each input slide.
 
 
 5. Generate features and PCA transformation
@@ -132,13 +132,39 @@ To extract features on a GPU system (currently supporting CUDA 9.0, Linux x86_64
 
   $ docker run --runtime=nvidia -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py
 
-Check the generated outputs
+After the dataset is created your base project directory will have the following contents:
 
 .. code-block:: bash
 
-  $ ls
-  HistomicsML_dataset.h5
-  pca_model_sample.pkl (will be created when 'usePCAModel' = false)
-  boundary/your-slidename.txt
-  centroid/your-slidename.h5
-  tif/your-slidename.dzi.tif
+  myproject/
+  |----- HistomicsML_dataset.h5
+  |----- pca_model_sample.pkl
+  |----- slide_info.txt
+  |----- boundary/
+  |      |----- slide1.txt
+  |      |----- slide2.txt
+  |      |----- slide3.txt
+  .       
+  .       
+  .       
+  |----- centroid/
+  |      |----- slide1.h5
+  |      |----- slide2.h5
+  |      |----- slide3.h5
+  .       
+  .       
+  .       
+  |----- svs/
+  |      |----- slide1.svs
+  |      |----- slide2.svs
+  |      |----- slide3.svs
+  .       
+  .       
+  .       
+  |----- tif/
+  |      |----- slide1.dzi.tif
+  |      |----- slide2.dzi.tif
+  |      |----- slide3.dzi.tif
+  .       
+  .       
+  .       
