@@ -9,7 +9,17 @@ The dataset creation docker container provides all the functionality needed to g
 .. note:: Processing time for creating datasets varies depending on hardware. We observed 40 minutes for superpixel segmentation (CPU) and 1.5 hours for feature extraction (GPU) on a 40X objective 66K x 76K slide with 382,225 superpixels performed on a two-CPU system equipped with two NVIDIA P100 GPUs.
 
 
-1. Create project directories
+1. Download the dataset creation container
+====================================================================
+
+Download the HistomicsML dataset creation container using the docker pull command
+
+.. code-block:: bash
+
+  $ docker pull cancerdatascience/hml_dataset_gpu:1.0
+  
+
+2. Create project directories
 ====================================================================
 
 Navigate to the directory where you want to generate a dataset
@@ -27,16 +37,10 @@ Create subdirectories inside this base project directory to store superpixel bou
 *myproject* is the base folder that exists on your system outside of the docker container. The *svs* directory contains the whole-slide image files to be analyzed. The *tif* directory will contain tif conversions of the whole-slide image files needed for visualization. Data from a single slide is provided in the Docker images as an example.
 
 
-2. Convert whole-slide images to pyramidal tif format
+3. Convert whole-slide images to pyramidal tif format
 ====================================================================
 
 Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the `IIPImage server <http://iipimage.sourceforge.net/documentation/server/)>`_. The data generation docker contains the `VIPs library <http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS>`_ to support this conversion.
-
-Download the HistomicsML dataset creation Docker container
-
-.. code-block:: bash
-
-  $ docker pull cancerdatascience/hml_dataset_gpu:1.0
 
 Use ``create_tiff.sh`` to convert '.svs' to '.tif' format
 
@@ -46,7 +50,8 @@ Use ``create_tiff.sh`` to convert '.svs' to '.tif' format
 
 Here the -v option mounts the base project folder to ``/dataset`` inside the docker container. Parameters of the bash script ``create_tiff.sh`` can be adjusted to change the input and output directories.
 
-3. Generate superpixel segmentation
+
+4. Generate superpixel segmentation
 ====================================================================
 
 Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroids
@@ -81,7 +86,8 @@ Check the generated outputs
 
 A boundary and centroid file will be generated for each input slide.
 
-4. Generate features and PCA transformation
+
+5. Generate features and PCA transformation
 ====================================================================
 
 Extract features using the whole-slide images and superpixel segmentation
@@ -103,7 +109,7 @@ Parameters of the feature extraction script ``FeatureExtraction.py`` can be adju
     Patch size of each superpixel. Range is [8, 512] (default 128).
 
   --usePCAmodel
-    'true' to use an existing transform for inference (default 'true'). Setting 'true' requires copying the existing .pkl file to the base directory and setting parameter 'inputPCAModel'. Setting 'false' generates a new PCA transformation with default filename 'pca_model_sample.pkl' in the base project folder.
+    'true' to use an existing transform for inference. Setting 'true' requires copying the existing .pkl file to the base directory and setting parameter 'inputPCAModel'. Setting 'false' generates a new PCA transformation with default filename 'pca_model_sample.pkl' in the base project folder (default 'false').
 
   --inputPCAModel
     Path and filename of .pkl for PCA transformation as mounted in the Docker container.
