@@ -4,14 +4,14 @@
 Importing datasets
 ============================
 
-This section demonstrates the data import process using the example data provided with the database docker container. During import, datasets in HistomicsML are first registered in the database container at the command line. Following database registration, datasets can be imported through the HistomicsML user interface.
+This section demonstrates the data import process using the example data provided with the database docker container. During import, datasets in HistomicsML are first registered in the database container at the command line. Following database registration, datasets can be imported using the HistomicsML user interface.
 
-.. note:: Importing superpixel boundaries into the database is time consuming given their size. This is the reason that the import process is not driven entirely through the user interface.
+.. note:: Importing superpixel boundaries to the database is time consuming. For this reason, the some import steps take place at the command line.
 
 
 1. Run the database import script
 ====================================================================
-Import boundary data and slide information to the database docker container and commit to the database
+Import boundary data and slide information to the database docker container and commit to the database using the provided script
 
 .. code-block:: bash
 
@@ -29,14 +29,17 @@ Import boundary data and slide information to the database docker container and 
    root@cf2213792571:/# db/import_boundary_slideinformation.sh path-to-slideinformation-file path-to-boundary-directory
    root@cf2213792571:/db# exit
 
-2. Add PCA model to base folder (optional - for inference only)
+
+2. Add PCA model to base folder (for inference only)
 ====================================================================
 
-If you applying an existing classifier to this dataset to perform inference, you will need to copy the corresponding PCA .pkl file from this classifier to your base folder.
+If performing inference you will need to copy the .pkl file for the PCA transform into your base folder.
 
 .. code-block:: bash
 
-  $ docker cp 4e73571843f3:/src/gitrepo/scripts/brca_pca_model_sample.pkl ./
+  $ cp /source/existing_pca.pkl /myproject/
+
+This folder /myproject is mounted on the docker container and so the .pkl file will be available to the container during import.
 
 
 3. Import dataset using the web interface
