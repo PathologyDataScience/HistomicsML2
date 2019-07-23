@@ -17,7 +17,7 @@ Use the docker pull command to download the dataset creation container
 .. code-block:: bash
 
   $ docker pull cancerdatascience/hml_dataset_gpu:1.0
-  
+
 
 2. Create project directories
 ====================================================================
@@ -37,7 +37,37 @@ Create subdirectories inside this base project directory to store superpixel bou
 *myproject* is the base folder that exists on your system outside of the docker container. The *svs* directory contains the whole-slide image files to be analyzed. The *tif* directory will contain tif conversions of the whole-slide image files needed for visualization. Data from a single slide is provided in the Docker images as an example.
 
 
-3. Convert whole-slide images to pyramidal tif format
+3. Create whole-slide information
+====================================================================
+
+Create a whole-slide image information as a .csv file format.
+
+Use ``CreateSlideInformation.py`` to create the whole-slide information
+
+.. code-block:: bash
+
+  $ docker run -it --rm --name createinfo -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/CreateSlideInformation.py --inputSlidePath /dataset/svs  --projectTitle myproject --outputFileName myproject.csv
+
+Here the -v option mounts the base project folder to ``/dataset`` inside the docker container.
+
+Parameters of the whole-slide information script ``CreateSlideInformation.py`` can be adjusted to change the directory of the slides, the project title, and the output file name
+
+  --inputSlidePath
+    Path to the directory of input slides as mounted in the Docker container. Typically '/dataset/svs'.
+
+
+  --projectTitle
+    Name of the project directory. Default 'myProject'.
+
+
+  --outputFileName
+    Output slide information file name. Default 'mySlideInformation.csv'.
+
+
+.. note:: This process generates a .csv file describing the whole-slide image dimensions and magnifications that will be committed to the database server during import.
+
+
+4. Convert whole-slide images to pyramidal tif format
 ====================================================================
 
 Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the `IIPImage server <http://iipimage.sourceforge.net/documentation/server/)>`_. The data generation docker contains the `VIPs library <http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS>`_ to support this conversion.
@@ -46,14 +76,12 @@ Use ``create_tiff.sh`` to convert '.svs' to '.tif' format
 
 .. code-block:: bash
 
-  $ docker run -it --rm --name convertslide -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 bash scripts/create_tiff.sh /dataset/svs tif
+  $ docker run -it --rm --name convertslide -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 bash scripts/create_tiff.sh /dataset/svs /dataset/tif
 
 Here the -v option mounts the base project folder to ``/dataset`` inside the docker container. Parameters of the bash script ``create_tiff.sh`` can be adjusted to change the input and output directories.
 
-.. note:: The conversion process also generates a .csv file describing the converted file dimensions and magnifications that will be committed to the database server during import.
 
-
-4. Generate superpixel segmentation
+5. Generate superpixel segmentation
 ====================================================================
 
 Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroids
@@ -87,7 +115,7 @@ A boundary file and centroid fils will be generated for each input slide
   centroid/your-slidename.h5
 
 
-5. Generate features and PCA transformation
+6. Generate features and PCA transformation
 ====================================================================
 
 Extract features using the whole-slide images and superpixel segmentation
@@ -139,32 +167,32 @@ After the dataset is created your base project directory will have the following
   myproject/
   |----- HistomicsML_dataset.h5
   |----- pca_model_sample.pkl
-  |----- slide_info.txt
+  |----- mySlideInformation.csv
   |----- boundary/
   |      |----- slide1.txt
   |      |----- slide2.txt
   |      |----- slide3.txt
-  .       
-  .       
-  .       
+  .
+  .
+  .
   |----- centroid/
   |      |----- slide1.h5
   |      |----- slide2.h5
   |      |----- slide3.h5
-  .       
-  .       
-  .       
+  .
+  .
+  .
   |----- svs/
   |      |----- slide1.svs
   |      |----- slide2.svs
   |      |----- slide3.svs
-  .       
-  .       
-  .       
+  .
+  .
+  .
   |----- tif/
   |      |----- slide1.dzi.tif
   |      |----- slide2.dzi.tif
   |      |----- slide3.dzi.tif
-  .       
-  .       
-  .       
+  .
+  .
+  .
