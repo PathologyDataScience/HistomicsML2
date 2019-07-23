@@ -12,10 +12,11 @@ The dataset creation docker container provides all the functionality needed to g
 1. Download the dataset creation container
 ====================================================================
 
-Use the docker pull command to download the dataset creation container
+Use the docker pull command to download the dataset creation container. Two dataset creation containers are available. Use ``cancerdatascience/hml_dataset_cpu:1.0`` for the CPU system. Use ``cancerdatascience/hml_dataset_gpu:1.0`` for the GPU system.
 
 .. code-block:: bash
 
+  $ docker pull cancerdatascience/hml_dataset_cpu:1.0
   $ docker pull cancerdatascience/hml_dataset_gpu:1.0
 
 
@@ -152,7 +153,7 @@ To extract features on a CPU system
 
 .. code-block:: bash
 
-  $ docker run -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py
+  $ docker run -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_cpu:1.0 python scripts/FeatureExtraction.py
 
 To extract features on a GPU system (currently supporting CUDA 9.0, Linux x86_64 Driver Version >= 384.81):
 
