@@ -17,7 +17,7 @@ HistomicsML-TA is implemented as collection of three docker containers:
   │
   ├── histomicsml
   │
-  └── histomicsml_db
+  ├── histomicsml_db
   │
   └── hml_dataset_gpu
 
@@ -35,7 +35,6 @@ HistomicsML can be deployed on any platform via the following steps:
 
 .. code-block:: bash
 
-  # pull a docker image for HistomicsML-TA database
   $ docker pull cancerdatascience/histomicsml_db:1.0
   $ docker pull cancerdatascience/histomicsml:1.0
 
