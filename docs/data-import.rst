@@ -11,7 +11,9 @@ This section demonstrates the data import process using the example data provide
 
 1. Run the database import script
 ====================================================================
-Import boundary data and slide information to the database docker container and commit to the database using the provided script
+The first step in importing a dataset is to commit the superpixel boundaries and slide information .csv file to the database.
+
+First, check the identifier of the running database container ("cf2213792571" here).
 
 .. code-block:: bash
 
@@ -19,12 +21,19 @@ Import boundary data and slide information to the database docker container and 
    CONTAINER ID        IMAGE                                  COMMAND                  CREATED             STATUS              PORTS                                                   NAMES
    4e73571843f3        cancerdatascience/histomicsml:1.0      "/bin/bash"              4 hours ago         Up 3 hours          0.0.0.0:80->80/tcp, 0.0.0.0:6379->6379/tcp, 20000/tcp   hml
    cf2213792571        cancerdatascience/histomicsml_db:1.0   "docker-entrypoint.s…"   4 hours ago         Up 4 hours          0.0.0.0:3306->3306/tcp                                  hmldb
+   
+Next use this ID to copy the boundary and slide information file to the database container
+
+.. code-block:: bash
+
    $ cd myproject
-   # create your slide information (see ``Formatting datasets`` for details)
-   $ cat HistomicsML_dataset.csv
-   your-slidename,66816,75520,/localdata/pyramids/myproject/your-slidename.svs.dzi.tif,2
    $ docker cp boundary/your-slidename.txt cf2213792571:/db/your-slidename.txt
    $ docker cp HistomicsML_dataset.csv cf2213792571:/db/HistomicsML_dataset.csv
+
+Then perform the commit using the provided script
+
+.. code-block:: bash
+   
    $ docker exec -it cf2213792571 /bin/bash
    root@cf2213792571:/# db/import_boundary_slideinformation.sh path-to-slideinformation-file path-to-boundary-directory
    root@cf2213792571:/db# exit
@@ -33,13 +42,13 @@ Import boundary data and slide information to the database docker container and 
 2. Add PCA model to base folder (for inference only)
 ====================================================================
 
-If performing inference you will need to copy the .pkl file for the PCA transform into your base folder.
+If performing inference the .pkl file corresponding to the trained classifier needs to be copied into your base folder
 
 .. code-block:: bash
 
   $ cp /source/existing_pca.pkl /myproject/
 
-This folder /myproject is mounted on the docker container and so the .pkl file will be available to the container during import.
+The directory /myproject is mounted on the docker container and so the .pkl file will be available to the container during import.
 
 
 3. Import dataset using the web interface
@@ -47,7 +56,7 @@ This folder /myproject is mounted on the docker container and so the .pkl file w
 With the webserver and database containers running, mount your base directory to the web-server container and navigate to the user interface to import the data.
 
 * Open the web page http://localhost/HistomicsML/data.html
-* Enter a dataset name and select ``Project Directory``,  ``Slide Information``, ``PCA Information``, ``Features`` from the dropdown list.
+* Enter a dataset name and select your base project directory from ``Project Directory``. The fields for ``Slide Information``, ``PCA Information``, ``Features`` will automatically populate after selecting the project folder. If you have multiple versions of these files in a project folder then these alternative files can be accessed with the list buttons.
 * Click Submit to confirm
 
 .. image:: images/import.png
