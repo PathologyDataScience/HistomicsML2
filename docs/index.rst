@@ -6,8 +6,8 @@ HistomicsML-TA is a tissue-agnostic framework for classifying histologic structu
 .. toctree::
    :maxdepth: 2
 
-   installation
-   example
+   example-data
+   training
    reports
    data-create
    data-import
