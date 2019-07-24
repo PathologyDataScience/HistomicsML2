@@ -4,77 +4,75 @@
 Formatting datasets
 ==============
 
-This section describes how to format your own datasets for importing into HistomicsML-TA. A datasets consists of whole-slide images (.tif), a slide description (.csv), object boundaries (.txt) and histomic features (.h5).
+The format described here provides a template for users to generate HistomicsML datasets using their own segmentation and feature extraction methods. This section describes how to format user-generated data for import into HistomicsML and references the example dataset provided with the Docker containers.
 
-Whole-slide images
-------------------
+A dataset consists of whole-slide images (.tif), a slide description table (.csv), object boundaries (.txt), histomic features (.h5), and optionally a PCA model (.pkl).
 
-Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the `IIPImage server <http://iipimage.sourceforge.net/documentation/server/)>`_. We have used `VIPs <http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS>`_ to perform this conversion for our datasets. VIPs is included in the data creation docker container (see Creating datasets for HistomicsML for details).
 
-Slide description
+Slide description file
 ------------------------------------
-A table (.csv) needs to be created to capture the dimensions, magnification, and location of the files for each slide image:
+A sample .csv table describes the dimensions, magnification, and location of the files for each whole-slide image on one line:
 
 .. code-block:: bash
 
   <slide name>,<width in pixels>,<height in pixels>,<path to the pyramid on IIPServer>,<scale>
 
-where scale = 1 for 20x and scale = 2 for 40x.
+where scale = 1 for 20X objective scans, and scale = 2 for 40X objective scans. The file extension of the slides are not included in the slide name.
 
-For the sample data provided in the database container, our slide description file (BRCA-pyramids.csv) has the following contents:
+The contents of the example slide information file:
 
 .. code-block:: bash
 
+   $ more /fastdata/features/BRCA/BRCA-pyramids.csv
    TCGA-3C-AALJ-01Z-00-DX1,95744,86336,/localdata/pyramids/BRCA/TCGA-3C-AALJ-01Z-00-DX1.svs.dzi.tif,2
 
 
-
-Object boundaries
+Object boundaries file
 ----------
-Boundary information is formatted as a tab-delimited text file where each line describes the centroids and boundary coordinates for one object:
+This .txt describes the centroids and boundary coordinates for each superpixel on one line:
 
 .. code-block:: bash
 
   <slide name> \t <centroid x coordinate> \t <centroid y coordinate> \t <boundary points>
 
 where \t is a tab character and <boundary points> are formatted as:
-x1,y1 x2,y2 x3,y3 ... xN,yN (with spaces between coordinate pairs)
+x1,y1 x2,y2 x3,y3 ... xN,yN (with a single space separating x,y coordinate pairs)
 
-One line from the sample data boundaries file (BRCA-boundaries.txt):
+One line from the example boundaries file:
 
 .. code-block:: bash
 
+  $ head -n1 /fastdata/features/BRCA/BRCA-boundaries.txt
   TCGA-3C-AALJ-01Z-00-DX1 2250.1 4043.0 2246,4043 2247,4043 2247 ... 2247,4043 2246,4043
 
 
-
-Histomic features
+Features file
 --------
 
-Features are stored in an HDF5 binary array format. The HDF5 file contains the following variables:
+Features are stored in an HDF5 binary array. The HDF5 file contains the following variables:
 
 .. code-block:: bash
 
   /slides -	Names of the slides/images in the dataset
   /features - A D x N array of floats containing the feature values for each object in the dataset (D objects, each with N features).
-  /slideIdx - N-length array containing the slide index of each object. These indices can be used with the 'slides' variable to determine what slide each object originates from.
-  /x_centroid - N-length array of floats containing the x coordinate of object centroids.
-  /y_centroid - N-length array of floats containing the x coordinate of object centroids.
-  /dataIdx - Array containing the index of the first object of each slide in 'features', 'x_centroid', and 'y_centroid' (this information can also be obtained from 'slideIdx' and will be eliminated in the future).
+  /slideIdx - D-length array containing the slide index of each object. Integer indices are assigned to each entry in 'slides' and are used to determine what slide each object originates from.
+  /x_centroid - D-length array of floats containing the x coordinate of object centroids. Units are pixels in the base magnification layer, typically 20X or 40X.
+  /y_centroid - D-length array of floats containing the y coordinate of object centroids. Units are pixels in the base magnification layer, typically 20X or 40X.
+  /dataIdx - Array containing the object indices of the first object in each slide. Used to index by slide into the arrays 'features', 'x_centroid', and 'y_centroid'.
   /wsi_mean - Sample mean of the image in LAB color space for Reinhard color normalization.
   /wsi_std - Sample standard deviation of the image in LAB color space for Reinhard color normalization.
 
-The sample file (BRCA-features-1.h5) provided in the database docker container can be queried to examine the structure with the following the command.
+The contents of the feature file from the example feature file can be viewed using python's h5py library
 
 .. code-block:: python
 
-  >>> import h5py
-  >>> file="BRCA-features-1.h5"
-  >>> contents = h5py.File(file)
-  >>> for i in contents:
+  >> import h5py
+  >> file="/fastdata/features/BRCA/BRCA-features-1.h5"
+  >> contents = h5py.File(file)
+  >> for i in contents:
   ...     print i
   ...
-  # for loop will print out the feature information under the root of HDF5.
+  # for loop will print out the feature information under the root of the HDF5.
 
   dataIdx
   features
@@ -85,9 +83,9 @@ The sample file (BRCA-features-1.h5) provided in the database docker container c
   x_centroid
   y_centroid
 
-  #for further step, if you want to see the details.
+  #contents of the 'features' array
 
-  >>> contents['features'][0]
+  >> contents['features'][0]
   array([-6.6270187e+01,  2.2519203e+01,  1.9128393e+01, -5.5189757e+00,
         4.8610997e+00,  6.4421225e-01, -2.8530896e+00,  4.4713855e+00,
         5.2029357e+00,  2.1140134e+00,  4.0678120e+00,  5.7025075e+00,
