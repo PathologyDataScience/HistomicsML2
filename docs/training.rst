@@ -1,7 +1,7 @@
 .. highlight:: shell
 
 ============
-Training a classifier
+Using HistomicsML
 ============
 
 This page illustrates how to use the HistomicsML-TA interfaces to train classification rules using the example data provided in the Docker container.
