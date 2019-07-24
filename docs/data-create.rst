@@ -4,7 +4,9 @@
 Creating datasets for HistomicsML
 ===================================================
 
-The dataset creation docker container provides all the functionality needed to generate HistomicsML datasets including slide format conversion, superpixel segmentation, feature extraction, and dimensionality reduction. This page describes how to use this docker image to generate new datasets from whole-slide image collections.
+The dataset creation docker container provides all the functionality needed to create new HistomicsML datasets. This page describes how to use this docker image to generate new datasets from whole-slide image datasets.
+
+.. note:: When working with user-generated datasets you will be mounting folders from the local filesystem to be visible as volumes within the various Docker containers. When we refer to paths in the documentation we are careful to note whether these paths are on the local system or a mounted volume inside a container.
 
 .. note:: Processing time for creating datasets varies depending on hardware. We observed 40 minutes for superpixel segmentation (CPU) and 1.5 hours for feature extraction (GPU) on a 40X objective 66K x 76K slide with 382,225 superpixels performed on a two-CPU system equipped with two NVIDIA P100 GPUs.
 
@@ -12,60 +14,56 @@ The dataset creation docker container provides all the functionality needed to g
 1. Download the dataset creation container
 ====================================================================
 
-Use the docker pull command to download the dataset creation container. Two dataset creation containers are available. Use ``cancerdatascience/hml_dataset_cpu:1.0`` for the CPU system. Use ``cancerdatascience/hml_dataset_gpu:1.0`` for the GPU system.
+Use the docker pull command to download the dataset creation container. Use ``cancerdatascience/hml_dataset_gpu:1.0`` if running on a GPU-equipped system to accelerate feature extraction.
 
 .. code-block:: bash
 
   $ docker pull cancerdatascience/hml_dataset_cpu:1.0
+  #if running on a GPU system use this container instead
   $ docker pull cancerdatascience/hml_dataset_gpu:1.0
 
 
 2. Create project directories
 ====================================================================
 
-Navigate to the directory where you want to generate a dataset
+On the local file system, navigate to the directory where you want to store and generate project files
 
 .. code-block:: bash
 
   $ cd myproject
 
-Create subdirectories inside this base project directory to store superpixel boundaries, centroids, and whole-slide images
+Create subdirectories to store superpixel boundaries, centroids, and whole-slide images
 
 .. code-block:: bash
 
   $ mkdir boundary centroid svs tif
 
-*myproject* is the base folder that exists on your system outside of the docker container. The *svs* directory contains the whole-slide image files to be analyzed. The *tif* directory will contain tif conversions of the whole-slide image files needed for visualization. Data from a single slide is provided in the Docker images as an example.
+The base project directory *myproject* will be mounted inside the data creation docker during dataset creation, and again by the database and server containers during dataset import and runtime.
 
 
 3. Create whole-slide information
 ====================================================================
 
-Create a whole-slide image information as a .csv file format.
-
-Use ``CreateSlideInformation.py`` to create the whole-slide information
+Create a .csv table describing the whole-slide images using ``CreateSlideInformation.py``
 
 .. code-block:: bash
 
   $ docker run -it --rm --name createinfo -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/CreateSlideInformation.py --inputSlidePath /dataset/svs  --projectTitle myproject --outputFileName myproject.csv
 
-Here the -v option mounts the base project folder to ``/dataset`` inside the docker container.
+Here the -v option mounts the base project folder to ``/dataset`` inside the container.
 
-Parameters of the whole-slide information script ``CreateSlideInformation.py`` can be adjusted to change the directory of the slides, the project title, and the output file name
+The directory of the slides, the project title, and the output filename can be adjusted using parameters
 
   --inputSlidePath
-    Path to the directory of input slides as mounted in the Docker container. Typically '/dataset/svs'.
-
+    Path of input slides as mounted in the data creation container. Typically '/dataset/svs'.
 
   --projectTitle
     Name of the project directory. Default 'myProject'.
 
-
   --outputFileName
     Output slide information file name. Default 'mySlideInformation.csv'.
 
-
-.. note:: This process generates a .csv file describing the whole-slide image dimensions and magnifications that will be committed to the database server during import.
+.. note:: The .csv file describes the whole-slide image dimensions and magnifications and will be ingested by the HistomicsML database during dataset import.
 
 
 4. Convert whole-slide images to pyramidal tif format
@@ -79,7 +77,7 @@ Use ``create_tiff.sh`` to convert '.svs' to '.tif' format
 
   $ docker run -it --rm --name convertslide -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 bash scripts/create_tiff.sh /dataset/svs /dataset/tif
 
-Here the -v option mounts the base project folder to ``/dataset`` inside the docker container. Parameters of the bash script ``create_tiff.sh`` can be adjusted to change the input and output directories.
+Here ``/dataset/svs`` is the path of the whole-slide images inside the data creation docker, and ``/dataset/tif`` is the location where the converted tif files will be generated. The generated tifs will appear in the tif subdirectory on the local file system as well.
 
 
 5. Generate superpixel segmentation
@@ -90,8 +88,6 @@ Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroid
 .. code-block:: bash
 
   $ docker run -it --rm --name createboundary -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/SuperpixelSegmentation.py --superpixelSize 64 --patchSize 128
-
-The -v option here mounts the base project folder inside the Docker container so the data can be output there.
 
 Parameters of the superpixel segmentation script ``SuperpixelSegmentation.py`` can be adjusted to change the size, shape, and threshold of superpixels to discard background regions
 
@@ -105,31 +101,27 @@ Parameters of the superpixel segmentation script ``SuperpixelSegmentation.py`` c
     SLIC compactness parameter. Range is [0.01, 100] (default 50).
 
   --inputSlidePath
-    Path to the directory of input slides (default /dataset/svs/).
-
-A boundary file and centroid fils will be generated for each input slide
-
-.. code-block:: bash
-
-  $ ls boundary centroid
-  boundary/your-slidename.txt
-  centroid/your-slidename.h5
+    Path of input slides as mounted in the data creation container. Typically '/dataset/svs'.
 
 
 6. Generate features and PCA transformation
 ====================================================================
 
-Extract features using the whole-slide images and superpixel segmentation
+Use ``FeatureExtraction.py`` to extract features from the superpixel segmentation. 
 
-.. note:: Training, inference, and PCA transformation
+To extract features on a CPU system
 
-  HistomicsML can be used to either train new classifiers, or to apply trained classifiers to new datasets (inference). When an existing classifier is applied to a new dataset it is important that the features in the training dataset and new dataset are extracted in a consistent manner.
+.. code-block:: bash
 
-  During feature extraction a principal component analysis (PCA) is applied to the features to improve speed and performance. This PCA transformation can either be derived anew from the extracted features or imported from an existing dataset. If performing inference then the PCA transformation should be imported from the training dataset to ensure consistency. If training we recommend generating a new transformation.
+  $ docker run -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_cpu:1.0 python scripts/FeatureExtraction.py
 
-  HistomicsML stores a PCA transformation as a .pkl file in the base project directory. These files should be managed by the user and copied as needed when re-using a transformation.
+To extract features on a GPU equipped system (currently supporting CUDA 9.0, Linux x86_64 Driver Version >= 384.81):
 
-Parameters of the feature extraction script ``FeatureExtraction.py`` can be adjusted to change the size and shape of superpixels. In addition, a boolean is added to provide the existing PCA transformation.
+.. code-block:: bash
+
+  $ docker run --runtime=nvidia -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py
+  
+Parameters of the feature extraction script can be adjusted to change the patch size and dimensionality reduction process
 
   --superpixelSize
     Superpixel edge length in pixels. Range is [8, 256] (default 64).
@@ -141,27 +133,28 @@ Parameters of the feature extraction script ``FeatureExtraction.py`` can be adju
     'true' to use an existing transform for inference. Setting 'true' requires copying the existing .pkl file to the base directory and setting parameter 'inputPCAModel'. Setting 'false' generates a new PCA transformation with default filename 'pca_model_sample.pkl' in the base project folder (default 'false').
 
   --inputPCAModel
-    Path and filename of .pkl for PCA transformation as mounted in the Docker container.
+    Path and filename of .pkl for PCA transformation as mounted in the data creation container.
 
   --inputSlidePath
-    Path to the directory of input slides as mounted in the Docker container. Typically '/dataset/svs/'.
+    Path to the directory of input slides as mounted in the data creation container. Typically '/dataset/svs/'.
 
   --outputDataSetName
     Name of the HistomicsML dataset. '.h5' format should be used for ingestion (default HistomicsML_dataset.h5).
 
-To extract features on a CPU system
 
-.. code-block:: bash
+An important note on training, inference, and the PCA transformation:
 
-  $ docker run -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_cpu:1.0 python scripts/FeatureExtraction.py
+.. note::  HistomicsML can be used to either train new classifiers, or to apply trained classifiers to new datasets (inference). When doing inference it is important that features are extracted in a consistent manner from the training dataset and new dataset.
 
-To extract features on a GPU system (currently supporting CUDA 9.0, Linux x86_64 Driver Version >= 384.81):
+  During feature extraction a principal component analysis (PCA) transformation is applied to the features to improve speed and performance. This transformation can either be newly generated from the extracted features or imported from an existing dataset. For inference the transformation should be imported from the desired training dataset to ensure consistent feature extraction. For training we recommend generating a new transformation in most cases.
 
-.. code-block:: bash
+  HistomicsML stores a PCA transformation as a .pkl file in the base project directory. These files should be managed and copied between directories as needed for re-use.
 
-  $ docker run --runtime=nvidia -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py
 
-After the dataset is created your base project directory will have the following contents:
+Completed dataset
+====================================================================
+
+Following these steps the base project directory on your local file system will have the following contents:
 
 .. code-block:: bash
 
