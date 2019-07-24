@@ -65,10 +65,10 @@ The sample file (BRCA-features-1.h5) provided in the database docker container c
 
 .. code-block:: python
 
-  $ import h5py
-  $ file="BRCA-features-1.h5"
-  $ contents = h5py.File(file)
-  $ for i in contents:
+  >> import h5py
+  >> file="BRCA-features-1.h5"
+  >> contents = h5py.File(file)
+  >> for i in contents:
   ...     print i
   ...
   # for loop will print out the feature information under the root of the HDF5.
@@ -84,7 +84,7 @@ The sample file (BRCA-features-1.h5) provided in the database docker container c
 
   #contents of the 'features' array
 
-  $ contents['features'][0]
+  >> contents['features'][0]
   array([-6.6270187e+01,  2.2519203e+01,  1.9128393e+01, -5.5189757e+00,
         4.8610997e+00,  6.4421225e-01, -2.8530896e+00,  4.4713855e+00,
         5.2029357e+00,  2.1140134e+00,  4.0678120e+00,  5.7025075e+00,
