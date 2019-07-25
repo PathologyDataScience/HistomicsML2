@@ -22,6 +22,6 @@ class Settings():
         # initialize datasets
         self.FEATURE_DIM = 64
         self.IS_HEATMAP = False
-        self.TRAININGSET_DIR = "/localdata/classifiers/"
-        self.DATASET_DIR = "/fastdata/features/"
-        self.PATH_TO_SPECIAL = "/fastdata/features/BRCA/BRCA-spfeatures-1.h5"
+        self.TRAININGSET_DIR = "/datasets/classifiers/"
+        self.DATASET_DIR = "/datasets/"
+        self.PATH_TO_SPECIAL = "/datasets/BRCA/BRCA-spfeatures-1.h5"

@@ -31,21 +31,36 @@ var array_mean = "";
 
 $(function() {
 
-	projectDirMain = "/fastdata/features/";
+	projectDirMain = "/datasets/";
+
+	// $.ajax({
+	// 	type: "POST",
+	// 	url: "php/data_getprojects.php",
+	// 	data: { projectDirMain: projectDirMain },
+	// 	dataType: "json",
+	// 	success: function(data) {
+	// 		// set first featurename
+	// 		for (var i = 0; i < data['projectDir'].length; i++) {
+	// 			$("#projectSel").append(new Option(data['projectDir'][i], data['projectDir'][i]));
+	// 		}
+	// 		updateFeature();
+	// 	}
+	// });
 
 	$.ajax({
 		type: "POST",
-		url: "php/data_getprojects.php",
-		data: { projectDirMain: projectDirMain },
+		url: "db/getdatasets.php",
+		data: {},
 		dataType: "json",
 		success: function(data) {
 			// set first featurename
-			for (var i = 0; i < data['projectDir'].length; i++) {
-				$("#projectSel").append(new Option(data['projectDir'][i], data['projectDir'][i]));
+			for( var item in data ) {
+				$("#projectSel").append(new Option(data[item][0], data[item][0]));
 			}
 			updateFeature();
 		}
 	});
+
 
 	$("#projectSel").change(updateFeature);
 

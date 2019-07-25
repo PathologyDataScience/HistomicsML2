@@ -325,7 +325,7 @@ def run():
                 t1 = time()
                 print "Predict took ", t1 - t0
 
-                inputImageFile = '/localdata/pyramids/'+ q["dataset"].split('/')[0] +'/' + report_label.slide + '.svs.dzi.tif'
+                inputImageFile = '/datasets/tif/'+ report_label.slide + '.svs.dzi.tif'
 
                 bold = 512
                 bold_left = report_label.left - bold
