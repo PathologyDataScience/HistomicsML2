@@ -58,8 +58,8 @@ def run():
     uset = users.Users()
 
     # store special features in memory
-    dset_special = dataset.Dataset(set.PATH_TO_SPECIAL)
-    # dset_special = None
+    # dset_special = dataset.Dataset(set.PATH_TO_SPECIAL)
+    dset_special = None
     print "Dataset Loaded."
     # set normal features in memory to false
     is_normal_loaded = True
@@ -950,7 +950,7 @@ def run():
 
                 model = networks.Network()
                 model.init_model()
-                dset = dataset.Dataset(set.PATH_TO_SPECIAL)
+                # dset = dataset.Dataset(set.PATH_TO_SPECIAL)
 
                 data = {"success": 'pass'}
                 db.set(q_uid, json.dumps(data))
