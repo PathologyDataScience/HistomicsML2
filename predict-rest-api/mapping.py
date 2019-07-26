@@ -14,8 +14,8 @@ class map():
 	def setData(self, q):
 		self.uid = q["uid"]
 		self.slide = str(q["slide"])
-		self.trainSet = '/localdata/classifiers/' + str(q["trainset"])
+		self.trainSet = '/datasets/classifiers/' + str(q["trainset"])
 		self.classifier = str(q["trainset"])
 		self.dataSet = str(q["dataset"])
-		self.inFile = '/localdata/classifiers/tmp/' + self.slide + '_' + str(q["trainset"]) + '_' + self.dataSet.split('/')[1] + '.h5'
+		self.inFile = '/datasets/classifiers/tmp/' + self.slide + '_' + str(q["trainset"]) + '_' + self.dataSet.split('/')[1] + '.h5'
 		self.outFile = 'trainingsets/tmp/' + self.slide + '_' + str(q["trainset"]) + '_' + self.dataSet.split('/')[1] + '.h5'

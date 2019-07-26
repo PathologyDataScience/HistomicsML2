@@ -32,7 +32,7 @@
 	require 'hostspecs.php';
 
 	$datasetName = $_POST['datasetName'];
-	$projectDirectory = '/fastdata/features/'.$_POST['project'];
+	$projectDirectory = '/datasets/'.$_POST['project'];
 	$slideInfoFile = $_POST['pyramid'];
 	$featureFile = $_POST['feature'];
 	$pcaFile = $_POST['pca'];
