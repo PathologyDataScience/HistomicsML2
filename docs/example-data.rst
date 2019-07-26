@@ -26,8 +26,8 @@ To explore the example dataset we need to download the database and server conta
 
 .. code-block:: bash
 
-  $ docker pull cancerdatascience/histomicsml_db:1.0
-  $ docker pull cancerdatascience/histomicsml:1.0
+  $ docker pull cancerdatascience/histomicsml_db:example
+  $ docker pull cancerdatascience/histomicsml:example
 
 2. Run the HistomicsML database container
 ====================================================================
@@ -37,7 +37,7 @@ Run the database container and setup a network to communicate with the server co
 .. code-block:: bash
 
   $ docker network create --subnet=172.18.0.0/16 hmlnet
-  $ docker run -d --net hmlnet --ip="172.18.0.5" -t -i -e MYSQL_ROOT_PASSWORD='pass' -e MYSQL_DATABASE='nuclei' -p 3306:3306 --name hmldb cancerdatascience/histomicsml_db:1.0
+  $ docker run -d --net hmlnet --ip="172.18.0.5" -t -i -e MYSQL_ROOT_PASSWORD='pass' -e MYSQL_DATABASE='nuclei' -p 3306:3306 --name hmldb cancerdatascience/histomicsml_db:example
 
 .. note:: The database and server dockers run Apache and Mysql servers on ports 80 and 3306 respectively.
    Check if these ports are in use before deploying HistomicsML.
@@ -45,11 +45,11 @@ Run the database container and setup a network to communicate with the server co
 3. Run the HistomicsML web server container
 ====================================================================
 
-Run the server container, start Redis and Apache, then launch HistomicsML 
+Run the server container, start Redis and Apache, then launch HistomicsML
 
 .. code-block:: bash
 
-  $ docker run --net hmlnet -i -t -p 80:80 -p 6379:6379 --link hmldb --name hml cancerdatascience/histomicsml:1.0 /bin/bash
+  $ docker run --net hmlnet -i -t -p 80:80 -p 6379:6379 --link hmldb --name hml cancerdatascience/histomicsml:example /bin/bash
 
 .. code-block:: bash
 
