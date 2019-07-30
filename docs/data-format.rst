@@ -23,8 +23,8 @@ The contents of the example slide information file:
 
 .. code-block:: bash
 
-   $ more /fastdata/features/BRCA/BRCA-pyramids.csv
-   TCGA-3C-AALJ-01Z-00-DX1,95744,86336,/localdata/pyramids/BRCA/TCGA-3C-AALJ-01Z-00-DX1.svs.dzi.tif,2
+   $ more /datasets/BRCA/BRCA-pyramids.csv
+   TCGA-3C-AALJ-01Z-00-DX1,95744,86336,/datasets/BRCA/tif/TCGA-3C-AALJ-01Z-00-DX1.svs.dzi.tif,2
 
 
 Object boundaries file
@@ -42,7 +42,7 @@ One line from the example boundaries file:
 
 .. code-block:: bash
 
-  $ head -n1 /fastdata/features/BRCA/BRCA-boundaries.txt
+  $ head -n1 /datasets/BRCA/BRCA-boundaries.txt
   TCGA-3C-AALJ-01Z-00-DX1 2250.1 4043.0 2246,4043 2247,4043 2247 ... 2247,4043 2246,4043
 
 
@@ -67,7 +67,7 @@ The contents of the feature file from the example feature file can be viewed usi
 .. code-block:: python
 
   >> import h5py
-  >> file="/fastdata/features/BRCA/BRCA-features-1.h5"
+  >> file="/datasets/BRCA/BRCA-features-1.h5"
   >> contents = h5py.File(file)
   >> for i in contents:
   ...     print i
