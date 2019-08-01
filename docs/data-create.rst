@@ -132,7 +132,7 @@ Parameters of the feature extraction script can be adjusted to change the patch 
     Patch size of each superpixel. Range is [8, 512] (default 128).
 
   --inputPCAModel
-    Path and filename of .pkl when importing a PCA transform. This specifies the location of the .pkl as mounted inside the docker. If the .pkl file was copied to the current project then --inputPCAModel /${PWD##*/}/pca_model_sample.pkl. (default - blank - generate a new PCA transform).
+    Path and filename of .pkl when importing a PCA transform. This specifies the location of the .pkl as mounted inside the docker. If the .pkl file was copied to the current project then --inputPCAModel /${PWD##*/}/pca_model_sample.pkl.
 
   --projectName
     Name of the project directory (default - current working directory name).
@@ -143,7 +143,7 @@ An important note on training, inference, and the PCA transformation:
 .. note::  HistomicsML can be used to either train new classifiers, or to apply trained classifiers to new datasets (inference). When doing inference it is important that features are extracted in a consistent manner from the training dataset and new dataset.
 
   During feature extraction a principal component analysis (PCA) transformation is applied to the features to improve speed and performance. This transformation can either be generated from the newly extracted features or imported from an existing dataset. When generating datasets for inference the PCA transformation should be imported from the training dataset that was used to develop the classifier.
-  
+
   HistomicsML stores a PCA transformation as a .pkl file in the base project directory. These files should be managed and copied between directories as needed when performing inference or for re-use.
 
 
