@@ -19,29 +19,39 @@ Use the docker pull command to download the dataset creation container. Use ``ca
 .. code-block:: bash
 
   $ docker pull cancerdatascience/hml_dataset_cpu:1.0
-  #if running on a GPU system use this container instead
+  #use the GPU-enabled docker if runnnig on a GPU system
   $ docker pull cancerdatascience/hml_dataset_gpu:1.0
 
 
 2. Create project directories
 ====================================================================
 
-On the local file system, navigate to the directory where you want to store and generate project files
+We recommend storing all HistomicsML datasets within subdirectories inside a master directory. This will enable HistomicsML to access all datasets without explicitly mounting each one inside the docker.
+
+Create the master directory on the local file system and navigate to this folder
 
 .. code-block:: bash
 
+  $ mkdir HistomicsML
+  $ cd HistomicsML
+
+Create a project directory inside the master directory
+
+.. code-block:: bash
+
+  $ mkdir myproject
   $ cd myproject
 
-Create subdirectories to store superpixel boundaries, centroids, and whole-slide images
+Create subdirectories within the project directory to store superpixel boundaries, centroids, and whole-slide images
 
 .. code-block:: bash
 
   $ mkdir boundary centroid svs tif
 
-The base project directory *myproject* will be mounted inside the data creation docker during dataset creation, and again by the database and server containers during dataset import and runtime.
+The project directory *myproject* will be mounted inside the data creation docker during dataset creation, and again by the database and server containers during dataset import and runtime.
 
 
-3. Create whole-slide information
+3. Create slide information table
 ====================================================================
 
 Create a .csv table describing the whole-slide images using ``CreateSlideInformation.py``
@@ -50,7 +60,7 @@ Create a .csv table describing the whole-slide images using ``CreateSlideInforma
 
   $ docker run -it --rm --name createinfo -v "$PWD":/"${PWD##*/}" cancerdatascience/hml_dataset_gpu:1.0 python scripts/CreateSlideInformation.py --projectName "${PWD##*/}"
 
-Here the -v option mounts the base project folder to the same directory under the root directory inside the container.
+Here the -v option mounts the project directory inside the container and with the same name under root '/'.
 
   --projectName
     Name of the project directory. Default 'myproject'.
@@ -69,7 +79,7 @@ Use ``create_tiff.sh`` to convert '.svs' to '.tif' format
 
   $ docker run -it --rm --name convertslide -v "$PWD":/"${PWD##*/}" cancerdatascience/hml_dataset_gpu:1.0 bash scripts/create_tiff.sh /"${PWD##*/}"/svs /"${PWD##*/}"/tif
 
-Here ``/"${PWD##*/}"/svs`` is the path of the whole-slide images inside the data creation docker, and ``/"${PWD##*/}"/tif`` is the location where the converted tif files will be generated. The generated tifs will appear in the tif subdirectory on the local file system as well.
+Here ``/"${PWD##*/}"/svs`` and ``/"${PWD##*/}"/tif`` are the paths where the whole-slide image and converted tif folders will be mounted inside the data creation docker. As the converted tif files are written they will appear in the local file system outside the container as well.
 
 
 5. Generate superpixel segmentation
@@ -122,19 +132,19 @@ Parameters of the feature extraction script can be adjusted to change the patch 
     Patch size of each superpixel. Range is [8, 512] (default 128).
 
   --inputPCAModel
-    Path and filename of .pkl for PCA transformation as mounted in the data creation container. example) --inputPCAModel /${PWD##*/}/pca_model_sample.pkl
+    Path and filename of .pkl when importing a PCA transform. This specifies the location of the .pkl as mounted inside the docker. If the .pkl file was copied to the current project then --inputPCAModel /${PWD##*/}/pca_model_sample.pkl. (default - blank - generate a new PCA transform).
 
   --projectName
-    Name of the project directory. Default 'myproject'.
+    Name of the project directory (default - current working directory name).
 
 
 An important note on training, inference, and the PCA transformation:
 
 .. note::  HistomicsML can be used to either train new classifiers, or to apply trained classifiers to new datasets (inference). When doing inference it is important that features are extracted in a consistent manner from the training dataset and new dataset.
 
-  During feature extraction a principal component analysis (PCA) transformation is applied to the features to improve speed and performance. This transformation can either be newly generated from the extracted features or imported from an existing dataset. For inference the transformation should be imported from the desired training dataset to ensure consistent feature extraction. For training we recommend generating a new transformation in most cases.
-
-  HistomicsML stores a PCA transformation as a .pkl file in the base project directory. These files should be managed and copied between directories as needed for re-use.
+  During feature extraction a principal component analysis (PCA) transformation is applied to the features to improve speed and performance. This transformation can either be generated from the newly extracted features or imported from an existing dataset. When generating datasets for inference the PCA transformation should be imported from the training dataset that was used to develop the classifier.
+  
+  HistomicsML stores a PCA transformation as a .pkl file in the base project directory. These files should be managed and copied between directories as needed when performing inference or for re-use.
 
 
 Completed dataset
