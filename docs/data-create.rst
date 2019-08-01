@@ -121,11 +121,8 @@ Parameters of the feature extraction script can be adjusted to change the patch 
   --patchSize
     Patch size of each superpixel. Range is [8, 512] (default 128).
 
-  --usePCAmodel
-    'true' to use an existing transform for inference. Setting 'true' requires copying the existing .pkl file to the base directory and setting parameter 'inputPCAModel'. Setting 'false' generates a new PCA transformation with default filename 'pca_model_sample.pkl' in the base project folder (default 'false').
-
   --inputPCAModel
-    Path and filename of .pkl for PCA transformation as mounted in the data creation container.
+    Path and filename of .pkl for PCA transformation as mounted in the data creation container. example) --inputPCAModel /${PWD##*/}/pca_model_sample.pkl
 
   --projectName
     Name of the project directory. Default 'myproject'.
