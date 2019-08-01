@@ -84,7 +84,7 @@ Here ``/master/myproject1/slide_info.csv`` is the path to the slide information 
 3. Add PCA model to base folder (for inference only)
 ====================================================================
 
-If performing inference the .pkl file corresponding to the trained classifier needs to be copied into your base folder
+If performing inference the .pkl file containing the PCA transform that corresponds to the trained classifier needs to be copied into your project folder (you may have already done this during dataset creation)
 
 .. code-block:: bash
 
