@@ -19,51 +19,53 @@ Use the docker pull command to download the dataset creation container. Use ``ca
 .. code-block:: bash
 
   $ docker pull cancerdatascience/hml_dataset_cpu:1.0
-  #if running on a GPU system use this container instead
+  #use the GPU-enabled docker if runnnig on a GPU system
   $ docker pull cancerdatascience/hml_dataset_gpu:1.0
 
 
 2. Create project directories
 ====================================================================
 
-On the local file system, navigate to the directory where you want to store and generate project files
+We recommend storing all HistomicsML datasets within subdirectories inside a master directory. This will enable HistomicsML to access all datasets without explicitly mounting each one inside the docker.
+
+Create the master directory on the local file system and navigate to this folder
 
 .. code-block:: bash
 
+  $ mkdir HistomicsML
+  $ cd HistomicsML
+
+Create a project directory inside the master directory
+
+.. code-block:: bash
+
+  $ mkdir myproject
   $ cd myproject
 
-Create subdirectories to store superpixel boundaries, centroids, and whole-slide images
+Create subdirectories within the project directory to store superpixel boundaries, centroids, and whole-slide images
 
 .. code-block:: bash
 
   $ mkdir boundary centroid svs tif
 
-The base project directory *myproject* will be mounted inside the data creation docker during dataset creation, and again by the database and server containers during dataset import and runtime.
+The project directory *myproject* will be mounted inside the data creation docker during dataset creation, and again by the database and server containers during dataset import and runtime.
 
 
-3. Create whole-slide information
+3. Create slide information table
 ====================================================================
 
 Create a .csv table describing the whole-slide images using ``CreateSlideInformation.py``
 
 .. code-block:: bash
 
-  $ docker run -it --rm --name createinfo -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/CreateSlideInformation.py --inputSlidePath /dataset/svs  --projectTitle myproject --outputFileName myproject.csv
+  $ docker run -it --rm --name createinfo -v "$PWD":/"${PWD##*/}" cancerdatascience/hml_dataset_gpu:1.0 python scripts/CreateSlideInformation.py --projectName "${PWD##*/}"
 
-Here the -v option mounts the base project folder to ``/dataset`` inside the container.
+Here the -v option mounts the project directory inside the container and with the same name under root '/'.
 
-The directory of the slides, the project title, and the output filename can be adjusted using parameters
+  --projectName
+    Name of the project directory. Default 'myproject'.
 
-  --inputSlidePath
-    Path of input slides as mounted in the data creation container. Typically '/dataset/svs'.
-
-  --projectTitle
-    Name of the project directory. Default 'myProject'.
-
-  --outputFileName
-    Output slide information file name. Default 'mySlideInformation.csv'.
-
-.. note:: The .csv file describes the whole-slide image dimensions and magnifications and will be ingested by the HistomicsML database during dataset import.
+.. note:: The ``slide_info.csv`` file describes the whole-slide image dimensions and magnifications and will be ingested by the HistomicsML database during dataset import.
 
 
 4. Convert whole-slide images to pyramidal tif format
@@ -75,9 +77,9 @@ Use ``create_tiff.sh`` to convert '.svs' to '.tif' format
 
 .. code-block:: bash
 
-  $ docker run -it --rm --name convertslide -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 bash scripts/create_tiff.sh /dataset/svs /dataset/tif
+  $ docker run -it --rm --name convertslide -v "$PWD":/"${PWD##*/}" cancerdatascience/hml_dataset_gpu:1.0 bash scripts/create_tiff.sh /"${PWD##*/}"/svs /"${PWD##*/}"/tif
 
-Here ``/dataset/svs`` is the path of the whole-slide images inside the data creation docker, and ``/dataset/tif`` is the location where the converted tif files will be generated. The generated tifs will appear in the tif subdirectory on the local file system as well.
+Here ``/"${PWD##*/}"/svs`` and ``/"${PWD##*/}"/tif`` are the paths where the whole-slide image and converted tif folders will be mounted inside the data creation docker. As the converted tif files are written they will appear in the local file system outside the container as well.
 
 
 5. Generate superpixel segmentation
@@ -87,7 +89,7 @@ Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroid
 
 .. code-block:: bash
 
-  $ docker run -it --rm --name createboundary -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/SuperpixelSegmentation.py --superpixelSize 64 --patchSize 128
+  $ docker run -it --rm --name createboundary -v "$PWD":/"${PWD##*/}" cancerdatascience/hml_dataset_gpu:1.0 python scripts/SuperpixelSegmentation.py --projectName "${PWD##*/}" --superpixelSize 64 --patchSize 128
 
 Parameters of the superpixel segmentation script ``SuperpixelSegmentation.py`` can be adjusted to change the size, shape, and threshold of superpixels to discard background regions
 
@@ -100,27 +102,27 @@ Parameters of the superpixel segmentation script ``SuperpixelSegmentation.py`` c
   --compactness
     SLIC compactness parameter. Range is [0.01, 100] (default 50).
 
-  --inputSlidePath
-    Path of input slides as mounted in the data creation container. Typically '/dataset/svs'.
+  --projectName
+    Name of the project directory. Default 'myproject'.
 
 
 6. Generate features and PCA transformation
 ====================================================================
 
-Use ``FeatureExtraction.py`` to extract features from the superpixel segmentation. 
+Use ``FeatureExtraction.py`` to extract features from the superpixel segmentation.
 
 To extract features on a CPU system
 
 .. code-block:: bash
 
-  $ docker run -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_cpu:1.0 python scripts/FeatureExtraction.py
+  $ docker run -it --rm --name extractfeatures -v "$PWD":/"${PWD##*/}" cancerdatascience/hml_dataset_cpu:1.0 python scripts/FeatureExtraction.py --projectName "${PWD##*/}"
 
 To extract features on a GPU equipped system (currently supporting CUDA 9.0, Linux x86_64 Driver Version >= 384.81):
 
 .. code-block:: bash
 
-  $ docker run --runtime=nvidia -it --rm --name extractfeatures -v "$PWD":/dataset cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py
-  
+  $ docker run --runtime=nvidia -it --rm --name extractfeatures -v "$PWD":/"${PWD##*/}" cancerdatascience/hml_dataset_gpu:1.0 python scripts/FeatureExtraction.py --projectName "${PWD##*/}"
+
 Parameters of the feature extraction script can be adjusted to change the patch size and dimensionality reduction process
 
   --superpixelSize
@@ -129,26 +131,20 @@ Parameters of the feature extraction script can be adjusted to change the patch 
   --patchSize
     Patch size of each superpixel. Range is [8, 512] (default 128).
 
-  --usePCAmodel
-    'true' to use an existing transform for inference. Setting 'true' requires copying the existing .pkl file to the base directory and setting parameter 'inputPCAModel'. Setting 'false' generates a new PCA transformation with default filename 'pca_model_sample.pkl' in the base project folder (default 'false').
-
   --inputPCAModel
-    Path and filename of .pkl for PCA transformation as mounted in the data creation container.
+    Path and filename of .pkl when importing a PCA transform. This specifies the location of the .pkl as mounted inside the docker. If the .pkl file was copied to the current project then --inputPCAModel /${PWD##*/}/pca_model_sample.pkl.
 
-  --inputSlidePath
-    Path to the directory of input slides as mounted in the data creation container. Typically '/dataset/svs/'.
-
-  --outputDataSetName
-    Name of the HistomicsML dataset. '.h5' format should be used for ingestion (default HistomicsML_dataset.h5).
+  --projectName
+    Name of the project directory (default - current working directory name).
 
 
 An important note on training, inference, and the PCA transformation:
 
 .. note::  HistomicsML can be used to either train new classifiers, or to apply trained classifiers to new datasets (inference). When doing inference it is important that features are extracted in a consistent manner from the training dataset and new dataset.
 
-  During feature extraction a principal component analysis (PCA) transformation is applied to the features to improve speed and performance. This transformation can either be newly generated from the extracted features or imported from an existing dataset. For inference the transformation should be imported from the desired training dataset to ensure consistent feature extraction. For training we recommend generating a new transformation in most cases.
+  During feature extraction a principal component analysis (PCA) transformation is applied to the features to improve speed and performance. This transformation can either be generated from the newly extracted features or imported from an existing dataset. When generating datasets for inference the PCA transformation should be imported from the training dataset that was used to develop the classifier.
 
-  HistomicsML stores a PCA transformation as a .pkl file in the base project directory. These files should be managed and copied between directories as needed for re-use.
+  HistomicsML stores a PCA transformation as a .pkl file in the base project directory. These files should be managed and copied between directories as needed when performing inference or for re-use.
 
 
 Completed dataset
@@ -161,7 +157,7 @@ Following these steps the base project directory on your local file system will 
   myproject/
   |----- HistomicsML_dataset.h5
   |----- pca_model_sample.pkl
-  |----- mySlideInformation.csv
+  |----- slide_info.csv
   |----- boundary/
   |      |----- slide1.txt
   |      |----- slide2.txt
@@ -184,9 +180,9 @@ Following these steps the base project directory on your local file system will 
   .
   .
   |----- tif/
-  |      |----- slide1.dzi.tif
-  |      |----- slide2.dzi.tif
-  |      |----- slide3.dzi.tif
+  |      |----- slide1.svs.dzi.tif
+  |      |----- slide2.svs.dzi.tif
+  |      |----- slide3.svs.dzi.tif
   .
   .
   .
