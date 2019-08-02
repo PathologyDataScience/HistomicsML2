@@ -86,27 +86,27 @@
 
 						<form id="_form" name="_form" role="form" method="post" action="php/data.php">
 							<div class="form-group">
-								<label for="datasetName">Dataset name:</label>
+								<label for="datasetName">Dataset name</label>
 								<input type="text" class="form-control" id="datasetName"
 										name="datasetName" placeholder="Enter dataset name"/>
 							</div>
 							<div class="form-group">
-								<label for="projectSel">Project Directory</label>
+								<label for="projectSel">Project directory</label>
 								<select class="form-control" id="projectSel" name="project">
 								</select>
 							</div>
 							<div class="form-group">
-								<label for="pyramidSel">Slide Information (.csv file)</label>
+								<label for="pyramidSel">Slide information (.csv)</label>
 								<select class="form-control" id="pyramidSel" name="pyramid">
 								</select>
 							</div>
 							<div class="form-group">
-								<label for="pcaSel">PCA Information (.pkl file)</label>
+								<label for="pcaSel">PCA transform (.pkl)</label>
 								<select class="form-control" id="pcaSel" name="pca">
 								</select>
 							</div>
 							<div class="form-group">
-								<label for="featureSel">Features (.h5 file)</label>
+								<label for="featureSel">Features (.h5)</label>
 								<select class="form-control" id="featureSel" name="feature">
 								</select>
 							</div>
@@ -118,7 +118,7 @@
 				<div class="col-sm-4 col-md-4 col-lg-4">
 							<form onsubmit="return confirm('Do you really want to delete this dataset?');" id="_form_delete" role="form" method="post" action="php/data_delete.php">
 								<div class="form-group">
-									<label for="deleteDatasetSel">Dataset to delete:
+									<label for="deleteDatasetSel">Dataset
 									</label>
 									<select class="form-control" id="deleteDatasetSel" name="deleteDatasetSel">
 								</select>
@@ -135,11 +135,11 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title" id="myModalLabel">
-							Processing Dataset
+							Processing dataset
 						</h4>
 					</div>
 					<div class="modal-body">
-						Please wait while processing...
+						Please wait...
 					</div>
 				</div>
 			</div>
