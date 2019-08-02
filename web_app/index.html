@@ -94,12 +94,12 @@
 					<form role="form" id="classifier_form" method="POST" action="php/initSession_nn.php" onsubmit=displayProg()>
 
 						<div class="form-group">
-							<label for="trainset">Training Set Name</label>
+							<label for="trainset">Classifier name</label>
 							<input type="text" class="form-control" id="trainset"
 									name="classifiername" placeholder="Enter classifier name">
 						</div>
 						<div class="form-group">
-							<label for="datasetSel">Dataset</label>
+							<label for="datasetSel">Training dataset</label>
 							<select class="form-control" id="datasetSel" name="dataset">
 							</select>
 						</div>
@@ -132,13 +132,13 @@
 					<input type="hidden" class="form-control" id="reloadIterClass"
 							name="reloadIterClass" readonly="readonly">
 						<div class="form-group">
-							<label for="reloadDatasetSel">Dataset</label>
+							<label for="reloadDatasetSel">Training dataset</label>
 							<select class="form-control" id="reloadDatasetSel" name="reloadDataset">
 							</select>
 						</div>
 
 						<div class="form-group">
-							<label for="reloadTrainSetSel">Training Set</label>
+							<label for="reloadTrainSetSel">Classifier name</label>
 							<select class="form-control" id="reloadTrainSetSel" name="trainingset">
 							</select>
 							<br/>
