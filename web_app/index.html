@@ -94,24 +94,24 @@
 					<form role="form" id="classifier_form" method="POST" action="php/initSession_nn.php" onsubmit=displayProg()>
 
 						<div class="form-group">
-							<label for="trainset">Training Set Name</label>
+							<label for="trainset">Classifier name</label>
 							<input type="text" class="form-control" id="trainset"
 									name="classifiername" placeholder="Enter classifier name">
 						</div>
 						<div class="form-group">
-							<label for="datasetSel">Dataset</label>
+							<label for="datasetSel">Training dataset</label>
 							<select class="form-control" id="datasetSel" name="dataset">
 							</select>
 						</div>
 
 						<div class="form-group">
-							<label for="posClass">Positive class</label>
+							<label for="posClass">Positive class name</label>
 							<input type="text" class="form-control" id="posClass"
 									name="posName" placeholder="Enter positive class name">
 						</div>
 
 						<div class="form-group">
-							<label for="negClass">Negative class</label>
+							<label for="negClass">Negative class name</label>
 							<input type="text" class="form-control" id="negClass"
 									name="negName" placeholder="Enter negative class name">
 						</div>
@@ -132,27 +132,27 @@
 					<input type="hidden" class="form-control" id="reloadIterClass"
 							name="reloadIterClass" readonly="readonly">
 						<div class="form-group">
-							<label for="reloadDatasetSel">Dataset</label>
+							<label for="reloadDatasetSel">Training dataset</label>
 							<select class="form-control" id="reloadDatasetSel" name="reloadDataset">
 							</select>
 						</div>
 
 						<div class="form-group">
-							<label for="reloadTrainSetSel">Training Set</label>
+							<label for="reloadTrainSetSel">Classifier name</label>
 							<select class="form-control" id="reloadTrainSetSel" name="trainingset">
 							</select>
 							<br/>
 							<div>
-								<span><strong>Pos class:</strong></span>
+								<span><strong>Positive class:</strong></span>
 								<span id="reloadPos">Pos</span>
 								<br/>
-								<span><strong>Count:</strong></span>
+								<span><strong>Positive label count:</strong></span>
 								<span id="reloadPosCount">0</span>
 								<br/>
-								<span><strong>Neg class:</strong></span>
+								<span><strong>Negative class:</strong></span>
 								<span id="reloadNeg">Neg</span>
 								<br/>
-								<span><strong>Count:</strong></span>
+								<span><strong>Negative label count:</strong></span>
 								<span id="reloadNegCount">0</span>
 								<br/>
 								<span><strong>Iterations:</strong></span>

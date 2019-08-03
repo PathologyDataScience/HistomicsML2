@@ -71,17 +71,17 @@
 
 			<div class="row">
 				<div class="col-sm-4 col-md-4 col-lg-4">
-					<h3>Predict (mask)</h3>
+					<h3>Mask image inference (ROI)</h3>
 				<form role="form" id="label_form" method="POST">
 					<div class="form-group">
-						<label for="datasetLabelSel">Dataset</label>
-						<select class="form-control" id="datasetLabelSel" name="datasetLabel">
+						<label for="trainsetLabelSel">Classifier</label>
+						<select class="form-control" id="trainsetLabelSel" name="trainsetLabel">
 						</select>
 					</div>
-
+					
 					<div class="form-group">
-						<label for="trainsetLabelSel">Training Set</label>
-						<select class="form-control" id="trainsetLabelSel" name="trainsetLabel">
+						<label for="datasetLabelSel">Inference dataset</label>
+						<select class="form-control" id="datasetLabelSel" name="datasetLabel">
 						</select>
 					</div>
 
@@ -124,27 +124,28 @@
 
 				<div class="col-sm-4 col-md-4 col-lg-4">
 
-					<h3>Slide level summary</h3>
+					<h3>Slide summary inference</h3>
 						<form role="form" id="count_form">
 							<div class="form-group">
-								<label for="datasetSel">Dataset</label>
+								<label for="trainsetSel">Classifier</label>
+								<select class="form-control" id="trainsetSel" name="trainsetCount">
+								</select>
+							</div>
+							
+							<div class="form-group">
+								<label for="datasetSel">Inference dataset</label>
 								<select class="form-control" id="datasetSel" name="datasetCount">
 								</select>
 							</div>
 
-							<div class="form-group">
-								<label for="trainsetSel">Training Set</label>
-								<select class="form-control" id="trainsetSel" name="trainsetCount">
-								</select>
-							</div>
 							<input type="submit" value="Count">
 						</form>
 
 					</br>
-					<h3>Training set</h3>
+					<h3>Download classifier</h3>
 						<form role="form" id="trainingset_form" method="POST" action="php/downloadTrainSet.php">
 							<div class="form-group">
-								<label for="downloadsetSel">Training Set</label>
+								<label for="downloadsetSel">Classifier</label>
 								<select class="form-control" id="downloadsetSel" name="downloadset">
 								</select>
 							</div>
@@ -153,18 +154,18 @@
 						</form>
 
 					</br>
-					<h3>Predict (slide)</h3>
+					<h3>Mask image inference (slide)</h3>
 
 					<form role="form" id="map_form">
 						<div class="form-group">
-							<label for="datasetMapSel">Dataset</label>
-							<select class="form-control" id="datasetMapSel" name="datasetMap">
+							<label for="trainsetMapSel">Classifier</label>
+							<select class="form-control" id="trainsetMapSel" name="trainsetMap">
 							</select>
 						</div>
-
+						
 						<div class="form-group">
-							<label for="trainsetMapSel">Training Set</label>
-							<select class="form-control" id="trainsetMapSel" name="trainsetMap">
+							<label for="datasetMapSel">Inference dataset</label>
+							<select class="form-control" id="datasetMapSel" name="datasetMap">
 							</select>
 						</div>
 
@@ -204,7 +205,7 @@
 						<div class="progress progress-popup">
 				 		<div class="progress-bar" id="maskprogressBar"></div>
 						</div>
-						<p> Please wait while new mask is creating </p>
+						<p> Please wait while the mask image is generated </p>
 					</div>
 				</div>
 			</div>
@@ -216,7 +217,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title" id="myModalLabel">
-							Predicting dataset
+							Inference
 						</h4>
 					</div>
 					<div class="modal-body" id=".model-body">
@@ -235,14 +236,14 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title" id="myModalLabel">
-							Computing count
+							Inference
 						</h4>
 					</div>
 					<div class="modal-body" id=".model-body">
 						<div class="progress progress-popup">
 				 		<div class="progress-bar" id="countprogressBar"></div>
 						</div>
-						<p> Please wait while compuing postive and negative counts </p>
+						<p> Please wait while calculating summary statistics </p>
 					</div>
 				</div>
 			</div>
