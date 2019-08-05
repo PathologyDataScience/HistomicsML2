@@ -389,7 +389,7 @@ def run():
                               intP[1] = intP[1] - report_label.top + bold
                               object_points.append(intP)
                           boundaryPoints.append(np.asarray(object_points))
-                          cv2.fillPoly(im_bold, boundaryPoints, 255 if predicts[i] > 0 else 0)
+                          cv2.fillPoly(im_bold, boundaryPoints, 255 if predicts[i] > 0 else 128)
 
                 im_out = im_bold[bold:bold+report_label.height, bold:bold+report_label.width]
 
