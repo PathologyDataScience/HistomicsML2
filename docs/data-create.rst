@@ -23,10 +23,10 @@ Use the docker pull command to download the dataset creation container. Use ``ca
   $ docker pull cancerdatascience/hml_dataset_gpu:1.0
 
 
-2. Create project directories
+2. Create directories
 ====================================================================
 
-We recommend storing all HistomicsML datasets within subdirectories inside a master directory. This will enable HistomicsML to access all datasets without explicitly mounting each one inside the docker.
+HistomicsML datasets should be stored inside subdirectories within a master directory to simplifies file sharing with the HistomicsML containers.
 
 Create the master directory on the local file system and navigate to this folder
 
@@ -35,51 +35,53 @@ Create the master directory on the local file system and navigate to this folder
   $ mkdir HistomicsML
   $ cd HistomicsML
 
-Create a project directory inside the master directory
+Then create a directory inside the master to store labeled data from training sessions
+
+.. code-block:: bash
+
+  $ mkdir -p classifiers/tmp
+
+Now create a project directory and generate subdirectories to store superpixel boundaries, centroids, and whole-slide images
 
 .. code-block:: bash
 
   $ mkdir myproject
   $ cd myproject
-
-Create subdirectories within the project directory to store superpixel boundaries, centroids, and whole-slide images
-
-.. code-block:: bash
-
   $ mkdir boundary centroid svs tif
 
-The project directory *myproject* will be mounted inside the data creation docker during dataset creation, and again by the database and server containers during dataset import and runtime.
+These directories will be mounted inside the data creation docker during dataset creation, and again by the database and server containers when running HistomicsML.
 
 
 3. Create slide information table
 ====================================================================
 
-Create a .csv table describing the whole-slide images using ``CreateSlideInformation.py``
+Use ``CreateSlideInformation.py`` to create a .csv in the project directory that describes the whole-slide images
 
 .. code-block:: bash
 
+  $ cd myproject
   $ docker run -it --rm --name createinfo -v "$PWD":/"${PWD##*/}" cancerdatascience/hml_dataset_gpu:1.0 python scripts/CreateSlideInformation.py --projectName "${PWD##*/}"
 
 Here the -v option mounts the project directory inside the container and with the same name under root '/'.
 
-  --projectName
-    Name of the project directory. Default 'myproject'.
+.. note:: The ``slide_info.csv`` file describes the whole-slide image dimensions and magnifications and will be ingested by the HistomicsML database when datasets are ingested.
 
-.. note:: The ``slide_info.csv`` file describes the whole-slide image dimensions and magnifications and will be ingested by the HistomicsML database during dataset import.
+.. note:: Whole-slide image filenames must not contain any '.' characters other than the extension (e.g. .svs). This character interferes with the database ingestion and will prevent dataset import.
 
 
-4. Convert whole-slide images to pyramidal tif format
+4. Convert whole-slide images to pyramidal tifs
 ====================================================================
 
-Whole-slide images need to be converted to a pyramidal .tif format that is compatible with the `IIPImage server <http://iipimage.sourceforge.net/documentation/server/)>`_. The data generation docker contains the `VIPs library <http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS>`_ to support this conversion.
+A pyramidal .tif format is needed to serve images inside the UI with `IIPImage server <http://iipimage.sourceforge.net/documentation/server/)>`_. The data generation docker contains the `VIPs library <http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS>`_ to support conversion of whole-slide-images to pyramidal tifs.
 
 Use ``create_tiff.sh`` to convert '.svs' to '.tif' format
 
 .. code-block:: bash
 
+  $ cd myproject
   $ docker run -it --rm --name convertslide -v "$PWD":/"${PWD##*/}" cancerdatascience/hml_dataset_gpu:1.0 bash scripts/create_tiff.sh /"${PWD##*/}"/svs /"${PWD##*/}"/tif
 
-Here ``/"${PWD##*/}"/svs`` and ``/"${PWD##*/}"/tif`` are the paths where the whole-slide image and converted tif folders will be mounted inside the data creation docker. As the converted tif files are written they will appear in the local file system outside the container as well.
+``/"${PWD##*/}"/svs`` and ``/"${PWD##*/}"/tif`` are the paths where the whole-slide image and converted tif folders are mounted in the data creation container. As the converted tif files are written they will also appear in the local file system outside the container.
 
 
 5. Generate superpixel segmentation
@@ -89,6 +91,7 @@ Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroid
 
 .. code-block:: bash
 
+  $ cd myproject
   $ docker run -it --rm --name createboundary -v "$PWD":/"${PWD##*/}" cancerdatascience/hml_dataset_gpu:1.0 python scripts/SuperpixelSegmentation.py --projectName "${PWD##*/}" --superpixelSize 64 --patchSize 128
 
 Parameters of the superpixel segmentation script ``SuperpixelSegmentation.py`` can be adjusted to change the size, shape, and threshold of superpixels to discard background regions
@@ -137,20 +140,19 @@ Parameters of the feature extraction script can be adjusted to change the patch 
   --projectName
     Name of the project directory (default - current working directory name).
 
+**An important note on training, inference, and the PCA transformation:**
 
-An important note on training, inference, and the PCA transformation:
+.. note::  HistomicsML can be used to train new classifiers or to apply existing classifiers to new datasets (inference). For inference it is important that features are extracted consistently in both the training dataset and the inference dataset.
 
-.. note::  HistomicsML can be used to either train new classifiers, or to apply trained classifiers to new datasets (inference). When doing inference it is important that features are extracted in a consistent manner from the training dataset and new dataset.
+  Since features are transformed through principal component analysis (PCA), the same PCA transform used in training datasets needs to be re-used where these classifier are applied to inference datasets. The data creation container provides the option to generate a new PCA transform when creating a training set, or to re-use an existing PCA transform when creating an inference dataset.
 
-  During feature extraction a principal component analysis (PCA) transformation is applied to the features to improve speed and performance. This transformation can either be generated from the newly extracted features or imported from an existing dataset. When generating datasets for inference the PCA transformation should be imported from the training dataset that was used to develop the classifier.
-
-  HistomicsML stores a PCA transformation as a .pkl file in the base project directory. These files should be managed and copied between directories as needed when performing inference or for re-use.
+  HistomicsML stores a PCA transforms as .pkl files. Each project directory needs a .pkl file to be imported into HistomicsML, and so users should manage and copy these files when creating inference datasets.
 
 
 Completed dataset
 ====================================================================
 
-Following these steps the base project directory on your local file system will have the following contents:
+Following these steps the project directory on your local file system will have the following contents:
 
 .. code-block:: bash
 

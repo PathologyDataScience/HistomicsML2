@@ -4,9 +4,9 @@
 Importing datasets
 ============================
 
-This section demonstrates the process of importing datasets using the docker containers. The import process first commits a dataset to the database container using the command line, and then the committed datasets can be imported using the interface in the server container.
+This section describes the dataset import process and setup of the HistomicsML server. Datasets are imported by first committing a dataset at the command line to the database container, and then importing committed datasets through the server container user interface.
 
-.. note:: Because committing the superpixel boundaries to the database can be time consuming this step is performed at the command line.
+.. note:: Superpixel boundary files are large and so these are committed to the database from the command line.
 
 HistomicsML datasets should be stored in subdirectories within a single master directory: 
 
@@ -34,9 +34,8 @@ HistomicsML datasets should be stored in subdirectories within a single master d
   .
   .
   |----- classifiers/
-      |----- tmp/
 
-This hierarchy allows all datasets to be easily mounted and accessible by the docker containers. HistomicsML will create a ``classifiers`` directory to store classifiers and annotations generated during the training process.
+This hierarchy allows all datasets to be easily mounted and accessible by the docker containers.
 
 .. note:: Web server docker container needs a permission to access the directories: ``myproject1``, ``myproject2``, ..., ``classifiers``, so make sure that the directories support a writable permission (e.g. chmod 777 /master/myproject1).
 
