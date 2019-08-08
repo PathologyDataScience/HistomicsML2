@@ -39,7 +39,7 @@ Then create a directory inside the master to store labeled data from training se
 
 .. code-block:: bash
 
-  $ mkdir classifiers
+  $ mkdir -p classifiers/tmp
 
 Now create a project directory and generate subdirectories to store superpixel boundaries, centroids, and whole-slide images
 
