@@ -58,4 +58,26 @@ Classifier
 Command-line tools
 ------------------------------
 
-Generating detailed inference results at the superpixel level or large whole-slide mask images requires the use of command line tools.
+Command line tools are provided to generate detailed inference results at the superpixel level or large whole-slide mask images. These tools are hosted in the server container.
+
+Mask image inference (whole-slide)
+  Generates a .tif image of predictions for the whole-slide at the scanning magnification. Positive, negative, and background areas are encoded as 255, 128, and 0 respectively.
+
+.. code-block:: bash
+
+  $ cd myproject
+  $ docker run   
+
+Superpixel inference
+  Generates an .h5 describing inference results for each superpixel.
+
+.. code-block:: bash
+
+  $ cd myproject
+  $ docker run   
+  
+  Variables contained in this .h5:
+  
+  -softmax (float) - softmax prediction values for each superpixel.
+  
+  -predictions (int) - predicted superpixel class labels {-1, 1}.
