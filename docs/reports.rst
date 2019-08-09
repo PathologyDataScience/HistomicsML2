@@ -22,37 +22,26 @@ Slide summary inference
 Classifier
   Generates an .h5 file describing the annotated superpixels from a training session. This information can be used for inference with command-line tools. Variables contained in this .h5:
   
-  -slides (string) - list of slide names in dataset.
+.. code-block:: bash
   
-  -class_names (string) - list of designated class names.
-  
-  -x_centroid (float) - array of superpixel centroid x coordinates. Units are pixels at scan magnification.
-  
-  -y_centroid (float) - array of superpixel centroid y coordinates. Units are pixels at scan magnification.
-  
-  -slideIdx (int) - superpixel slide indices.
-  
-  -features (float) - extracted features where each row represents a superpixel.
-  
-  -labels (int) - superpixel training labels {-1, 1}.
-  
-  -sample_iter (int) - training iteration when each superpixel was labeled (instance-mode labeling).
-  
-  -checkpoints (int) - training iteration when each superpixel was labeled (all labeling modes).
-  
-  -db_id (int) - superpixel database indices.
-  
-  -f_idx (int) - index of superpixels in at-large dataset.
-  
-  -argUrls (string) - URLs to obtain extracted patches from IIP server (for augmentation).
-  
-  -augments_features (float) - features extracted from augmented patches.
-  
-  -augments_labels (int) - inherited labels of augmented patches.
-  
-  -augments_checkpoints - training iteration when superpixel was labeled, replicated for augmented patches.
-  
-  -augments_db_id - superpixel database indices of augmented patches.
+  /slides (string) - list of slide names in dataset.  
+  /class_names (string) - list of designated class names.
+  /x_centroid (float) - array of superpixel centroid x coordinates. Units are pixels at scan magnification.
+  /y_centroid (float) - array of superpixel centroid y coordinates. Units are pixels at scan magnification.
+  /slideIdx (int) - superpixel slide indices.
+  /features (float) - extracted features where each row represents a superpixel.
+  /mean (float) - normalization vector used to z-score features.
+  /st_dev (float) - normalization vector used to z-score features.
+  /labels (int) - superpixel training labels {-1, 1}.
+  /sample_iter (int) - training iteration when each superpixel was labeled (instance-mode labeling).
+  /checkpoints (int) - training iteration when each superpixel was labeled (all labeling modes).
+  /db_id (int) - superpixel database indices.
+  /f_idx (int) - index of superpixels in at-large dataset.
+  /argUrls (string) - URLs to obtain extracted patches from IIP server (for augmentation).
+  /augments_features (float) - features extracted from augmented patches.
+  /augments_labels (int) - inherited labels of augmented patches.
+  /augments_checkpoints - training iteration when superpixel was labeled, replicated for augmented patches.
+  /augments_db_id - superpixel database indices of augmented patches.
 
 
 Command-line tools
@@ -76,8 +65,9 @@ Superpixel inference
   $ cd myproject
   $ docker run   
   
-  Variables contained in this .h5:
+Variables contained in this .h5:
   
-  -softmax (float) - softmax prediction values for each superpixel.
-  
-  -predictions (int) - predicted superpixel class labels {-1, 1}.
+.. code-block:: bash
+    
+  /softmax (float) - softmax prediction values for each superpixel.
+  /predictions (int) - predicted superpixel class labels {-1, 1}.
