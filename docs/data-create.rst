@@ -1,8 +1,9 @@
 .. highlight:: shell
 .. _data-create:
 
+=================================
 Creating datasets for HistomicsML
-===================================================
+=================================
 
 The dataset creation docker container provides all the functionality needed to create new HistomicsML datasets. This page describes how to use this docker image to generate new datasets from whole-slide image datasets.
 
