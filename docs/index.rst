@@ -12,11 +12,11 @@ Getting started
 
 HistomicsML is provided as a collection of Docker images that simplify system deployment and dataset creation. Follow the :ref:`quick start guide <example-data>` to download and run containers with pre-loaded sample data and see the section on :ref:`training classifiers <training>`.
 
-For a more detailed overview of HistomicsML see :ref:`System overivew <system-overview>`.
+For a more detailed overview of HistomicsML see :ref:`system overivew <system-overview>`.
 
 To create HistomicsML dataset from your own images and to create a system deployment see :ref:`creating datasets for HistomicsML <data-create>` and :ref:`importing HistomicsML datasets <data-import>`.
 
-To format data from your own image segmentation and feature extraction algorithms for use with HistomicsML see :ref:`Dataset formats <data-format>`.
+To format data from your own image segmentation and feature extraction algorithms for use with HistomicsML see :ref:`data formats <data-format>`.
 
 
 Table of contents
