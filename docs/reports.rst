@@ -1,12 +1,12 @@
 .. highlight:: shell
+.. _reports:
 
-============
 Inference and exporting results
-============
+===============================
 
 The Reports user interface and command-line tools can be used to apply trained classifiers to new datasets. Inferences can be generated in image formats or as detailed or aggregate tables.
 
-Reports interface
+Reports user interface
 ------------------------------
 
 .. image:: images/example-report.png
