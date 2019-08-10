@@ -9,13 +9,13 @@ HistomicsML is a software platform for fast and interactive development of deep 
 Getting started
 ===========
 
-HistomicsML is provided as a collection of Docker images that simplify system deployment and dataset creation. Follow the :ref:`example-data <Quick start guide>` to download and run containers with pre-loaded sample data and see the section on :ref:`training <Training classifiers>`.
+HistomicsML is provided as a collection of Docker images that simplify system deployment and dataset creation. Follow the :ref:`quick start guide <example-data>` to download and run containers with pre-loaded sample data and see the section on :ref:`training classifiers <training>`.
 
-For a more detailed overview of HistomicsML see :ref:`system-overview <System overivew>`.
+For a more detailed overview of HistomicsML see :ref:`System overivew <system-overview>`.
 
-To create HistomicsML dataset from your own images and to create a system deployment see :ref:`data-create <Creating datasets for HistomicsML>` and :ref:`data-import <Importing HistomicsML datasets>`.
+To create HistomicsML dataset from your own images and to create a system deployment see :ref:`creating datasets for HistomicsML <data-create>` and :ref:`importing HistomicsML datasets <data-import>`.
 
-To format data from your own image segmentation and feature extraction algorithms for use with HistomicsML see :ref:`data-format <Dataset formats>`.
+To format data from your own image segmentation and feature extraction algorithms for use with HistomicsML see :ref:`Dataset formats <data-format>`.
 
 
 Table of contents
