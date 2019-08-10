@@ -1,20 +1,24 @@
 .. highlight:: shell
+.. _example-data:
 
-============
-Running a simple example
-============
+=================
+Quick start guide
+=================
 
 HistomicsML is distributed as a collection of Docker containers for server hosting and dataset creation. While HistomicsML can be installed from source, we recommend that most users work with the Docker containers. These containers are platform independent, and encapsulate all needed libraries and scripts. `Read more about Docker here <https://docs.docker.com/get-started/>`_.
 
 
 Example dataset
----------------------------------
+===============
 
 The HistomicsML containers comes pre-loaded with an example dataset containing a single slide. This example allows you to explore the functionality and user interfaces of HistomicsML in the next section.
 
+Running HistomicsML
+===================================
 
-1. Download the HistomicsML containers
-====================================================================
+
+Download the HistomicsML containers
+-----------------------------------
 
 HistomicsML is implemented as collection of three docker containers:
 
@@ -29,8 +33,9 @@ To explore the example dataset we need to download the database and server conta
   $ docker pull cancerdatascience/histomicsml_db:example
   $ docker pull cancerdatascience/histomicsml:example
 
-2. Run the HistomicsML database container
-====================================================================
+
+Runing the HistomicsML database container
+-----------------------------------------
 
 Run the database container and setup a network to communicate with the server container
 
@@ -42,8 +47,9 @@ Run the database container and setup a network to communicate with the server co
 .. note:: The database and server dockers run Apache and Mysql servers on ports 80 and 3306 respectively.
    Check if these ports are in use before deploying HistomicsML.
 
-3. Run the HistomicsML web server container
-====================================================================
+
+Running the HistomicsML web server container
+--------------------------------------------
 
 Run the server container, start Redis and Apache, then launch HistomicsML
 
@@ -65,5 +71,16 @@ Run the server container, start Redis and Apache, then launch HistomicsML
 
 .. note:: If the server becomes unresponsive or generates a connection error during use then re-launch run_model_server.py.
 
-4. Navigate your browser to the HistomicsML-TA page http://localhost/HistomicsML.
-====================================================================
+
+Launching the HistomicsML page
+------------------------------
+
+Navigate your browser to the HistomicsML-TA page http://localhost/HistomicsML.
+
+
+Next steps
+==========
+
+See the section on :ref:`training <training classifiers>` to learn how to use the HistomicsML training interfaces.
+
+See a more detailed overview of HistomicsML see :ref:`system-overview <System overivew>`, or learn how to :ref:`data-create <create>` and :ref:`data-import <import>` your own datasets in HistomicsML.
