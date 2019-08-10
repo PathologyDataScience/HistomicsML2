@@ -26,11 +26,11 @@ Table of contents
 
    example-data
    training
+   reports
    system-overview
    data-create
    data-import
    data-format
-   reports
 
 
 Resources
