@@ -1,8 +1,9 @@
 .. highlight:: shell
 .. _data-format:
 
+===================
 Formatting datasets
-====================
+===================
 
 The format described here provides a template for users to generate HistomicsML datasets using their own segmentation and feature extraction methods. This section describes how to format user-generated data for import into HistomicsML and references the example dataset provided with the Docker containers.
 
