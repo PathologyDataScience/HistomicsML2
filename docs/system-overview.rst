@@ -1,5 +1,5 @@
 .. highlight:: shell
-.. _training:
+.. _system-overview:
 
 ===============
 System overview
