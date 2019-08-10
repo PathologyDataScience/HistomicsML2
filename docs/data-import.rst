@@ -123,4 +123,4 @@ Start Redis and Apache, then launch the HistomicsML server
 Next steps
 ==========
 
-Refer to the :ref:`system overivew <system-overview>` to see more details on the roles of the dataset creation, database, and server containers.
+Refer to the :ref:`system overview <system-overview>` to see more details on the roles of the dataset creation, database, and server containers.
