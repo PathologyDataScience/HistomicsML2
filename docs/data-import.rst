@@ -1,8 +1,9 @@
 .. highlight:: shell
 .. _data-import:
 
+==================
 Importing datasets
-============================
+==================
 
 This section describes the dataset import process and setup of the HistomicsML server. Datasets are imported by first committing a dataset at the command line to the database container, and then importing committed datasets through the server container user interface.
 
