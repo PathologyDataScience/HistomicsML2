@@ -458,9 +458,9 @@ def run():
                 print('>> Writing count file')
                 out_file = open(report_count.inFile, 'w')
 
-                out_file.write("Slide Names\t")
-                out_file.write("Number of positive\t")
-                out_file.write("Number of negative\t")
+                out_file.write("Slide\t")
+                out_file.write("Predicted positive (superpixels)\t")
+                out_file.write("Predicted negative (superpixels)\t")                
                 out_file.write("\n")
 
                 for i in range(len(dset.slides)):
