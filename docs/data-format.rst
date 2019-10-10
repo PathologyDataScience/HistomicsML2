@@ -1,8 +1,9 @@
 .. highlight:: shell
+.. _data-format:
 
-==============
-Formatting datasets
-==============
+===================
+Data formats
+===================
 
 The format described here provides a template for users to generate HistomicsML datasets using their own segmentation and feature extraction methods. This section describes how to format user-generated data for import into HistomicsML and references the example dataset provided with the Docker containers.
 
@@ -10,7 +11,7 @@ A dataset consists of whole-slide images (.tif), a slide description table (.csv
 
 
 Slide description file
-------------------------------------
+----------------------
 A sample .csv table describes the dimensions, magnification, and location of the files for each whole-slide image on one line:
 
 .. code-block:: bash
@@ -28,7 +29,8 @@ The contents of the example slide information file:
 
 
 Object boundaries file
-----------
+----------------------
+
 This .txt describes the centroids and boundary coordinates for each superpixel on one line:
 
 .. code-block:: bash
@@ -47,7 +49,7 @@ One line from the example boundaries file:
 
 
 Features file
---------
+-------------
 
 Features are stored in an HDF5 binary array. The HDF5 file contains the following variables:
 

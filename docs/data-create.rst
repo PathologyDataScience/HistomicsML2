@@ -1,8 +1,9 @@
 .. highlight:: shell
+.. _data-create:
 
-===================================================
+=================================
 Creating datasets for HistomicsML
-===================================================
+=================================
 
 The dataset creation docker container provides all the functionality needed to create new HistomicsML datasets. This page describes how to use this docker image to generate new datasets from whole-slide image datasets.
 
@@ -11,8 +12,8 @@ The dataset creation docker container provides all the functionality needed to c
 .. note:: Processing time for creating datasets varies depending on hardware. We observed 40 minutes for superpixel segmentation (CPU) and 1.5 hours for feature extraction (GPU) on a 40X objective 66K x 76K slide with 382,225 superpixels performed on a two-CPU system equipped with two NVIDIA P100 GPUs.
 
 
-1. Download the dataset creation container
-====================================================================
+Download the dataset creation container
+---------------------------------------
 
 Use the docker pull command to download the dataset creation container. Use ``cancerdatascience/hml_dataset_gpu:1.0`` if running on a GPU-equipped system to accelerate feature extraction.
 
@@ -23,8 +24,8 @@ Use the docker pull command to download the dataset creation container. Use ``ca
   $ docker pull cancerdatascience/hml_dataset_gpu:1.0
 
 
-2. Create directories
-====================================================================
+Create directories
+------------------
 
 HistomicsML datasets should be stored inside subdirectories within a master directory to simplifies file sharing with the HistomicsML containers.
 
@@ -52,8 +53,8 @@ Now create a project directory and generate subdirectories to store superpixel b
 These directories will be mounted inside the data creation docker during dataset creation, and again by the database and server containers when running HistomicsML.
 
 
-3. Create slide information table
-====================================================================
+Create slide information table
+------------------------------
 
 Use ``CreateSlideInformation.py`` to create a .csv in the project directory that describes the whole-slide images
 
@@ -69,8 +70,8 @@ Here the -v option mounts the project directory inside the container and with th
 .. note:: Whole-slide image filenames must not contain any '.' characters other than the extension (e.g. .svs). This character interferes with the database ingestion and will prevent dataset import.
 
 
-4. Convert whole-slide images to pyramidal tifs
-====================================================================
+Convert whole-slide images
+--------------------------
 
 A pyramidal .tif format is needed to serve images inside the UI with `IIPImage server <http://iipimage.sourceforge.net/documentation/server/)>`_. The data generation docker contains the `VIPs library <http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS>`_ to support conversion of whole-slide-images to pyramidal tifs.
 
@@ -84,8 +85,8 @@ Use ``create_tiff.sh`` to convert '.svs' to '.tif' format
 ``/"${PWD##*/}"/svs`` and ``/"${PWD##*/}"/tif`` are the paths where the whole-slide image and converted tif folders are mounted in the data creation container. As the converted tif files are written they will also appear in the local file system outside the container.
 
 
-5. Generate superpixel segmentation
-====================================================================
+Generate superpixel segmentation
+--------------------------------
 
 Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroids
 
@@ -109,8 +110,8 @@ Parameters of the superpixel segmentation script ``SuperpixelSegmentation.py`` c
     Name of the project directory. Default 'myproject'.
 
 
-6. Generate features and PCA transformation
-====================================================================
+Generate features and PCA transformation
+----------------------------------------
 
 Use ``FeatureExtraction.py`` to extract features from the superpixel segmentation.
 
@@ -150,9 +151,9 @@ Parameters of the feature extraction script can be adjusted to change the patch 
 
 
 Completed dataset
-====================================================================
+=================
 
-Following these steps the project directory on your local file system will have the following contents:
+The above steps will generate a series of files in your project folder:
 
 .. code-block:: bash
 
@@ -188,3 +189,9 @@ Following these steps the project directory on your local file system will have 
   .
   .
   .
+
+
+Next steps
+==========
+
+See how to :ref:`import HistomicsML datasets <data-import>` using the command-line and user interface.

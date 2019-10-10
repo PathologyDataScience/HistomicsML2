@@ -1,8 +1,9 @@
 .. highlight:: shell
+.. _data-import:
 
-============================
+==================
 Importing datasets
-============================
+==================
 
 This section describes the dataset import process and setup of the HistomicsML server. Datasets are imported by first committing a dataset at the command line to the database container, and then importing committed datasets through the server container user interface.
 
@@ -39,16 +40,17 @@ This hierarchy allows all datasets to be easily mounted and accessible by the do
 
 .. note:: Web server docker container needs a permission to access the directories: ``myproject1``, ``myproject2``, ..., ``classifiers``, so make sure that the directories support a writable permission (e.g. chmod 777 /master/myproject1).
 
-1. Download the HistomicsML containers
-====================================================================
+Download the HistomicsML containers
+-----------------------------------
 
 .. code-block:: bash
 
   $ docker pull cancerdatascience/histomicsml_db:1.0
   $ docker pull cancerdatascience/histomicsml:1.0
 
-2. Run the database container and commit datasets
-====================================================================
+
+Run the database container and commit datasets
+----------------------------------------------
 
 On the local file system, navigate to the master directory then run the database container and setup a network for the server and database containers to communicate over
 
@@ -76,8 +78,8 @@ Next, run the database docker container interactively and commit the superpixel 
 The paths used in these commands reflect their mount location inside the database docker.
 
 
-3. (Optional) Copy PCA .pkl file
-====================================================================
+(Optional) Copy PCA .pkl file
+-----------------------------
 
 If you generated a dataset for inference then you imported a PCA transform during feature extraction. The .pkl file containing this PCA transform needs to be copied into the inference project folder during import. Supposing your training dataset is in myproject1 and your inference dataset is in myproject2
 
@@ -86,8 +88,8 @@ If you generated a dataset for inference then you imported a PCA transform durin
   $ cp /master/myproject1/training_pca.pkl /master/myproject2
 
 
-4. Launch HistomicsML and import the datasets
-====================================================================
+Launch HistomicsML and import the datasets
+------------------------------------------
 
 Run the server container
 
@@ -116,3 +118,9 @@ Start Redis and Apache, then launch the HistomicsML server
 * Click Submit to confirm
 
 .. image:: images/import.png
+
+
+Next steps
+==========
+
+Refer to the :ref:`system overview <system-overview>` to see more details on the roles of the dataset creation, database, and server containers.

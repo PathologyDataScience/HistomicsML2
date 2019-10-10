@@ -1,13 +1,14 @@
 .. highlight:: shell
+.. _reports:
 
-============
+===============================
 Inference and exporting results
-============
+===============================
 
 The Reports user interface and command-line tools can be used to apply trained classifiers to new datasets. Inferences can be generated in image formats or as detailed or aggregate tables.
 
-Reports interface
-------------------------------
+Reports user interface
+======================
 
 .. image:: images/example-report.png
 
@@ -45,7 +46,7 @@ Classifier
 
 
 Command-line tools
-------------------------------
+==================
 
 Command line tools are provided to generate detailed inference results at the superpixel level or large whole-slide mask images. These tools are hosted in the server container.
 
