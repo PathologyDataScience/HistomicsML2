@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = python -msphinx
-SPHINXPROJ    = HistomicsML-TA
+SPHINXPROJ    = HistomicsML2
 SOURCEDIR     = .
 BUILDDIR      = _build
 
