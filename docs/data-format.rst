@@ -5,7 +5,7 @@
 Data formats
 ===================
 
-The format described here provides a template for users to generate HistomicsML datasets using their own segmentation and feature extraction methods. This section describes how to format user-generated data for import into HistomicsML and references the example dataset provided with the Docker containers.
+The format described here provides a template for users to generate HistomicsML2 datasets using their own segmentation and feature extraction methods. This section describes how to format user-generated data for import into HistomicsML2 and references the example dataset provided with the Docker containers.
 
 A dataset consists of whole-slide images (.tif), a slide description table (.csv), object boundaries (.txt), histomic features (.h5), and optionally a PCA model (.pkl).
 
