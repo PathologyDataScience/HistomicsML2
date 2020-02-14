@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# HistomicsML-TA documentation build configuration file, created by
+# HistomicsML2 documentation build configuration file, created by
 # sphinx-quickstart on Sat Mar 23 20:39:55 2019.
 #
 # This file is execfile()d with the current directory set to its
@@ -45,7 +45,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'HistomicsML-TA'
+project = u'HistomicsML2'
 copyright = u'2019, Sanghoon Lee'
 author = u'Sanghoon Lee'
 
@@ -115,7 +115,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'HistomicsML-TAdoc'
+htmlhelp_basename = 'HistomicsML2doc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -142,7 +142,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'HistomicsML-TA.tex', u'HistomicsML-TA Documentation',
+    (master_doc, 'HistomicsML2.tex', u'HistomicsML2 Documentation',
      u'Sanghoon Lee', 'manual'),
 ]
 
@@ -152,7 +152,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'histomicsml-ta', u'HistomicsML-TA Documentation',
+    (master_doc, 'histomicsml2', u'HistomicsML2 Documentation',
      [author], 1)
 ]
 
@@ -163,7 +163,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'HistomicsML-TA', u'HistomicsML-TA Documentation',
-     author, 'HistomicsML-TA', 'One line description of project.',
+    (master_doc, 'HistomicsML2', u'HistomicsML2 Documentation',
+     author, 'HistomicsML2', 'One line description of project.',
      'Miscellaneous'),
 ]
