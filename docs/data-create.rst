@@ -1,11 +1,11 @@
 .. highlight:: shell
 .. _data-create:
 
-=================================
-Creating datasets for HistomicsML
-=================================
+==================================
+Creating datasets for HistomicsML2
+==================================
 
-The dataset creation docker container provides all the functionality needed to create new HistomicsML datasets. This page describes how to use this docker image to generate new datasets from whole-slide image datasets.
+The dataset creation docker container provides all the functionality needed to create new HistomicsML2 datasets. This page describes how to use this docker image to generate new datasets from whole-slide image datasets.
 
 .. note:: When working with user-generated datasets you will be mounting folders from the local filesystem to be visible as volumes within the various Docker containers. When we refer to paths in the documentation we are careful to note whether these paths are on the local system or a mounted volume inside a container.
 
@@ -27,7 +27,7 @@ Use the docker pull command to download the dataset creation container. Use ``ca
 Create directories
 ------------------
 
-HistomicsML datasets should be stored inside subdirectories within a master directory to simplifies file sharing with the HistomicsML containers.
+HistomicsML2 datasets should be stored inside subdirectories within a master directory to simplifies file sharing with the HistomicsML2 containers.
 
 Create the master directory on the local file system and navigate to this folder
 
@@ -50,7 +50,7 @@ Now create a project directory and generate subdirectories to store superpixel b
   $ cd myproject
   $ mkdir boundary centroid svs tif
 
-These directories will be mounted inside the data creation docker during dataset creation, and again by the database and server containers when running HistomicsML.
+These directories will be mounted inside the data creation docker during dataset creation, and again by the database and server containers when running HistomicsML2.
 
 
 Create slide information table
@@ -65,7 +65,7 @@ Use ``CreateSlideInformation.py`` to create a .csv in the project directory that
 
 Here the -v option mounts the project directory inside the container and with the same name under root '/'.
 
-.. note:: The ``slide_info.csv`` file describes the whole-slide image dimensions and magnifications and will be ingested by the HistomicsML database when datasets are ingested.
+.. note:: The ``slide_info.csv`` file describes the whole-slide image dimensions and magnifications and will be ingested by the HistomicsML2 database when datasets are ingested.
 
 .. note:: Whole-slide image filenames must not contain any '.' characters other than the extension (e.g. .svs). This character interferes with the database ingestion and will prevent dataset import.
 
@@ -143,11 +143,11 @@ Parameters of the feature extraction script can be adjusted to change the patch 
 
 **An important note on training, inference, and the PCA transformation:**
 
-.. note::  HistomicsML can be used to train new classifiers or to apply existing classifiers to new datasets (inference). For inference it is important that features are extracted consistently in both the training dataset and the inference dataset.
+.. note::  HistomicsML2 can be used to train new classifiers or to apply existing classifiers to new datasets (inference). For inference it is important that features are extracted consistently in both the training dataset and the inference dataset.
 
   Since features are transformed through principal component analysis (PCA), the same PCA transform used in training datasets needs to be re-used where these classifier are applied to inference datasets. The data creation container provides the option to generate a new PCA transform when creating a training set, or to re-use an existing PCA transform when creating an inference dataset.
 
-  HistomicsML stores a PCA transforms as .pkl files. Each project directory needs a .pkl file to be imported into HistomicsML, and so users should manage and copy these files when creating inference datasets.
+  HistomicsML2 stores a PCA transforms as .pkl files. Each project directory needs a .pkl file to be imported into HistomicsML2, and so users should manage and copy these files when creating inference datasets.
 
 
 Completed dataset
@@ -194,4 +194,4 @@ The above steps will generate a series of files in your project folder:
 Next steps
 ==========
 
-See how to :ref:`import HistomicsML datasets <data-import>` using the command-line and user interface.
+See how to :ref:`import HistomicsML2 datasets <data-import>` using the command-line and user interface.
