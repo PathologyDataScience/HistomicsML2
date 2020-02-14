@@ -20,14 +20,14 @@ class Network():
 		self.input_units = 64
 		self.hidden_units = 32
 		self.output_units = 1
-		self.epochs = 10
+		self.epochs = 20
 		self.dropout = 0.3
 		self.activation = 'relu'
 		self.activation_last = 'sigmoid'
 		self.optimizer = 'adam'
 		self.loss = 'binary_crossentropy'
 		self.noise_shape = None
-		self.seed = None
+		self.seed = 145
 		self.batch_size = 1000000
 		self.metrics = 'accuracy'
 		self.checkpointIter = 0
