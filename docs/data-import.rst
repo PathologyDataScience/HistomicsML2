@@ -5,11 +5,11 @@
 Importing datasets
 ==================
 
-This section describes the dataset import process and setup of the HistomicsML server. Datasets are imported by first committing a dataset at the command line to the database container, and then importing committed datasets through the server container user interface.
+This section describes the dataset import process and setup of the HistomicsML2 server. Datasets are imported by first committing a dataset at the command line to the database container, and then importing committed datasets through the server container user interface.
 
 .. note:: Superpixel boundary files are large and so these are committed to the database from the command line.
 
-HistomicsML datasets should be stored in subdirectories within a single master directory: 
+HistomicsML2 datasets should be stored in subdirectories within a single master directory: 
 
 .. code-block:: bash
 
@@ -40,7 +40,7 @@ This hierarchy allows all datasets to be easily mounted and accessible by the do
 
 .. note:: Web server docker container needs a permission to access the directories: ``myproject1``, ``myproject2``, ..., ``classifiers``, so make sure that the directories support a writable permission (e.g. chmod 777 /master/myproject1).
 
-Download the HistomicsML containers
+Download the HistomicsML2 containers
 -----------------------------------
 
 .. code-block:: bash
@@ -63,7 +63,7 @@ On the local file system, navigate to the master directory then run the database
 Here the -v command mounts the master directory to the path ``/${PWD##*/}`` inside the database docker container.
 
 .. note:: The database and server dockers run Apache and Mysql servers on ports 80 and 3306 respectively.
-   Check if these ports are in use before deploying HistomicsML.
+   Check if these ports are in use before deploying HistomicsML2.
 
 Next, run the database docker container interactively and commit the superpixel boundaries and slide information tables using the script ``import_boundary_slideinformation.sh``
 
@@ -88,7 +88,7 @@ If you generated a dataset for inference then you imported a PCA transform durin
   $ cp /master/myproject1/training_pca.pkl /master/myproject2
 
 
-Launch HistomicsML and import the datasets
+Launch HistomicsML2 and import the datasets
 ------------------------------------------
 
 Run the server container
@@ -97,7 +97,7 @@ Run the server container
 
   $ docker run --net hmlnet -i -t -v "$PWD":/datasets -p 80:80 -p 6379:6379 --link hmldb --name hml cancerdatascience/histomicsml:1.0 /bin/bash
 
-Start Redis and Apache, then launch the HistomicsML server
+Start Redis and Apache, then launch the HistomicsML2 server
 
 .. code-block:: bash
 
