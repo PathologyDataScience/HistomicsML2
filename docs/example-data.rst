@@ -51,29 +51,31 @@ Run the database container and setup a network to communicate with the server co
 Running the HistomicsML web server container
 --------------------------------------------
 
-Run the server container, start Redis and Apache, then launch HistomicsML
+Run the server container, start Redis and Apache, and then launch the HistomicsML application
 
 .. code-block:: bash
 
   $ docker run --net hmlnet -i -t -p 80:80 -p 6379:6379 --link hmldb --name hml cancerdatascience/histomicsml:example /bin/bash
-
-.. code-block:: bash
-
   # Run redis on server container.
   root@5c6eb03c0e2f:/notebooks# redis-server --daemonize yes
   # Run apache on server container.
   root@5c6eb03c0e2f:/notebooks# service apache2 start
-  # Use this command if server has a static IP address available, otherwise skip.
-  root@5c6eb03c0e2f:/notebooks# sed -i -e 's/\/localhost/\/Your_Static_IP_Address/g' /var/www/html/HistomicsML/php/hostspecs.php
   # Launch HistomicsML and wait for "Dataset Loaded."
   root@5c6eb03c0e2f:/notebooks# cd /var/www/html/predict-rest-api
   root@5c6eb03c0e2f:/notebooks# python run_model_server.py
 
+If the server has a static IP address available you can run this command to set it after starting Apache and before launching HistomicsML
+
+.. code-block:: bash
+
+  # Use this command if server has a static IP address available, otherwise skip.
+  root@5c6eb03c0e2f:/notebooks# sed -i -e 's/\/localhost/\/Your_Static_IP_Address/g' /var/www/html/HistomicsML/php/hostspecs.php
+
 .. note:: If the server becomes unresponsive or generates a connection error during use then re-launch run_model_server.py.
 
 
-Launching the HistomicsML page
-------------------------------
+Accessing HistomicsML from your browser
+---------------------------------------
 
 Navigate your browser to the HistomicsML-TA page http://localhost/HistomicsML.
 
