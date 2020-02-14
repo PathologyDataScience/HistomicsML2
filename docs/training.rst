@@ -1,11 +1,11 @@
 .. highlight:: shell	
 .. _training:	
 
-======================================
- Training classifiers with HistomicsML	
-======================================	
+=======================================
+ Training classifiers with HistomicsML2	
+=======================================
 
- This page illustrates how to use the HistomicsML-TA interfaces to train classification rules using the example data provided in the Docker container.	
+ This page illustrates how to use the HistomicsML2 interfaces to train classification rules using the example data provided in the Docker container.	
 
  Initializing the classifier	
 -------------------------	
