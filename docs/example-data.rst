@@ -83,6 +83,12 @@ Navigate your browser to the HistomicsML2 page http://localhost/HistomicsML.
 Next steps
 ==========
 
-See the section on :ref:`training <training classifiers>` to learn how to use the HistomicsML2 training interfaces.
+Watch the tutorial video to learn how to use the HistomicsML2 interface, or see the See the section on :ref:`training <training classifiers>` for written documentation.
+
+.. raw:: html
+
+    <div style="position: relative; padding-bottom: 5.0%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/vIExh6tukPk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
 
 See a more detailed overview of HistomicsML2 see :ref:`system-overview <System overivew>`, or learn how to :ref:`data-create <create>` and :ref:`data-import <import>` your own datasets in HistomicsML2.
