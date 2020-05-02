@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """
 The main server of HistomicsML
 
@@ -60,6 +59,7 @@ def run():
     # store special features in memory
     # dset_special = dataset.Dataset(set.PATH_TO_SPECIAL)
     dset_special = None
+    print "Dataset Loaded."
     # set normal features in memory to false
     is_normal_loaded = True
     tset_name = None
@@ -128,6 +128,7 @@ def run():
 
             if target == 'reload':
                 t_path = set.TRAININGSET_DIR + q["trainingSetName"]
+                m_path = set.MODEL_DIR + q["trainingSetModelName"]
                 is_reloaded = True
 
             if target == 'reviewSave':
@@ -277,6 +278,8 @@ def run():
                 tset_path = t_path.split('/')[-1]
                 tset_name = tset_path.split('.')[0]
 
+                model.loading_model(m_path)
+
                 print "Training ... ", len(train_labels)
                 t0 = time()
                 model.train_model(train_features, train_labels, tset_name)
@@ -324,7 +327,10 @@ def run():
                 t1 = time()
                 print "Predict took ", t1 - t0
 
-                inputImageFile = '/datasets/tif/'+ report_label.slide + '.svs.dzi.tif'
+                masterDirectory = '/'+dataSetPath.split('/')[1]
+                dataDirectory = '/'+dataSetPath.split('/')[2]
+
+                inputImageFile = masterDirectory+dataDirectory+'/tif/'+ report_label.slide + '.svs.dzi.tif'
 
                 bold = 512
                 bold_left = report_label.left - bold
@@ -359,8 +365,8 @@ def run():
                 runcursor = mydb.cursor()
 
                 query = 'SELECT centroid_x, centroid_y, boundary from ' + boundaryTablename + ' where slide="' +  report_label.slide + \
-                '" AND centroid_x BETWEEN ' + str(report_label.left) + ' AND ' + str(report_label.right) + \
-                ' AND centroid_y BETWEEN ' + str(report_label.top) + ' AND ' + str(report_label.bottom)
+                '" AND centroid_x BETWEEN ' + str(bold_left) + ' AND ' + str(bold_right) + \
+                ' AND centroid_y BETWEEN ' + str(bold_top) + ' AND ' + str(bold_bottom)
 
                 runcursor.execute(query)
 
@@ -368,7 +374,7 @@ def run():
 
                 # find region index from hdf5
                 object_idx = load(
-                    report_label.left, report_label.right, report_label.top, report_label.bottom, x_centroid_set.astype(np.float), y_centroid_set.astype(np.float)
+                    bold_left, bold_right, bold_top, bold_bottom, x_centroid_set.astype(np.float), y_centroid_set.astype(np.float)
                 )
 
                 # set an array for boundary points in a region to zero
@@ -540,7 +546,13 @@ def run():
                 print ("map done")
 
             if target == 'save':
-                data = finalize.getData(uset.users[uidx])
+                if finalize.reloaded == "true":
+                    tag = finalize.uid[-3:]
+                    modelName = self.classifier + "-" + tag + ".h5"
+                else:
+                    modelName = self.classifier + ".h5"
+                model.saving_model(finalize.modeldir+modelName)
+                data = finalize.getData(uset.users[uidx], modelName)
                 db.set(q_uid, json.dumps(data))
                 db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
 
