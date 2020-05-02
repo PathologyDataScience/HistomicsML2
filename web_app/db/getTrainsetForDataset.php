@@ -23,7 +23,7 @@
 			$modelNames[] = $array[2];
 		}
 
-		$trainingSetData = array("trainingSets" => $trainingSetNames, "fileNames" => $fileNames, "modelNames" => $modelNames));
+		$trainingSetData = array("trainingSets" => $trainingSetNames, "fileNames" => $fileNames, "modelNames" => $modelNames);
 		mysqli_free_result($result);
 
 	} else {
