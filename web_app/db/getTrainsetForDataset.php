@@ -8,7 +8,7 @@
 //	$sql = 'SELECT t.name, t.fileName FROM training_sets t '
 //			.'JOIN datasets d ON t.dataset_id=d.id WHERE d.name="'.$dataset.'"';
 
-	$sql = 'SELECT name, fileName, modelName FROM training_sets';
+	$sql = 'SELECT name, filename, modelname FROM training_sets';
 
 	$dbConn = guestConnect();
 
@@ -16,6 +16,7 @@
 
 		$trainingSetNames = array();
 		$fileNames = array();
+		$modelNames = array();
 		while( $array = mysqli_fetch_row($result) ) {
 			$trainingSetNames[] = $array[0];
 			$fileNames[] = $array[1];
