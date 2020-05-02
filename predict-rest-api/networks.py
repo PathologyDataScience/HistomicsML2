@@ -1,6 +1,5 @@
 """
 Network class
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 
 Initialize neural network model.
 Perform train model.
@@ -10,7 +9,7 @@ Return predicted probabilities/Predicted labels.
 import numpy as np
 from keras.models import Sequential, model_from_json
 from keras.layers import Dense, Dropout
-
+from keras.models import load_model
 
 class Network():
 
@@ -41,6 +40,14 @@ class Network():
 	    self.model.add(Dropout(self.dropout, noise_shape=self.noise_shape, seed=self.seed))
 	    self.model.add(Dense(self.output_units, activation=self.activation_last))
 	    self.model.compile(optimizer=self.optimizer, loss=self.loss, metrics=[self.metrics])
+
+	def loading_model(self, path):
+
+		self.model = load_model(path)
+
+	def saving_model(self, path):
+
+		self.model.save(path)
 
 	def train_model(self, features, labels, classifier):
 

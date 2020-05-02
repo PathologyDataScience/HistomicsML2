@@ -1,29 +1,3 @@
-//
-//	Copyright (c) 2014-2019, Emory University
-//	All rights reserved.
-//
-//	Redistribution and use in source and binary forms, with or without modification, are
-//	permitted provided that the following conditions are met:
-//
-//	1. Redistributions of source code must retain the above copyright notice, this list of
-//	conditions and the following disclaimer.
-//
-//	2. Redistributions in binary form must reproduce the above copyright notice, this list
-// 	of conditions and the following disclaimer in the documentation and/or other materials
-//	provided with the distribution.
-//
-//	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
-//	EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-//	OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
-//	SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-//	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
-//	TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-//	BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-//	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
-//	WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
-//	DAMAGE.
-//
-//
 var annoGrpTransformFunc;
 var IIPServer="";
 
@@ -200,6 +174,7 @@ $(function() {
 				$('#btn_save').attr('disabled', 'disabled');
 				// datapath = data['dataSetPath'];
 				trainingSetName = data['trainingSetName'];
+				trainingSetModelName = data['trainingSetModelName'];
 				statusObj.iteration(iteration);
 				$('#reloadprogressBar').css("width", '10%');
 				reloadTrainingSet();
@@ -274,6 +249,7 @@ function reloadTrainingSet() {
 						dataset: datapath,
 						pca: pcapath,
 						trainingSetName: trainingSetName,
+						trainingSetModelName: trainingSetModelName,
 		},
 		success: function(data) {
 				var pass = data;
@@ -1698,6 +1674,7 @@ function finishSave(saveJson) {
 
 	var iterations = saveJson['iterations'];
 	var filename = saveJson['filename'];
+	var modelname = saveJson['modelname'];
 	var samples = JSON.stringify(saveJson['samples']);
 
 	$.ajax({
@@ -1707,6 +1684,7 @@ function finishSave(saveJson) {
 						uid: uid,
 						iterations: iterations,
 						filename:	filename,
+						modelname: modelname,
 						samples: samples,
 						classifier: classifier,
 						posClass: posClass,

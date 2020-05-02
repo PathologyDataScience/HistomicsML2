@@ -1,6 +1,5 @@
 """
 Redis web server of HistomicsML
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 """
 
 import settings

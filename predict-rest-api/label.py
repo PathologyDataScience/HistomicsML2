@@ -1,6 +1,5 @@
 """
 Label class
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 
 Init label variables.
 Set label information.

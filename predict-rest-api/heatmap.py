@@ -1,6 +1,5 @@
 """
 Heatmap
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 
 Set heatmap information.
 Get heatmap information.

@@ -1,6 +1,5 @@
 """
 Dataset class
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 
 Define dataset elements.
 - Feature, Centroids, Slide names, Values of mean and standard deviation.

@@ -1,6 +1,5 @@
 """
 Viewer(label) class
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 
 Initialize viewer variables.
 Set viewer label information.
