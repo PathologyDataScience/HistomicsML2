@@ -140,10 +140,8 @@ def reload():
 	dataset = request.form['dataset']
 	pca = request.form['pca']
 	trainingSetName = request.form['trainingSetName']
-	trainingSetModelName = request.form['trainingSetModelName']
 	d = dict(id=uid, uid=uid, target=target,
 			 trainingSetName=trainingSetName, dataset=dataset,
-			 trainingSetModelName=trainingSetModelName,
 			 pca=pca)
 
 	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
