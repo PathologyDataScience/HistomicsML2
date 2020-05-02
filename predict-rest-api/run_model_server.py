@@ -128,6 +128,7 @@ def run():
 
             if target == 'reload':
                 t_path = set.TRAININGSET_DIR + q["trainingSetName"]
+                print (q["trainingSetModelName"])
                 m_path = set.MODEL_DIR + q["trainingSetModelName"]
                 is_reloaded = True
 
