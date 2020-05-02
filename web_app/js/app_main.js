@@ -117,16 +117,10 @@ function updateTrainingSets(dataSet) {
 				reloadTrainSetSel.classList.toggle("show");
 			}
 
-			// for( var item in data.trainingSets ) {
-			// 	reloadTrainSel.append(new Option(data.trainingSets[item], data.trainingSets[item]));
-			// }
-			// updateTrainingsetInfo(data.trainingSets[0]);
-
-			for( var item in data ) {
-				reloadTrainSel.append(new Option(data[item][0], data[item][0]));
+			for( var item in data.trainingSets ) {
+				reloadTrainSel.append(new Option(data.trainingSets[item], data.trainingSets[item]));
 			}
-			updateTrainingsetInfo(data[0]);
-
+			updateTrainingsetInfo(data.trainingSets[0]);
 		}
 	});
 }
