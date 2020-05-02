@@ -1,6 +1,5 @@
 """
 Data for Users
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 """
 import h5py
 import numpy as np

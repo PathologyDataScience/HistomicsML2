@@ -1,6 +1,5 @@
 """
 View
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 """
 import numpy as np
 import settings

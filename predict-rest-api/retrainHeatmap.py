@@ -1,6 +1,5 @@
 """
 Viewer(Heatmap) class
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 
 Initialize viewer variables.
 Generate heatmap images (uncertain and density) in a heatmap tab

@@ -1,6 +1,5 @@
 """
 Init class
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 
 Initialize model(VGG).
 Load pca information

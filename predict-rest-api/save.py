@@ -1,6 +1,5 @@
 """
 Save class
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 
 Initialize classifier information.
 Create a classifier
@@ -24,6 +23,7 @@ class Save():
 		s = settings.Settings()
 		self.FEATURE_DIM = s.FEATURE_DIM
 		self.traindir = s.TRAININGSET_DIR
+		self.modeldir = s.MODEL_DIR
 
 	def setData(self, q):
 
@@ -34,7 +34,7 @@ class Save():
 		self.iteration = int(q["iteration"])
 		self.reloaded = q["reloaded"]
 
-	def getData(self, users):
+	def getData(self, users, modelName):
 
 		if self.reloaded == "true":
 			tag = self.uid[-3:]
@@ -45,6 +45,7 @@ class Save():
 		data = {}
 		data['iterations'] = str(self.iteration)
 		data['filename'] = fileName
+		data['modelname'] = modelName
 		data['samples'] = []
 
 		sample_num = len(users['samples'])

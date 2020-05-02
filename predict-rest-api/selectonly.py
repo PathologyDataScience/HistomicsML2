@@ -1,6 +1,5 @@
 """
 Prime on TrainingSet
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 """
 import numpy as np
 from getUncertainSamples import get as getTopUncertain

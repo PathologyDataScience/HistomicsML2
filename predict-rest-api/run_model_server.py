@@ -1,6 +1,6 @@
+#!/usr/bin/env python
 """
 The main server of HistomicsML
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 
 Input: training samples (json)
 Output: prediction results in the form of RedisDB
@@ -60,7 +60,6 @@ def run():
     # store special features in memory
     # dset_special = dataset.Dataset(set.PATH_TO_SPECIAL)
     dset_special = None
-    print "Dataset Loaded."
     # set normal features in memory to false
     is_normal_loaded = True
     tset_name = None
@@ -154,7 +153,7 @@ def run():
             if is_normal_loaded:
                 dset = dataset.Dataset(dataSetPath)
             else:
-                dset = dset_special
+                dset = dataset.Dataset(set.PATH_TO_SPECIAL)
 
             PCA = joblib.load(pcaPath)
 
@@ -460,7 +459,7 @@ def run():
 
                 out_file.write("Slide\t")
                 out_file.write("Predicted positive (superpixels)\t")
-                out_file.write("Predicted negative (superpixels)\t")                
+                out_file.write("Predicted negative (superpixels)\t")
                 out_file.write("\n")
 
                 for i in range(len(dset.slides)):

@@ -1,8 +1,3 @@
-"""
-Set paths
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
-"""
-
 class Settings():
 
     def __init__(self):
@@ -23,5 +18,6 @@ class Settings():
         self.FEATURE_DIM = 64
         self.IS_HEATMAP = False
         self.TRAININGSET_DIR = "/datasets/classifiers/"
+        self.MODEL_DIR = "/datasets/models/"
         self.DATASET_DIR = "/datasets/"
         self.PATH_TO_SPECIAL = "/datasets/BRCA/BRCA-spfeatures-1.h5"

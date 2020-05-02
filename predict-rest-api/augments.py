@@ -1,6 +1,5 @@
 """
 Data normalization and augmentation class
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 
 To perform real time augmentation, we do perform several preprocessing steps.
 1. Color normalization(Reinhard) - reference mean and standard deviation

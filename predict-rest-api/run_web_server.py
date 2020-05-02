@@ -1,6 +1,5 @@
 """
 Redis web server of HistomicsML
-written by Sanghoon Lee (sanghoon.lee@emory.edu)
 """
 
 import settings
@@ -141,6 +140,7 @@ def reload():
 	dataset = request.form['dataset']
 	pca = request.form['pca']
 	trainingSetName = request.form['trainingSetName']
+	trainingSetModelName = request.form['trainingSetModelName']
 	d = dict(id=uid, uid=uid, target=target,
 			 trainingSetName=trainingSetName, dataset=dataset,
 			 pca=pca)
