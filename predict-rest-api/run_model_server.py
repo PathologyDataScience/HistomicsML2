@@ -548,9 +548,9 @@ def run():
             if target == 'save':
                 if finalize.reloaded == "true":
                     tag = finalize.uid[-3:]
-                    modelName = self.classifier + "-" + tag + ".h5"
+                    modelName = finalize.classifier + "-" + tag + ".h5"
                 else:
-                    modelName = self.classifier + ".h5"
+                    modelName = finalize.classifier + ".h5"
                 model.saving_model(finalize.modeldir+modelName)
                 data = finalize.getData(uset.users[uidx], modelName)
                 db.set(q_uid, json.dumps(data))
