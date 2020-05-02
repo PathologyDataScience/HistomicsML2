@@ -174,6 +174,7 @@ $(function() {
 				$('#btn_save').attr('disabled', 'disabled');
 				// datapath = data['dataSetPath'];
 				trainingSetName = data['trainingSetName'];
+				trainingSetModelName = data['trainingSetModelName'];
 				statusObj.iteration(iteration);
 				$('#reloadprogressBar').css("width", '10%');
 				reloadTrainingSet();
@@ -248,6 +249,7 @@ function reloadTrainingSet() {
 						dataset: datapath,
 						pca: pcapath,
 						trainingSetName: trainingSetName,
+						trainingSetModelName: trainingSetModelName,
 		},
 		success: function(data) {
 				var pass = data;
