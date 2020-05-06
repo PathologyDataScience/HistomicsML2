@@ -6,9 +6,11 @@ import networks
 import openslide
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 from scipy.misc import imsave
 from itertools import cycle
 from sklearn.cluster import AffinityPropagation
+plt.switch_backend('agg')
 
 def find_mag(i):
     base_mag={10:40, 9:20, 8:10, 7:5, 6:2.5, 5:1.25}
@@ -75,6 +77,10 @@ def main(args):
             # get positive and negative points
             positive_index = np.where(score_set[score_set>0])
             positive_points = points[positive_index].astype(int)
+            # random choice if the number of superpixels is over 1000
+            if len[positive_points] > args['random_choice']:
+                indices = np.random.choice(positive_points.shape[0], args['random_choice'], replace=False)
+                positive_points = positive_points[indices]
             # perform Affinity Propagation Clustering
             af = AffinityPropagation().fit(positive_points)
             cluster_centers_indices = af.cluster_centers_indices_
@@ -111,8 +117,7 @@ if __name__ == '__main__':
                         help='The location of a slide')
     parser.add_argument('--out_dir',
                         metavar='Output_Directory',
-                        # default='/datasets/classifiers/tmp/',
-                        default='./',
+                        default='/datasets/ouputs/',
                         type=str,
                         help='The location of the output directory')
     parser.add_argument('-b',
@@ -120,6 +125,11 @@ if __name__ == '__main__':
                         default=1000000,
                         type=int,
                         help='For test use, the number of superpixels to predict in a batch')
+    parser.add_argument('-r',
+                        '--random_choice',
+                        default=1000,
+                        type=int,
+                        help='Limit the number of superpixels for clustering')
     parser.add_argument('-tm',
                     '--target_mag',
                     default=1.25,
