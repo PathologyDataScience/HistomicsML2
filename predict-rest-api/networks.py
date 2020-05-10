@@ -10,7 +10,7 @@ import numpy as np
 from keras.models import Sequential, model_from_json
 from keras.layers import Dense, Dropout
 from keras.models import load_model
-from keras.optimizers import Adam, RMSprop, Adadelta, SGD, Adagrad, Adamax, Nadam, Ftrl
+from keras.optimizers import Adam, RMSprop, Adadelta, SGD, Adagrad, Adamax, Nadam
 
 class Network():
 
@@ -56,14 +56,12 @@ class Network():
 
 	def init_model(self):
 
-	    self.model = Sequential()
-	    self.model.add(Dense(self.hidden_units, input_dim=self.input_units, activation=self.activation))
-	    self.model.add(Dropout(self.dropout, noise_shape=self.noise_shape, seed=self.seed))
-	    self.model.add(Dense(self.output_units, activation=self.activation_last))
+		self.model = Sequential()
+		self.model.add(Dense(self.hidden_units, input_dim=self.input_units, activation=self.activation))
+		self.model.add(Dropout(self.dropout, noise_shape=self.noise_shape, seed=self.seed))
+		self.model.add(Dense(self.output_units, activation=self.activation_last))
 
-		if self.optimizer == 'Ftrl':
-			opt = Ftrl(learning_rate=self.learning_rate)
-		elif self.optimizer == 'RMSprop':
+		if self.optimizer == 'RMSprop':
 			opt = RMSprop(learning_rate=self.learning_rate)
 		elif self.optimizer == 'Adadelta':
 			opt = kAdadelta(learning_rate=self.learning_rate)
@@ -78,7 +76,7 @@ class Network():
 		else:
 			opt = Adam(learning_rate=self.learning_rate)
 
-	    self.model.compile(optimizer=opt, loss=self.loss, metrics=[self.metrics])
+		self.model.compile(optimizer=opt, loss=self.loss, metrics=[self.metrics])
 
 	def loading_model(self, path):
 
