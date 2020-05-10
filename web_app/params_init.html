@@ -39,31 +39,31 @@
 
 			<div class="row">
 				<div class="col-sm-4 col-md-4 col-lg-4">
-					<h3>Parameters</h3>
+					<h3>Select Parameters</h3>
 				<form role="form" id="params_form" method="POST">
 					<div class="form-group">
 							<label for="activation">Activation</label>
 					  <select class="form-control" id="activationLabelSel" name="activationLabel">
-					    <option value="0">relu</option>
-					    <option value="3">softplus</option>
-					    <option value="4">softsign</option>
-					    <option value="5">tanh</option>
-					    <option value="6">selu</option>
-					    <option value="7">elu</option>
-					    <option value="8">exponential</option>
+					    <option value="relu">relu</option>
+					    <option value="softplus">softplus</option>
+					    <option value="softsign">softsign</option>
+					    <option value="tanh">tanh</option>
+					    <option value="selu">selu</option>
+					    <option value="elu">elu</option>
+					    <option value="exponential">exponential</option>
 					  </select>
 					</div>
 
 					<div class="form-group">
 							<label for="optimizer">Optimizer</label>
 					  <select class="form-control" id="optimizerLabelSel" name="optimizerLabel">
-					    <option value="0">Adam</option>
-					    <option value="3">RMSprop</option>
-					    <option value="4">Adadelta</option>
-					    <option value="5">SGD</option>
-					    <option value="6">Adagrad</option>
-					    <option value="7">Adamax</option>
-					    <option value="8">Nadam</option>
+					    <option value="Adam">Adam</option>
+					    <option value="RMSprop">RMSprop</option>
+					    <option value="Adadelta">Adadelta</option>
+					    <option value="SGD">SGD</option>
+					    <option value="Adagrad">Adagrad</option>
+					    <option value="Adamax">Adamax</option>
+					    <option value="Nadam">Nadam</option>
 					  </select>
 					</div>
 
@@ -94,27 +94,29 @@
 				</div>
 
 				<div class="col-sm-4 col-md-4 col-lg-4">
+							<h3>Current Parameters</h3>
 					<div class="form-group">
-						<label for="modelsummary">Current Hyperparameters</label>
-						<br/>
 						<div>
 							<span><strong>Activation:</strong></span>
-							<span id="activationtxt">Adam</span>
+							<span id="activationtxt">relu</span>
+							<br/>
 							<br/>
 							<span><strong>Optimizer:</strong></span>
-							<span id="optimizertxt">Relu</span>
+							<span id="optimizertxt">Adam</span>
+							<br/>
 							<br/>
 							<span><strong>Epochs:</strong></span>
 							<span id="epochstxt">10</span>
 							<br/>
+							<br/>
 							<span><strong>Learning_rate:</strong></span>
 							<span id="learning_ratetxt">0.001</span>
+							<br/>
 							<br/>
 							<span><strong>Dropout:</strong></span>
 							<span id="dropouttxt">0.3</span>
 						</div>
 					</div>
-
 				</div>
 			</div>
 

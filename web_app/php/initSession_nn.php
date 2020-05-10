@@ -97,6 +97,11 @@
 		$_SESSION['reloaded'] = false;
 		$_SESSION['init_reloaded'] = false;
 		$_SESSION['superpixelSize'] = $featureFile[2];
+		$_SESSION['activation'] = 'relu';
+		$_SESSION['optimizer'] = 'Adam';
+		$_SESSION['learning_rate'] = '0.001';
+		$_SESSION['dropout'] = '0.3';
+		$_SESSION['epochs'] = '10';
 		header("Location: ../prime.html");
 	}
 ?>

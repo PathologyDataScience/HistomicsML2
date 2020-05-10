@@ -59,12 +59,12 @@ def run():
     # store special features in memory
     # dset_special = dataset.Dataset(set.PATH_TO_SPECIAL)
     dset_special = None
-    print "Dataset Loaded."
     # set normal features in memory to false
     is_normal_loaded = True
     tset_name = None
     is_reloaded = False
     m_checkpoints = 0
+    print "Dataset Loaded."
 
     while True:
 

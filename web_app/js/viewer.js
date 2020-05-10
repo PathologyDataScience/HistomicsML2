@@ -187,6 +187,7 @@ $(function() {
 				$('#nav_heatmaps').hide();
 				$('#nav_review').hide();
 				$('#nav_params').hide();
+				$('#nav_paramsinit').hide();
 				// $('#nav_survival').hide();
 				$('#trainInfo').hide();
 				$('#heatmap').hide();

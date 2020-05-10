@@ -317,7 +317,7 @@ def map():
 	return jsonify(data)
 
 @app.route("/model/params", methods=['POST'])
-def label():
+def params():
 	data = {"success": 'none'}
 	d = json.loads(request.data)
 	uid = d.get('uid')
@@ -329,7 +329,6 @@ def label():
 			break
 	db.flushdb()
 	return jsonify(data)
-
 
 if __name__ == "__main__":
 	app.run()
