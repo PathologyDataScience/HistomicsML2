@@ -1,0 +1,126 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>HistomicsML - Parameters</title>
+
+		<script src="js/jquery-1.9.0.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	</head>
+
+
+	<body>
+
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="navbar-header">
+				<ul class="nav navbar-nav"><li><a>HistomicsML</a></li></ul>
+			</div>
+
+			<div>
+				<ul class="nav navbar-nav">
+					<li><a href="prime.html" id="prime">Prime</a></li>
+					<li class="active"><a href="params_init.html" id="nav_paramsinit">Parameters</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container">
+		    <div class="row">
+		    	<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+			    	<center><img src="images/banner.png" class="img-responsive"></center>
+ 				</div>
+			</div>
+
+			<br />
+
+			<div class="row">
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					<h3>Parameters</h3>
+				<form role="form" id="params_form" method="POST">
+					<div class="form-group">
+							<label for="activation">Activation</label>
+					  <select class="form-control" id="activationLabelSel" name="activationLabel">
+					    <option value="0">relu</option>
+					    <option value="3">softplus</option>
+					    <option value="4">softsign</option>
+					    <option value="5">tanh</option>
+					    <option value="6">selu</option>
+					    <option value="7">elu</option>
+					    <option value="8">exponential</option>
+					  </select>
+					</div>
+
+					<div class="form-group">
+							<label for="optimizer">Optimizer</label>
+					  <select class="form-control" id="optimizerLabelSel" name="optimizerLabel">
+					    <option value="0">Adam</option>
+					    <option value="3">RMSprop</option>
+					    <option value="4">Adadelta</option>
+					    <option value="5">SGD</option>
+					    <option value="6">Adagrad</option>
+					    <option value="7">Adamax</option>
+					    <option value="8">Nadam</option>
+							<option value="9">Ftrl</option>
+					  </select>
+					</div>
+
+					<div class="form-group">
+						<label for="epochs">Epochs</label>
+						<input type="text" class="form-control" id="epochs"
+								name="epochs" value="10" placeholder="Enter the number of epochs">
+					</div>
+
+					<div class="form-group">
+						<label for="learning_rate">Learning rate</label>
+						<input type="text" class="form-control" id="learning_rate"
+								name="learning_rate" value="0.001" placeholder="Enter learning rate">
+					</div>
+
+					<div class="form-group">
+						<label for="dropout">Dropout</label>
+						<input type="text" class="form-control" id="dropout"
+								name="dropout" value="0.3" placeholder="Enter dropout rate">
+					</div>
+
+					<input type="submit" value="Params">
+				</form>
+
+				</div>
+
+				<div class="col-sm-2 col-md-2 col-lg-2">
+				</div>
+
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					<div class="form-group">
+						<label for="modelsummary">Current Hyperparameters</label>
+						<br/>
+						<div>
+							<span><strong>Activation:</strong></span>
+							<span id="activationtxt">Adam</span>
+							<br/>
+							<span><strong>Optimizer:</strong></span>
+							<span id="optimizertxt">Relu</span>
+							<br/>
+							<span><strong>Epochs:</strong></span>
+							<span id="epochstxt">10</span>
+							<br/>
+							<span><strong>Learning_rate:</strong></span>
+							<span id="learning_ratetxt">0.001</span>
+							<br/>
+							<span><strong>Dropout:</strong></span>
+							<span id="dropouttxt">0.3</span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+		<script src="js/params.js"></script>
+	</body>
+</html>
