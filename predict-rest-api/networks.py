@@ -10,6 +10,7 @@ import numpy as np
 from keras.models import Sequential, model_from_json
 from keras.layers import Dense, Dropout
 from keras.models import load_model
+from keras.optimizers import Adam, RMSprop, Adadelta, SGD, Adagrad, Adamax, Nadam, Ftrl
 
 class Network():
 
@@ -23,7 +24,8 @@ class Network():
 		self.dropout = 0.3
 		self.activation = 'relu'
 		self.activation_last = 'sigmoid'
-		self.optimizer = 'adam'
+		self.optimizer = 'Adam'
+		self.learning_rate = 0.001
 		self.loss = 'binary_crossentropy'
 		self.noise_shape = None
 		self.seed = 145
@@ -33,13 +35,50 @@ class Network():
 		self.model = None
 		self.classifier = None
 
+	def params_setting(self, q):
+
+		self.activation = str(q["activation"])
+		self.optimizer = str(q["optimizer"])
+		self.epochs = int(q["epochs"])
+		self.learning_rate = float(q["learning_rate"])
+		self.dropout = float(q["dropout"])
+
+	def getParams(self):
+
+		data = {}
+		data['activation'] = self.activation
+		data['optimizer'] = self.optimizer
+		data['epochs'] = str(self.epochs)
+		data['learning_rate'] = str(self.learning_rate)
+		data['dropout'] = str(self.dropout)
+
+		return data
+
 	def init_model(self):
 
 	    self.model = Sequential()
 	    self.model.add(Dense(self.hidden_units, input_dim=self.input_units, activation=self.activation))
 	    self.model.add(Dropout(self.dropout, noise_shape=self.noise_shape, seed=self.seed))
 	    self.model.add(Dense(self.output_units, activation=self.activation_last))
-	    self.model.compile(optimizer=self.optimizer, loss=self.loss, metrics=[self.metrics])
+
+		if self.optimizer == 'Ftrl':
+			opt = Ftrl(learning_rate=self.learning_rate)
+		elif self.optimizer == 'RMSprop':
+			opt = RMSprop(learning_rate=self.learning_rate)
+		elif self.optimizer == 'Adadelta':
+			opt = kAdadelta(learning_rate=self.learning_rate)
+		elif self.optimizer == 'SGD':
+			opt = SGD(learning_rate=self.learning_rate)
+		elif self.optimizer == 'Adagrad':
+			opt = Adagrad(learning_rate=self.learning_rate)
+		elif self.optimizer == 'Adamax':
+			opt = Adamax(learning_rate=self.learning_rate)
+		elif self.optimizer == 'Nadam':
+			opt = Nadam(learning_rate=self.learning_rate)
+		else:
+			opt = Adam(learning_rate=self.learning_rate)
+
+	    self.model.compile(optimizer=opt, loss=self.loss, metrics=[self.metrics])
 
 	def loading_model(self, path):
 

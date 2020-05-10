@@ -96,6 +96,9 @@ def run():
             if target == "label":
                 report_label.setData(q)
 
+            if target == "params":
+                model.params_setting(q)
+
             if target == "count":
                 report_count.setData(q)
 
@@ -553,6 +556,11 @@ def run():
                     modelName = finalize.classifier + ".h5"
                 model.saving_model(finalize.modeldir+modelName)
                 data = finalize.getData(uset.users[uidx], modelName)
+                db.set(q_uid, json.dumps(data))
+                db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
+
+            if target == 'params':
+                data = model.getParams()
                 db.set(q_uid, json.dumps(data))
                 db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
 

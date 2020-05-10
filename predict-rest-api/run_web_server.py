@@ -316,6 +316,19 @@ def map():
 	db.flushdb()
 	return jsonify(data)
 
+@app.route("/model/params", methods=['POST'])
+def label():
+	data = {"success": 'none'}
+	d = json.loads(request.data)
+	uid = d.get('uid')
+	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
+	while True:
+		output = db.get(uid)
+		if output is not None:
+			data = copy(output)
+			break
+	db.flushdb()
+	return jsonify(data)
 
 
 if __name__ == "__main__":

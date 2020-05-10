@@ -78,7 +78,7 @@ def main(args):
             positive_index = np.where(score_set[score_set>0])
             positive_points = points[positive_index].astype(int)
             # random choice if the number of superpixels is over 1000
-            if len[positive_points] > args['random_choice']:
+            if len(positive_points) > args['random_choice']:
                 indices = np.random.choice(positive_points.shape[0], args['random_choice'], replace=False)
                 positive_points = positive_points[indices]
             # perform Affinity Propagation Clustering
@@ -117,7 +117,7 @@ if __name__ == '__main__':
                         help='The location of a slide')
     parser.add_argument('--out_dir',
                         metavar='Output_Directory',
-                        default='/datasets/ouputs/',
+                        default='/datasets/outputs/',
                         type=str,
                         help='The location of the output directory')
     parser.add_argument('-b',
@@ -127,7 +127,7 @@ if __name__ == '__main__':
                         help='For test use, the number of superpixels to predict in a batch')
     parser.add_argument('-r',
                         '--random_choice',
-                        default=1000,
+                        default=300,
                         type=int,
                         help='Limit the number of superpixels for clustering')
     parser.add_argument('-tm',
