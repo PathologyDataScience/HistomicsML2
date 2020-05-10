@@ -283,13 +283,20 @@ def run():
 
                 model.loading_model(m_path)
 
+                model.setParams(uset.params_list)
+
                 print "Training ... ", len(train_labels)
                 t0 = time()
                 model.train_model(train_features, train_labels, tset_name)
                 t1 = time()
                 print "Training took ", t1 - t0
 
-                data = {"success": 'pass'}
+                # data = {"success": 'pass'}
+                data = {}
+                data['parameters'] = []
+                for params in uset.params_list:
+                    data['parameters'].append(params)
+                    
                 db.set(q_uid, json.dumps(data))
                 db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
 
@@ -555,7 +562,7 @@ def run():
                 else:
                     modelName = finalize.classifier + ".h5"
                 model.saving_model(finalize.modeldir+modelName)
-                data = finalize.getData(uset.users[uidx], modelName)
+                data = finalize.getData(uset.users[uidx], modelName, model.getParams())
                 db.set(q_uid, json.dumps(data))
                 db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
 

@@ -34,7 +34,7 @@ class Save():
 		self.iteration = int(q["iteration"])
 		self.reloaded = q["reloaded"]
 
-	def getData(self, users, modelName):
+	def getData(self, users, modelName, parameters):
 
 		if self.reloaded == "true":
 			tag = self.uid[-3:]
@@ -62,6 +62,7 @@ class Save():
 		slides = []
 		class_names = []
 		augUrls = []
+		params_list = []
 
 		# add augments
 		agen = augments.Augments()
@@ -124,6 +125,12 @@ class Save():
 				augments_checkpoints[aidx] = sample['checkpoints'][i]
 				aidx += 1
 
+		params_list.append(parameters['activation'].encode("utf-8"))
+		params_list.append(parameters['optimizer'].encode("utf-8"))
+		params_list.append(parameters['epochs'].encode("utf-8"))
+		params_list.append(parameters['learning_rate'].encode("utf-8"))
+		params_list.append(parameters['dropout'].encode("utf-8"))
+
 		# write training file
 		out_train_file = self.traindir + fileName
 
@@ -146,6 +153,7 @@ class Save():
 		output.create_dataset('augUrls', data=augUrls)
 		output.create_dataset('mean', data=mean)
 		output.create_dataset('std_dev', data=std_dev)
+		output.create_dataset('params_list', data=params_list)
 		output.close()
 
 		return data

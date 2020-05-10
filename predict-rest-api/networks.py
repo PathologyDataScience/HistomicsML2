@@ -54,6 +54,14 @@ class Network():
 
 		return data
 
+	def setParams(self, q):
+
+		self.activation = str(q[0])
+		self.optimizer = str(q[1])
+		self.epochs = int(q[2])
+		self.learning_rate = float(q[3])
+		self.dropout = float(q[4])
+
 	def init_model(self):
 
 		self.model = Sequential()

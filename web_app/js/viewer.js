@@ -50,6 +50,13 @@ var heatmapresultJson = {};
 var isretrained = false;
 var isfirstload = true;
 var isfinalize = false;
+
+var activation = "";
+var optimizer = "";
+var learning_rate = "";
+var epochs = "";
+var dropout = "";
+
 //
 //	Initialization
 //
@@ -254,9 +261,35 @@ function reloadTrainingSet() {
 						trainingSetModelName: trainingSetModelName,
 		},
 		success: function(data) {
-				var pass = data;
+				var obj = JSON.parse(data)
+				activation = obj['parameters'][0];
+				optimizer = obj['parameters'][1];
+				epochs = obj['parameters'][2];
+				learning_rate = obj['parameters'][3];
+				dropout = obj['parameters'][4];
 				$('#reloadprogressBar').css("width", '80%');
 				$('#reloadDiag').modal('hide');
+				setParameters();
+		}
+	});
+
+}
+
+function setParameters() {
+	// get session vars
+	$.ajax({
+		type: "POST",
+		url: "php/updateSession_nn.php",
+		data: {
+						activation: activation,
+						optimizer: optimizer,
+						epochs: epochs,
+						learning_rate: learning_rate,
+						dropout: dropout
+		},
+		dataType: "json",
+		success: function(data) {
+
 		}
 	});
 }
@@ -264,8 +297,15 @@ function reloadTrainingSet() {
 function setReloaded() {
 	// get session vars
 	$.ajax({
+		type: "POST",
 		url: "php/setSession.php",
-		data: "",
+		data: {
+						activation: activation,
+						optimizer: optimizer,
+						epochs: epochs,
+						learning_rate: learning_rate,
+						dropout: dropout
+		},
 		dataType: "json",
 		success: function(data) {
 
