@@ -9,7 +9,7 @@ This section describes the dataset import process and setup of the HistomicsML2 
 
 .. note:: Superpixel boundary files are large and so these are committed to the database from the command line.
 
-HistomicsML2 datasets should be stored in subdirectories within a single master directory: 
+HistomicsML2 datasets should be stored in subdirectories within a single master directory:
 
 .. code-block:: bash
 
@@ -101,6 +101,9 @@ Start Redis and Apache, then launch the HistomicsML2 server
 
 .. code-block:: bash
 
+  # Link the dataset directory
+  root@5c6eb03c0e2f:/notebooks# ln -s /datasets/classifiers /var/www/html/HistomicsML/trainingsets
+  root@5c6eb03c0e2f:/notebooks# ln -s /datasets /var/www/html/HistomicsML/datasets
   # Run redis on server container.
   root@5c6eb03c0e2f:/notebooks# redis-server --daemonize yes
   # Run apache on server container.
