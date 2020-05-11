@@ -155,7 +155,7 @@
 	// }
 
 	// create a slide list
-	$cmd = '/bin/bash ./gen_slide_list.sh '.$projectDirectory.'/'.$slideInfoFile.' '.$projectDirectory.'/slidelist.txt';
+	$cmd = '/bin/bash ../scripts/gen_slide_list.sh '.$projectDirectory.'/'.$slideInfoFile.' '.$projectDirectory.'/slidelist.txt';
 	// $cmd = '/bin/bash ../scripts/gen_slide_list.sh '.$projectDirectory.'/'.$slideInfoFile.' '.$projectDirectory.'/slidelist.txt';
 	exec($cmd, $output, $result);
 	// $cmd = exec('/bin/bash ./gen_slide_list.sh /fastdata/features/BRCA/BRCA-pyramids-1.csv /fastdata/features/BRCA/slidelist.txt', $output, $result);
