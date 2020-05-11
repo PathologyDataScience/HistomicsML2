@@ -1,0 +1,131 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>HistomicsML - Parameters</title>
+
+		<script src="js/jquery-1.9.0.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	</head>
+
+
+	<body>
+
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="navbar-header">
+				<ul class="nav navbar-nav"><li><a>HistomicsML</a></li></ul>
+			</div>
+
+			<div>
+				<ul class="nav navbar-nav">
+					<li><a href="index.html" id="home">Home</a></li>
+					<li><a href="grid.html" id="nav_select">Instance</a></li>
+					<li><a href="viewer.html" id="viewer">Heatmap</a></li>
+					<li><a href="heatmaps.html" id="nav_heatmaps">Gallery</a></li>
+					<li><a href="review.html" id="nav_review">Review</a></li>
+					<li class="active"><a href="params.html" id="nav_params">Parameters</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container">
+		    <div class="row">
+		    	<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+			    	<center><img src="images/banner.png" class="img-responsive"></center>
+ 				</div>
+			</div>
+
+			<br />
+
+			<div class="row">
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					<h3>Select Parameters</h3>
+				<form role="form" id="params_form" method="POST">
+					<div class="form-group">
+							<label for="activation">Activation</label>
+					  <select class="form-control" id="activationLabelSel" name="activationLabel">
+					    <option value="relu">relu</option>
+					    <option value="softplus">softplus</option>
+					    <option value="softsign">softsign</option>
+					    <option value="tanh">tanh</option>
+					    <option value="selu">selu</option>
+					    <option value="elu">elu</option>
+					    <option value="exponential">exponential</option>
+					  </select>
+					</div>
+
+					<div class="form-group">
+							<label for="optimizer">Optimizer</label>
+					  <select class="form-control" id="optimizerLabelSel" name="optimizerLabel">
+					    <option value="Adam">Adam</option>
+					    <option value="RMSprop">RMSprop</option>
+					    <option value="Adadelta">Adadelta</option>
+					    <option value="SGD">SGD</option>
+					    <option value="Adagrad">Adagrad</option>
+					    <option value="Adamax">Adamax</option>
+					    <option value="Nadam">Nadam</option>
+					  </select>
+					</div>
+
+					<div class="form-group">
+						<label for="epochs">Epochs</label>
+						<input type="text" class="form-control" id="epochs"
+								name="epochs" value="10" placeholder="Enter the number of epochs">
+					</div>
+
+					<div class="form-group">
+						<label for="learning_rate">Learning rate</label>
+						<input type="text" class="form-control" id="learning_rate"
+								name="learning_rate" value="0.001" placeholder="Enter learning rate">
+					</div>
+
+					<div class="form-group">
+						<label for="dropout">Dropout</label>
+						<input type="text" class="form-control" id="dropout"
+								name="dropout" value="0.3" placeholder="Enter dropout rate">
+					</div>
+
+					<input type="submit" value="Params">
+				</form>
+
+				</div>
+
+				<div class="col-sm-2 col-md-2 col-lg-2">
+				</div>
+
+				<div class="col-sm-4 col-md-4 col-lg-4">
+							<h3>Current Parameters</h3>
+					<div class="form-group">
+						<div>
+							<span><strong>Activation:</strong></span>
+							<span id="activationtxt">relu</span>
+							<br/>
+							<br/>
+							<span><strong>Optimizer:</strong></span>
+							<span id="optimizertxt">Adam</span>
+							<br/>
+							<br/>
+							<span><strong>Epochs:</strong></span>
+							<span id="epochstxt">10</span>
+							<br/>
+							<br/>
+							<span><strong>Learning_rate:</strong></span>
+							<span id="learning_ratetxt">0.001</span>
+							<br/>
+							<br/>
+							<span><strong>Dropout:</strong></span>
+							<span id="dropouttxt">0.3</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<script src="js/params.js"></script>
+	</body>
+</html>

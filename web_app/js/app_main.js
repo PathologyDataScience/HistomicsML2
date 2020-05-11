@@ -38,6 +38,8 @@ $(function() {
 				$('#nav_select').hide();
 				$('#nav_heatmaps').hide();
 				$('#nav_review').hide();
+				$('#nav_params').hide();
+				$('#nav_paramsinit').hide();
 				$('#resetBtn').hide();
 
 			} else {

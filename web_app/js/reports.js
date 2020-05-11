@@ -27,7 +27,7 @@ $(function() {
 			}
 			updateTrainSetsforSlideSummary(curDataset[0]);
 			updateTrainSets(curDataset[0]);
-			updateSlideList();
+			// updateSlideList();
 			updateTrainSetsforPredictDataset(curDataset[0]);
 			// updateTrainSetsforLabel(curDataset[0]);
 			updateSlideListForLabel(curDataset[0]);
@@ -208,7 +208,7 @@ function updatepredictSlide() {
 	var sel = document.getElementById('datasetMapSel'),
 			  dataset = sel.options[sel.selectedIndex].label;
 	updateTrainSets(dataset);
-	updateSlideList();
+	// updateSlideList();
 }
 
 function updatepredictDataset() {
@@ -249,28 +249,28 @@ function updateTrainSetsforSlideSummary(dataSet) {
 //
 //	Updates the list of available slides for the current dataset
 //
-function updateSlideList() {
-
-	var	dataset = datasetMapSel.options[datasetMapSel.selectedIndex].label;
-
-	// Get the list of slides for the current dataset
-	$.ajax({
-		type: "POST",
-		url: "db/getslides.php",
-		data: { dataset: dataset },
-		dataType: "json",
-		success: function(data) {
-
-			$('#slideMapSel').empty();
-			// Add the slides we have segmentation boundaries for to the dropdown
-			// selector
-			for( var item in data['slides'] ) {
-				$('#slideMapSel').append(new Option(data['slides'][item], data['slides'][item]));
-			}
-			updateSlideSize();
-		}
-	});
-}
+// function updateSlideList() {
+//
+// 	var	dataset = datasetMapSel.options[datasetMapSel.selectedIndex].label;
+//
+// 	// Get the list of slides for the current dataset
+// 	$.ajax({
+// 		type: "POST",
+// 		url: "db/getslides.php",
+// 		data: { dataset: dataset },
+// 		dataType: "json",
+// 		success: function(data) {
+//
+// 			$('#slideMapSel').empty();
+// 			// Add the slides we have segmentation boundaries for to the dropdown
+// 			// selector
+// 			for( var item in data['slides'] ) {
+// 				$('#slideMapSel').append(new Option(data['slides'][item], data['slides'][item]));
+// 			}
+// 			updateSlideSize();
+// 		}
+// 	});
+// }
 
 
 

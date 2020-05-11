@@ -10,6 +10,7 @@ class Users():
 
 	def __init__(self):
 		self.users = []
+		self.params_list = []
 		self.u_size = 0
 
 		s = settings.Settings()
@@ -31,6 +32,7 @@ class Users():
 		agen = augments.Augments()
 		object_num = len(c['slideIdx'][:])
 		augment_object_num = agen.AUG_BATCH_SIZE * object_num
+		self.params_list = c['params_list'][:]
 
 		for idx in range(self.u_size):
 			if idx == uidx:

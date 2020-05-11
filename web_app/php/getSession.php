@@ -21,6 +21,11 @@
 		$sessionInfo['trainingSetName'] = $_SESSION['trainingSetName'];
 		$sessionInfo['trainingSetModelName'] = $_SESSION['trainingSetModelName'];
 		$sessionInfo['superpixelSize'] = $_SESSION['superpixelSize'];
+		$sessionInfo['activation'] = $_SESSION['activation'];
+		$sessionInfo['optimizer'] = $_SESSION['optimizer'];
+		$sessionInfo['learning_rate'] = $_SESSION['learning_rate'];
+		$sessionInfo['dropout'] = $_SESSION['dropout'];
+		$sessionInfo['epochs'] = $_SESSION['epochs'];
 	} else {
 		$sessionInfo['uid'] = null;
 		$sessionInfo['dataset'] = null;

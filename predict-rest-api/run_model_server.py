@@ -59,12 +59,12 @@ def run():
     # store special features in memory
     # dset_special = dataset.Dataset(set.PATH_TO_SPECIAL)
     dset_special = None
-    print "Dataset Loaded."
     # set normal features in memory to false
     is_normal_loaded = True
     tset_name = None
     is_reloaded = False
     m_checkpoints = 0
+    print "Dataset Loaded."
 
     while True:
 
@@ -95,6 +95,9 @@ def run():
 
             if target == "label":
                 report_label.setData(q)
+
+            if target == "params":
+                model.params_setting(q)
 
             if target == "count":
                 report_count.setData(q)
@@ -280,13 +283,20 @@ def run():
 
                 model.loading_model(m_path)
 
+                model.setParams(uset.params_list)
+
                 print "Training ... ", len(train_labels)
                 t0 = time()
                 model.train_model(train_features, train_labels, tset_name)
                 t1 = time()
                 print "Training took ", t1 - t0
 
-                data = {"success": 'pass'}
+                # data = {"success": 'pass'}
+                data = {}
+                data['parameters'] = []
+                for params in uset.params_list:
+                    data['parameters'].append(params)
+                    
                 db.set(q_uid, json.dumps(data))
                 db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
 
@@ -552,7 +562,12 @@ def run():
                 else:
                     modelName = finalize.classifier + ".h5"
                 model.saving_model(finalize.modeldir+modelName)
-                data = finalize.getData(uset.users[uidx], modelName)
+                data = finalize.getData(uset.users[uidx], modelName, model.getParams())
+                db.set(q_uid, json.dumps(data))
+                db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
+
+            if target == 'params':
+                data = model.getParams()
                 db.set(q_uid, json.dumps(data))
                 db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
 
