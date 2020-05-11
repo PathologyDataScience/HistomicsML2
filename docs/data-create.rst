@@ -36,11 +36,13 @@ Create the master directory on the local file system and navigate to this folder
   $ mkdir HistomicsML
   $ cd HistomicsML
 
-Then create a directory inside the master to store labeled data from training sessions
+Then create directories inside the master to store labeled data, model, and outputs from training sessions
 
 .. code-block:: bash
 
   $ mkdir -p classifiers/tmp
+  $ mkdir -p models
+  $ mkdir -p outputs
 
 Now create a project directory and generate subdirectories to store superpixel boundaries, centroids, and whole-slide images
 

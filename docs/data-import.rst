@@ -35,6 +35,8 @@ HistomicsML2 datasets should be stored in subdirectories within a single master 
   .
   .
   |----- classifiers/
+  |----- models/
+  |----- outputs/
 
 This hierarchy allows all datasets to be easily mounted and accessible by the docker containers.
 
