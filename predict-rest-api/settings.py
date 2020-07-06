@@ -17,7 +17,10 @@ class Settings():
         # initialize datasets
         self.FEATURE_DIM = 64
         self.IS_HEATMAP = False
-        self.TRAININGSET_DIR = "/datasets/classifiers/"
-        self.MODEL_DIR = "/datasets/models/"
         self.DATASET_DIR = "/datasets/"
-        self.PATH_TO_SPECIAL = "/datasets/BRCA/BRCA-spfeatures-1.h5"
+        self.OUTPUT_DIR = self.DATASET_DIR+"/outputs/"
+        self.TRAININGSET_DIR = self.DATASET_DIR+"/classifiers/"
+        self.TRAININGTEMP_DIR = self.DATASET_DIR+"/classifiers/tmp/"
+        self.SOFT_TRAININGTEMP_DIR = 'trainingsets/tmp/' 
+        self.MODEL_DIR = self.DATASET_DIR+"/models/"
+        self.PATH_TO_SPECIAL = self.DATASET_DIR+"/BRCA/BRCA-spfeatures-1.h5"

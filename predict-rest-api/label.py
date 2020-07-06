@@ -6,7 +6,7 @@ Set label information.
 """
 
 import numpy as np
-
+import settings
 
 class label():
 	def __init__(self):
@@ -23,8 +23,10 @@ class label():
 		self.outFile = None
 
 	def setData(self, q):
+		# initialize settings
+		set = settings.Settings()
 		self.uid = q["uid"]
-		self.trainSet = '/datasets/classifiers/' + str(q["trainset"])
+		self.trainSet = set.TRAININGSET_DIR + str(q["trainset"])
 		self.classifier = str(q["trainset"])
 		self.dataSet = str(q["dataset"])
 		self.slide = str(q["slide"])
@@ -34,7 +36,7 @@ class label():
 		self.height = int(q["height"])
 		self.bottom = self.top + self.height
 		self.right = self.left + self.width
-		self.inFile = '/datasets/classifiers/tmp/' + self.slide + '_' + str(self.left) + \
+		self.inFile = set.TRAININGTEMP_DIR + self.slide + '_' + str(self.left) + \
 		'_' + str(self.top) + '_' + str(self.width) + '_' + str(self.height) + '_' + '_.jpg'
-		self.outFile = 'trainingsets/tmp/' + self.slide + '_' + str(self.left) + \
+		self.outFile = set.SOFT_TRAININGTEMP_DIR + self.slide + '_' + str(self.left) + \
 		'_' + str(self.top) + '_' + str(self.width) + '_' + str(self.height) + '_' + '_.jpg'

@@ -7,6 +7,7 @@ import openslide
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import settings
 from scipy.misc import imsave
 from itertools import cycle
 from sklearn.cluster import AffinityPropagation
@@ -102,6 +103,8 @@ def main(args):
     print ("Training took ", t1 - t0)
 
 if __name__ == '__main__':
+    # initialize settings
+    set = settings.Settings()
     parser = argparse.ArgumentParser()
     parser.add_argument('dataset_path',
                         metavar='Dataset-Path',
@@ -117,7 +120,7 @@ if __name__ == '__main__':
                         help='The location of a slide')
     parser.add_argument('--out_dir',
                         metavar='Output_Directory',
-                        default='/datasets/outputs/',
+                        default=set.OUTPUT_DIR,
                         type=str,
                         help='The location of the output directory')
     parser.add_argument('-b',
