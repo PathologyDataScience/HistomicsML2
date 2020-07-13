@@ -35,6 +35,8 @@ import save
 import label
 import count
 import mapping
+import picker
+import validate
 
 # import cython functions
 from loadPredictswithCenXY import load
@@ -55,6 +57,7 @@ def run():
     model.init_model()
     # initialize global instance
     uset = users.Users()
+    init_picker = picker.picker()
 
     # store special features in memory
     # dset_special = dataset.Dataset(set.PATH_TO_SPECIAL)
@@ -81,6 +84,7 @@ def run():
         report_label = label.label()
         report_count = count.count()
         report_map = mapping.map()
+        report_validate = validate.validate()
 
         for q in queue:
 
@@ -137,6 +141,18 @@ def run():
             if target == 'reviewSave':
                 q_samples = json.loads(q["samples"])
 
+            if target == 'initpicker':
+                init_picker.setData(q)
+
+            if target == 'addpicker':
+                init_picker.addData(q)
+
+            if target == 'validate':
+                report_validate.setData(q)
+
+            if target == 'updatepicker':
+                q_samples = json.loads(q["samples"])
+
         if q_uid is not None:
 
             print target, " Session Start ....."
@@ -158,8 +174,6 @@ def run():
                 dset = dataset.Dataset(dataSetPath)
             else:
                 dset = dataset.Dataset(set.PATH_TO_SPECIAL)
-
-            PCA = joblib.load(pcaPath)
 
             if target == 'selectonly':
                 uset.setIter(uidx, select.iter)
@@ -296,7 +310,7 @@ def run():
                 data['parameters'] = []
                 for params in uset.params_list:
                     data['parameters'].append(params)
-                    
+
                 db.set(q_uid, json.dumps(data))
                 db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
 
@@ -497,6 +511,61 @@ def run():
                 model.init_model()
                 print ("count done")
 
+            if target == 'validate':
+
+                val_trainset = h5py.File(report_validate.trainSet, 'r')
+                val_testset = h5py.File(report_validate.testSet, 'r')
+
+                val_trainset_features = val_trainset['features'][:]
+                val_trainset_labels = val_trainset['labels'][:]
+                val_trainset_labels = np.reshape(val_trainset_labels, (len(val_trainset_labels), ))
+                val_trainset_labels[val_trainset_labels<0] = 0
+
+                val_testset_features = val_testset['features'][:]
+                val_testset_labels = val_testset['labels'][:]
+                val_testset_labels[val_testset_labels<0] = 0
+
+                print "Training ... ", len(val_trainset_labels)
+                t0 = time()
+                model.train_model(val_trainset_features, val_trainset_labels, report_validate.classifier)
+                t1 = time()
+                print "Training took ", t1 - t0
+
+                print "Testing Start ... "
+                t0 = time()
+                y_pred = model.predict(val_testset_features)
+                t1 = time()
+                print "Predict took ", t1 - t0
+
+                from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
+                from sklearn import metrics
+
+                accuracy = accuracy_score(val_testset_labels, y_pred)
+                f1 = f1_score(val_testset_labels, y_pred)
+                recall = recall_score(val_testset_labels, y_pred)
+                precision = precision_score(val_testset_labels, y_pred)
+
+                print('>> Writing count file')
+                out_file = open(report_validate.inFile, 'w')
+
+                out_file.write("Accuracy\t")
+                out_file.write("F1 score\t")
+                out_file.write("Recall\t")
+                out_file.write("Precision\t")
+                out_file.write("\n")
+
+                out_file.write("%.4f\t" % accuracy)
+                out_file.write("%.4f\t" % f1)
+                out_file.write("%.4f\t" % recall)
+                out_file.write("%.4f\t" % precision)
+                out_file.write("\n")
+
+                out_file.close()
+                print ("validate success ", report_validate.inFile)
+                data = {"success": report_validate.outFile}
+                db.set(q_uid, json.dumps(data))
+                db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
+
             if target == 'map':
                 # initialize augment
                 agen = augments.Augments()
@@ -592,6 +661,83 @@ def run():
                 db.set(q_uid, json.dumps(data))
                 db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
 
+            if target == 'initpicker':
+                data = {}
+                data['status'] = "PASS"
+                data['count'] = init_picker.getCnt()
+
+                db.set(q_uid, json.dumps(data))
+                db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
+
+            if target == 'getpicker':
+                data = {}
+                data['status'] = "PASS"
+                data['count'] = init_picker.cnt
+
+                db.set(q_uid, json.dumps(data))
+                db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
+
+            if target == 'addpicker':
+                data = {}
+                data['status'] = "PASS"
+                data['count'] = init_picker.cnt
+
+                db.set(q_uid, json.dumps(data))
+                db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
+
+            if target == 'updatepicker':
+                data = {}
+                data['status'] = "PASS"
+                data['count'] = init_picker.cnt
+                # init_picker.updateData(q_samples)
+                for k in q_samples:
+                    index = init_picker.out_db_id.index(k['id'])
+                    init_picker.out_labels[index] = k['label']
+
+                db.set(q_uid, json.dumps(data))
+                db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
+
+            if target == 'genreview':
+                data = {}
+                data['status'] = "PASS"
+                data['picker_review'] = []
+                for p in range(len(init_picker.out_slides)):
+                    sample_dict = {}
+                    sample_dict['slide'] = init_picker.out_slides[p]
+                    sample_dict['centX'] = init_picker.out_x_centroid[p]
+                    sample_dict['centY'] = init_picker.out_y_centroid[p]
+                    sample_dict['label'] = init_picker.out_labels[p]
+                    data['picker_review'].append(sample_dict)
+
+                db.set(q_uid, json.dumps(data))
+                db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
+
+            if target == 'savepicker':
+                data = {}
+                data['status'] = "PASS"
+                data['filename'] = init_picker.fileName
+
+                for p in range(len(init_picker.out_slides)):
+                    slide_idx = dset.getSlideIdx(init_picker.out_slides[p])
+                    object_num = dset.getObjNum(slide_idx)
+                    data_idx = dset.getDataIdx(slide_idx)
+                    feature_set = dset.getFeatureSet(data_idx, object_num)
+                    x_centroid_set = dset.getXcentroidSet(data_idx, object_num)
+                    y_centroid_set = dset.getYcentroidSet(data_idx, object_num)
+                    slideIdx_set = dset.getSlideIdxSet(data_idx, object_num)
+                    c_idx = getIdx(
+                        x_centroid_set.astype(np.float), y_centroid_set.astype(np.float),
+                        slideIdx_set.astype(np.int), np.float32(init_picker.out_x_centroid[p]),
+                        np.float32(init_picker.out_y_centroid[p]), slide_idx
+                    )
+                    f_idx = data_idx + c_idx
+                    init_picker.addFeature(f_idx, feature_set[c_idx])
+
+                init_picker.save()
+
+                db.set(q_uid, json.dumps(data))
+                db.ltrim(set.REQUEST_QUEUE, len(q_uid), -1)
+
             if target == 'train':
                 # increase checkpoint by 1
                 m_checkpoints += 1
@@ -639,6 +785,8 @@ def run():
                     )
 
                     f_idx = data_idx + c_idx
+
+                    PCA = joblib.load(pcaPath)
 
                     init_sample['f_idx'] =  f_idx
                     init_sample['feature'] = feature_set[c_idx]
@@ -750,6 +898,8 @@ def run():
                     )
 
                     f_idx = data_idx + c_idx
+
+                    PCA = joblib.load(pcaPath)
 
                     init_sample['f_idx'] =  f_idx
                     init_sample['feature'] = feature_set[c_idx]
@@ -878,6 +1028,8 @@ def run():
                     )
 
                     f_idx = data_idx + c_idx
+
+                    PCA = joblib.load(pcaPath)
 
                     init_sample['f_idx'] =  f_idx
                     init_sample['feature'] = feature_set[c_idx]

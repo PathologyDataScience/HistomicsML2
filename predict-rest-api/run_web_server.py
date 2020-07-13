@@ -251,6 +251,50 @@ def reviewSave():
 	return jsonify(data)
 
 
+@app.route("/model/genreview", methods=['POST'])
+def genreview():
+	data = {"success": 'none'}
+	uid = request.form['uid']
+	target = request.form['target']
+	dataset = request.form['dataset']
+	pca = request.form['pca']
+
+	d = dict(id=uid, uid=uid, target=target, dataset=dataset, pca=pca)
+
+	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
+
+	while True:
+		output = db.get(uid)
+		if output is not None:
+			data = copy(output)
+			break
+
+	db.flushdb()
+	return jsonify(data)
+
+@app.route("/model/updatepicker", methods=['POST'])
+def updatepicker():
+	data = {"success": 'none'}
+	uid = request.form['uid']
+	target = request.form['target']
+	samples = request.form['samples']
+	dataset = request.form['dataset']
+	pca = request.form['pca']
+
+	d = dict(id=uid, uid=uid, target=target,
+			 samples=samples, dataset=dataset,
+			 pca=pca)
+
+	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
+
+	while True:
+		output = db.get(uid)
+		if output is not None:
+			data = output
+			break
+
+	db.flushdb()
+	return jsonify(data)
 
 @app.route("/model/cancel", methods=['POST'])
 def cancel():
@@ -302,6 +346,20 @@ def count():
 	db.flushdb()
 	return jsonify(data)
 
+@app.route("/model/validate", methods=['POST'])
+def validate():
+	data = {"success": 'none'}
+	d = json.loads(request.data)
+	uid = d.get('uid')
+	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
+	while True:
+		output = db.get(uid)
+		if output is not None:
+			data = copy(output)
+			break
+	db.flushdb()
+	return jsonify(data)
+
 @app.route("/model/map", methods=['POST'])
 def map():
 	data = {"success": 'none'}
@@ -330,5 +388,78 @@ def params():
 	db.flushdb()
 	return jsonify(data)
 
+@app.route("/model/initPicker", methods=['POST'])
+def initPicker():
+	data = {"success": 'none'}
+	uid = request.form['uid']
+	target = request.form['target']
+	testset = request.form['testset']
+	posClass = request.form['posClass']
+	negClass = request.form['negClass']
+	dataset = request.form['dataset']
+	reloaded = request.form['reloaded']
+	pca = request.form['pca']
+
+	d = dict(id=uid, uid=uid, target=target, testset=testset,
+			posClass=posClass, negClass=negClass,
+			 dataset=dataset, reloaded=reloaded,
+			 pca=pca)
+
+	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
+
+	while True:
+		output = db.get(uid)
+		if output is not None:
+			data = output
+			break
+
+	db.flushdb()
+	return jsonify(data)
+
+@app.route("/model/addPicker", methods=['POST'])
+def addPicker():
+	data_picker = {"success": 'none'}
+	d = json.loads(request.data)
+	uid = d.get('uid')
+	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
+
+	while True:
+		output = db.get(uid)
+		if output is not None:
+			data_picker = copy(output)
+			db.delete(uid)
+			break
+
+	db.flushdb()
+	return jsonify(data_picker)
+
+
+@app.route("/model/savePicker", methods=['POST'])
+def savePicker():
+	data = {"success": 'none'}
+	uid = request.form['uid']
+	target = request.form['target']
+	testset = request.form['testset']
+	posClass = request.form['posClass']
+	negClass = request.form['negClass']
+	dataset = request.form['dataset']
+	reloaded = request.form['reloaded']
+	pca = request.form['pca']
+
+	d = dict(id=uid, uid=uid, target=target, testset=testset,
+			posClass=posClass, negClass=negClass,
+			 dataset=dataset, reloaded=reloaded,
+			 pca=pca)
+
+	db.rpush(s.REQUEST_QUEUE, json.dumps(d))
+
+	while True:
+		output = db.get(uid)
+		if output is not None:
+			data = output
+			break
+
+	db.flushdb()
+	return jsonify(data)
 if __name__ == "__main__":
 	app.run()
