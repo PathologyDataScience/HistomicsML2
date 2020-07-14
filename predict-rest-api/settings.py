@@ -17,7 +17,7 @@ class Settings():
         # initialize datasets
         self.FEATURE_DIM = 64
         self.IS_HEATMAP = False
-        self.DATASET_DIR = "/datasets"
+        self.DATASET_DIR = "/datasets/"
         self.OUTPUT_DIR = self.DATASET_DIR+"/outputs/"
         self.TRAININGSET_DIR = self.DATASET_DIR+"/classifiers/"
         self.TRAININGTEMP_DIR = self.DATASET_DIR+"/classifiers/tmp/"
