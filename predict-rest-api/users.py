@@ -28,7 +28,7 @@ class Users():
 
 	def setReloadedData(self, uidx, path):
 
-		c = h5py.File(path)
+		c = h5py.File(path, 'r')
 		agen = augments.Augments()
 		object_num = len(c['slideIdx'][:])
 		augment_object_num = agen.AUG_BATCH_SIZE * object_num

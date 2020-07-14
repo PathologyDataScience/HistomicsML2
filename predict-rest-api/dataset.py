@@ -16,7 +16,7 @@ class Dataset():
 
 	def __init__(self, path):
 
-		self.f = h5py.File(path)
+		self.f = h5py.File(path, 'r')
 		self.features = self.f['features'][:]
 		self.x_centroid = self.f['x_centroid'][:]
 		self.y_centroid = self.f['y_centroid'][:]
