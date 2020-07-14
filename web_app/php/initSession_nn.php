@@ -93,8 +93,8 @@
 		$_SESSION['iteration'] = 0;
 		$_SESSION['dataset'] = $_POST["dataset"];
 		$_SESSION['datapath'] = $featureFile[0];
-		$_SESSION['pcapath'] = $featureFile[1];
 		$_SESSION['reloaded'] = false;
+		$_SESSION['pcapath'] = $featureFile[1];
 		$_SESSION['init_reloaded'] = false;
 		$_SESSION['superpixelSize'] = $featureFile[2];
 		$_SESSION['activation'] = 'relu';
@@ -102,6 +102,10 @@
 		$_SESSION['learning_rate'] = '0.001';
 		$_SESSION['dropout'] = '0.3';
 		$_SESSION['epochs'] = '10';
+		$_SESSION['dataSetPath'] = false;
+		$_SESSION['trainingSetName'] = false;
+		$_SESSION['trainingSetModelName'] = false;
+		$_SESSION['reviewed'] = false;
 		header("Location: ../prime.html");
 	}
 ?>

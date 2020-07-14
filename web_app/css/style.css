@@ -3,7 +3,7 @@ div#sel_image_frame{height:1000px;position:absolute;top:250px;left:21px;z-index:
 div#sel_image{width:324px;height:1000px;float:left;}
 div#sel_image_arrow{width:15px;height:1000px;float:left;background-color: grey}
 div#status_bar{width:100%;height:30px;background-color: grey}
-div#image_zoomer{height: 600px}
+div#image_zoomer{height: 100%}
 div#slideZoom{height: 500px}
 
 * {

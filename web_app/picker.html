@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Dataset Picker</title>
+
+		<script src="js/jquery-1.9.0.min.js"></script>
+	 	<script src="js/openseadragon.min.js"></script>
+		<script src="js/openseadragon-imaginghelper.min.js"></script>
+		<script src="js/openseadragon-viewerinputhook.min.js"></script>
+		<script src="js/knockout-3.1.0.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+
+		<link rel="stylesheet" media="screen" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" media="screen" href="css/style.css"/>
+	</head>
+
+	<body>
+
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="navbar-header">
+				<div><ul class="nav navbar-nav"><li><a id="index">HistomicsML</a></li><ul></div>
+			</div>
+
+			<div>
+				<ul class="nav navbar-nav">   <!-- Don't allow movement for now -->
+		<!--			<li><a href="#">Home</a></li>
+					<li><a href="#">Viewer</a></li>
+		-->
+					<li  class="active"><a href="#" id="nav_validation">Validation</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container">
+
+			<div class="row top-buffer"></div>   <!-- A little space between -->
+
+			<div class="row">	<!-- Grid display of selected nuclei -->
+				<div class="col-sm-12 col-md-12 col-lg-12">
+					<div id="overflow">
+						<div class="slider" id="thumbSlider">
+							<div class="slider_div" id="box_1" style="display: none;">
+								<div class="classLabel"><strong id="label_1">Class</strong></div>
+								<div><img id="thumb_1" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_2" style="display: none;">
+								<div class="classLabel"><strong id="label_2">Class</strong></div>
+								<div><img id="thumb_2" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_3" style="display: none;">
+								<div class="classLabel"><strong id="label_3">Class</strong></div>
+								<div><img id="thumb_3" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_4" style="display: none;">
+								<div class="classLabel"><strong id="label_4">Class</strong></div>
+								<div><img id="thumb_4" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_5" style="display: none;">
+								<div class="classLabel"><strong id="label_5">Class</strong></div>
+								<div><img id="thumb_5" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_6" style="display: none;">
+								<div class="classLabel"><strong id="label_6">Class</strong></div>
+								<div><img id="thumb_6" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_7" style="display: none;">
+								<div class="classLabel"><strong id="label_7">Class</strong></div>
+								<div><img id="thumb_7" height="100" width="100"></div>
+							</div>
+							<div class="slider_div" id="box_8" style="display: none;">
+								<div class="classLabel"><strong id="label_8">Class</strong></div>
+								<div><img id="thumb_8" height="100" width="100"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	<!-- First row (grid display) -->
+
+			<div class="row top-buffer"></div>   <!-- A little space between -->
+
+			<div class="row">	<!-- Slide selection, status  and instructions -->
+				<div class="col-sm-4 col-md-4 col-lg-4">
+
+					<h4>Slide: </h4>
+					<select id="slideSel" style="font-family: monospace; font-size: 12pt"></select>
+					<p></p>
+				</div>
+
+				<div class="col-sm-4 col-md-4 col-lg-4">   <!-- Status -->
+					<div id="status" data-bind="with: statusObj">
+						<strong>Selected:</strong>
+						<span data-bind="text:(haveImage()) ? totalSel().toFixed(0) : '-'"></span>
+						<br>
+						<strong>Test set count:</strong>
+						<span data-bind="text: testSetCnt().toFixed(0)"></span>
+					</div>
+				</div>
+
+
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					<div id="classSel">
+						<strong>Default class:</strong>
+						<div class="radio">
+							<label>
+								<input type="radio" name="classSel" id="negClassRadio" value="negClass" checked>
+								<div id="radioNeg">
+									Neg Class
+								</div>
+							</label>
+						</div>
+
+						<div class="radio">
+							<label>
+								<input type="radio" name="classSel" id="posClassRadio" value="posClass">
+								<div id="radioPos">
+									Pos Class
+								</div>
+							</label>
+						</div>
+
+					</div>
+				</div>
+
+			</div>  <!-- Second row  (slide selection, status & instructions)-->
+
+			<div class="row top-buffer"></div>   <!-- A little space between -->
+
+			<div class="row-fluid">		<!-- Buttons & slide viewer -->
+				<div class="col-sm-2 col-md-2 col-lg-2">
+					<p></p>
+					<div class="btn-group-vertical">
+						<input type="button" id="segBtn" value="Show Segmentation" class="btn" onClick="showSegmentation()">
+						<input type="button" id="selBtn" value="Select Nuclei" class="btn" onClick="setSelectMode()">
+						<input type="button" id="addBtn" value="Add" class="btn btn-info" disabled="disabled" onClick="addObjects()">
+						<input type="button" id="revBtn" value="Review" class="btn btn-danger" disabled="disabled" onClick="window.location='picker_review.html';">
+						<input type="button" id="saveBtn" value="Save" class="btn btn-success" disabled="disabled" onClick="saveTrainingSet()">
+						<input type="button" id="finishBtn" value="Cancel" class="btn btn-danger" onClick="cancelSession()">
+					</div>
+				</div>
+
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<div id="imageViewerContiner" class="relative-fill-container">
+						<div id="slideZoom" class="openseadragon-view"></div>
+						<svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="overlaySvg" data-bind="withL svgOverlayVM"
+							 visibility="hidden" pointer-events="none" zoomAndPan="disable">
+							<defs></defs>
+							<!-- TODO - Can't get the binding to work with the transform function.
+								 Currently applying the transform manually in onImageViewChanged
+							-->
+							<g id="annoGrp" class="svgAnnoGrp" data-bind="attr: {transform: annoGrpTransformFunc}">
+								<g id="anno"></g>
+							</g>
+						</svg>
+					</div>
+				</div>
+			</div> <!-- Third row (buttons & slide viewer) -->
+
+		</div>	<!-- container -->
+
+		<div class="modal fade" id="addDiag" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">
+							Adding
+						</h4>
+					</div>
+					<div class="modal-body" id=".model-body">
+						<div class="progress progress-popup">
+				 		<div class="progress-bar" id="addprogressBar"></div>
+						</div>
+						<p> Please wait while adding </p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="saveDiag" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">
+							Saving
+						</h4>
+					</div>
+					<div class="modal-body" id=".model-body">
+						<div class="progress progress-popup">
+				 		<div class="progress-bar" id="saveprogressBar"></div>
+						</div>
+						<p> Please wait while saving </p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="pickerDiag" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">
+							Ready for Picker
+						</h4>
+					</div>
+					<div class="modal-body">
+						<div class="progress progress-popup">
+						<div class="progress-bar" id="pickerprogressBar"></div>
+						</div>
+						Please wait while preparing for Picker
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/picker.js"></script>
+	</body>
+</html>

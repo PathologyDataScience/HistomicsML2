@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>HistomicsML</title>
+
+		<script src="js/jquery-1.9.0.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	</head>
+
+
+	<body>
+
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="navbar-header">
+				<div><ul class="nav navbar-nav"><li><a>HistomicsML</a></li><ul></div>
+			</div>
+
+			<div>
+				<ul class="nav navbar-nav">
+					<li><a href="index.html" id='home'>Home</a></li>
+					<li><a href="viewer.html?view" id="viewer">Heatmap</a></li>
+					<li><a href="data.html" id="nav_data">Import</a></li>
+					<li><a href="reports.html" id="nav_reports">Reports</a></li>
+					<li class="active"><a href="#" id='nav_validation'>Validation</a></li>
+				</ul>
+			</div>
+		</nav>
+
+
+		<div class="container">
+
+			<div class="row">
+				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+					<center><img src="images/banner.png" class="img-responsive"></center>
+				</div>
+			</div>
+
+		<br />
+
+			<div class="row">
+				<div class="col-sm-3 col-md-3 col-lg-3">
+					<h2>Start validation</h2>
+				</div>
+
+				<div class="col-sm-3 col-md-3 col-lg-3">
+					<h2>Continue validation</h2>
+				</div>
+
+				<div class="col-sm-3 col-md-3 col-lg-3">
+					<h2>Finalize validation</h2>
+				</div>
+
+			</div>
+
+			<br />
+
+			<div class="row">
+
+				<div class="col-sm-3 col-md-3 col-lg-3">
+					<form role="form" id="picker_form" method="POST" action="php/initpicker_nn.php" onsubmit=displayProg()>
+						<input type="hidden" class="form-control" id="applicationSel"
+								name="application" readonly="readonly">
+						<div class="form-group">
+							<label for="testset">Test Set Name</label>
+							<input type="text" class="form-control" id="testset"
+									name="testsetname" placeholder="Enter name for test set">
+						</div>
+						<div class="form-group">
+							<label for="datasetSel">Dataset</label>
+							<select class="form-control" id="datasetSel" name="dataset">
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="posClass">Positive class</label>
+							<input type="text" class="form-control" id="posClass"
+									name="posClass" placeholder="Enter positive class name">
+						</div>
+
+						<div class="form-group">
+							<label for="negClass">Negative class</label>
+							<input type="text" class="form-control" id="negClass"
+									name="negClass" placeholder="Enter negative class name">
+						</div>
+
+						<button id="beginPicker" type="submit" name="submit" class="btn btn-default" value="submitted" >Begin</button>
+					</form>
+				</div>
+
+				<div class="col-sm-3 col-md-3 col-lg-3">
+					<form role="form" id="reload_form" method="POST" action="php/reloadPicker.php" onsubmit=displayProg()>
+						<input type="hidden" class="form-control" id="applicationSelreload"
+								name="applicationreload" readonly="readonly">
+						<div class="form-group">
+							<label for="reloadDatasetSel">Dataset</label>
+							<select class="form-control" id="reloadDatasetSel" name="reloadDataset">
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="reloadTestSetSel">Test Set</label>
+							<select class="form-control" id="reloadTestSetSel" name="testSet">
+							</select>
+						</div>
+
+						<button id="reloadPicker" type="submit" name="continue" class="btn btn-default" value="submitted" >Continue</button>
+					</form>
+				</div>
+
+				<div class="col-sm-3 col-md-3 col-lg-3">
+					<form role="form" id="validate_form">
+						<input type="hidden" class="form-control" id="applicationSelvalidate"
+								name="applicationvalidate" readonly="readonly">
+						<div class="form-group">
+							<label for="validateTrainDatasetSel">Training dataset</label>
+							<select class="form-control" id="validateTrainDatasetSel" name="validateTrainDataset">
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="validateTrainsetSel">Classifier name</label>
+							<select class="form-control" id="validateTrainsetSel" name="validateTrainSet">
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="validateDatasetSel">Validation dataset</label>
+							<select class="form-control" id="validateDatasetSel" name="validateDataset">
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="validateTestsetSel">Validation set name</label>
+							<select class="form-control" id="validateTestsetSel" name="validateTestSet">
+							</select>
+						</div>
+
+						<input type="submit" value="Validate">
+					</form>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="modal fade" id="progDiag" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">
+							Loading Dataset
+						</h4>
+					</div>
+					<div class="modal-body">
+						Please wait while the dataset is loaded
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="valDiag" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">
+							Inference
+						</h4>
+					</div>
+					<div class="modal-body" id=".model-body">
+						<div class="progress progress-popup">
+				 		<div class="progress-bar" id="countprogressBar"></div>
+						</div>
+						<p> Please wait while calculating summary statistics </p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/validation_main.js"></script>
+
+	</body>
+</html>

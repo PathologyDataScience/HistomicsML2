@@ -215,6 +215,7 @@ $(function() {
 				$('#legend').show();
 				// No report generation during active session
 				$('#nav_reports').hide();
+				$('#nav_validation').hide();
 				$('#nav_data').hide();
 				$("#btn_save").show();
 				// $('#nav_validation').hide();
@@ -694,6 +695,8 @@ function getSampleColors() {
 
 	var left, right, top, bottom, width, height;
 
+	var ele, segGrp, annoGrp;
+
 	// Grab nuclei a viewport width surrounding the current viewport
 	//
 	width = statusObj.dataportRight() - statusObj.dataportLeft();
@@ -855,6 +858,8 @@ function gotoView() {
 }
 
 function gotoHeatmap() {
+
+	var ele, segGrp, annoGrp;
 
 	var viewJSON = {}
 	viewJSON['id'] = uid;

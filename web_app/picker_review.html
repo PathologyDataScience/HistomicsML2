@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<title>Review</title>
+
+		<script src="js/jquery-1.9.0.min.js"></script>
+		<script src="js/openseadragon.min.js"></script>
+		<script src="js/openseadragon-imaginghelper.min.js"></script>
+		<script src="js/openseadragon-viewerinputhook.min.js"></script>
+		<script src="js/knockout-3.1.0.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/Sortable.js"></script>
+
+		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	</head>
+
+
+	<body>
+
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="navbar-header">
+				<div><ul class="nav navbar-nav"><li><a id="index">HistomicsML</a></li><ul></div>
+			</div>
+
+			<div>
+				<ul class="nav navbar-nav">   <!-- Don't allow movement for now -->
+		<!--			<li><a href="#">Home</a></li>
+					<li><a href="#">Viewer</a></li>
+		-->
+					<li  class="active"><a href="#" id="nav_validation">Validation</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-md-6 col-lg-6 header" id="posHeader1">
+				</div>
+				<div class="col-sm-1 col-md-1 col-lg-1"></div>
+				<div class="col-sm-6 col-md-6 col-lg-6 header" id="negHeader1">
+					<font size=3> <b>Slideset : </b></font>
+					<select id="reviewSel" onchange="doreviewSel()" name="reviewset">
+					</select>
+				</div>
+			</div>
+
+			<div class="row" id="slides" style='overflow:auto; width:1500px;height:400px;'>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6 col-md-6 col-lg-6">   <!-- Status -->
+					<div id="status" data-bind="with: statusObj">
+						<hr>
+						<strong>Current slide:</strong>
+						<span data-bind="text:haveImage() ? curSlide() : '-'"></span>
+						<br/>
+						<strong>Cell location:</strong>
+						<span data-bind="text:haveImage() ? currentX() : '-'"></span>
+						<span>, </span>
+						<span data-bind="text:haveImage() ? currentY() : '-'"></span>
+					</div>
+				</div>
+			</div>
+			<br/>
+
+			<div class="row top-buffer"></div>
+
+			<div class="row-fluid">
+				<div class="col-sm-2 col-md-2 col-lg-2">
+					<p></p>
+					<div class="btn-group-vertical">
+						<input type="button" id="toggleBtn" value="Hide Segmentation" class="btn btn-primary" onClick="toggleSegVisibility()">
+						<input type="button" id="selBtn" value="Select Nuclei" class="btn" disabled="disabled" onClick="setSelectMode()">
+						<input type="button" id="addBtn" value="Add" class="btn btn-info" disabled="disabled" onClick="addObjects()">
+						<input type="button" id="revBtn" value="Review" class="btn btn-danger" disabled="disabled" onClick="window.location='picker_review.html'">
+						<input type="button" id="saveBtn" value="Save" class="btn btn-success" disabled="disabled" disabled="disabled" onClick="saveTrainingSet()">
+						<input type="button" id="finishBtn" value="Picker" class="btn btn-danger" onClick="window.location='picker.html';">
+					</div>
+				</div>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<div id="imageViewerContiner" class="relative-fill-container">
+						<div id="slideZoom" class="openseadragon-view"></div>
+							<svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="overlaySvg" data-bind="with: svgOverlayVM"
+								 visibility="hidden" pointer-events="none" zoomAndPan="disable">
+								<defs></defs>
+								<!-- TODO - Can't get the binding to work with the transform function.
+									 Currently applying the transform manually in onImageViewChanged
+								-->
+								<g id="annoGrp" class="svgAnnoGrp" data-bind="attr: {transform: annoGrpTransformFunc}">
+									<g id="anno"></g>
+								</g>
+							</svg>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="reviewDiag" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel">
+								Ready for Review
+							</h4>
+						</div>
+						<div class="modal-body">
+							<div class="progress progress-popup">
+							<div class="progress-bar" id="reviewprogressBar"></div>
+							</div>
+							Please wait while preparing for Review
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="updateDiag" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel">
+								Ready for Update
+							</h4>
+						</div>
+						<div class="modal-body">
+							<div class="progress progress-popup">
+							<div class="progress-bar" id="updateprogressBar"></div>
+							</div>
+							Please wait while preparing for Update
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- knockout.js doesn't seem to work if the script isn't loaded last  -->
+			<script src="js/picker_review.js"></script>
+
+		</div>
+
+	</body>
+</html>

@@ -26,6 +26,7 @@
 		$sessionInfo['learning_rate'] = $_SESSION['learning_rate'];
 		$sessionInfo['dropout'] = $_SESSION['dropout'];
 		$sessionInfo['epochs'] = $_SESSION['epochs'];
+		$sessionInfo['reviewed'] = $_SESSION['reviewed'];
 	} else {
 		$sessionInfo['uid'] = null;
 		$sessionInfo['dataset'] = null;
