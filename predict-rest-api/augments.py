@@ -11,9 +11,9 @@ are set as default.
 import numpy as np
 import urllib, cStringIO
 
-from keras.preprocessing.image import img_to_array, ImageDataGenerator
-from keras.applications.vgg16 import preprocess_input
-from keras import backend as K
+from tensorflow.keras.preprocessing.image import img_to_array, ImageDataGenerator
+from tensorflow.keras.applications.vgg16 import preprocess_input
+from tensorflow.keras import backend as K
 from scipy.misc import imresize
 
 from PIL import Image

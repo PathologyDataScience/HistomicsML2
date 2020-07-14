@@ -4,8 +4,8 @@ Init class
 Initialize model(VGG).
 Load pca information
 """
-from keras.applications.vgg16 import VGG16
-from keras.models import Model
+from tensorflow.keras.applications.vgg16 import VGG16
+from tensorflow.keras.models import Model
 
 
 class Init():

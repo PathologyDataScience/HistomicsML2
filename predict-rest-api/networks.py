@@ -7,10 +7,10 @@ Return predicted probabilities/Predicted labels.
 """
 
 import numpy as np
-from keras.models import Sequential, model_from_json
-from keras.layers import Dense, Dropout
-from keras.models import load_model
-from keras.optimizers import Adam, RMSprop, Adadelta, SGD, Adagrad, Adamax, Nadam
+from tensorflow.keras.models import Sequential, model_from_json
+from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.keras.models import load_model
+from tensorflow.keras.optimizers import Adam, RMSprop, Adadelta, SGD, Adagrad, Adamax, Nadam
 
 class Network():
 
