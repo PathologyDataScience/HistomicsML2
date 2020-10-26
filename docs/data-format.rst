@@ -55,14 +55,17 @@ Features are stored in an HDF5 binary array. The HDF5 file contains the followin
 
 .. code-block:: bash
 
-  /slides -	Names of the slides/images in the dataset
+  /dataIdx - Array containing the object indices of the first object in each slide. Used to index by slide into the arrays 'features', 'x_centroid', and 'y_centroid'.
   /features - A D x N array of floats containing the feature values for each object in the dataset (D objects, each with N features).
+  /patch_size - The size of the image patch.
   /slideIdx - D-length array containing the slide index of each object. Integer indices are assigned to each entry in 'slides' and are used to determine what slide each object originates from.
+  /slides -	Names of the slides/images in the dataset.
+  /mean - N-length array of floats containing the mean value of the features in the dataset.
+  /std_dev - N-length array of floats containing the standard deviation value of the features in the dataset.
+  /wsi_mean - Sample mean of the image in LAB color space for Reinhard color normalization.
+  /wsi_stddev - Sample standard deviation of the image in LAB color space for Reinhard color normalization.
   /x_centroid - D-length array of floats containing the x coordinate of object centroids. Units are pixels in the base magnification layer, typically 20X or 40X.
   /y_centroid - D-length array of floats containing the y coordinate of object centroids. Units are pixels in the base magnification layer, typically 20X or 40X.
-  /dataIdx - Array containing the object indices of the first object in each slide. Used to index by slide into the arrays 'features', 'x_centroid', and 'y_centroid'.
-  /wsi_mean - Sample mean of the image in LAB color space for Reinhard color normalization.
-  /wsi_std - Sample standard deviation of the image in LAB color space for Reinhard color normalization.
 
 The contents of the feature file from the example feature file can be viewed using python's h5py library
 
@@ -70,18 +73,21 @@ The contents of the feature file from the example feature file can be viewed usi
 
   >> import h5py
   >> file="/datasets/BRCA/BRCA-features-1.h5"
-  >> contents = h5py.File(file)
+  >> contents = h5py.File(file, 'r')
   >> for i in contents:
-  ...     print i
+  ...     print(i)
   ...
   # for loop will print out the feature information under the root of the HDF5.
 
   dataIdx
   features
+  mean
+  patch_size
   slideIdx
   slides
+  std_dev
   wsi_mean
-  wsi_std
+  wsi_stddev
   x_centroid
   y_centroid
 
