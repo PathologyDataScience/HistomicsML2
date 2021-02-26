@@ -125,55 +125,16 @@
 		exit;
 	}
 
-
-	/************	End existing slide name check ************/
-	// if new slide list exists, import slide information
-	// this should be fixed later if new slide includes current slides.
-	// if(count($newslidelist) > 0){
-	// 	$link = mysqli_init();
-	// 	mysqli_options($link, MYSQLI_OPT_LOCAL_INFILE, true);
-	// 	mysqli_real_connect($link, $dbAddress, $guestAccount, $guestPass, "nuclei");
-	//
-	// 	$sql = 'LOAD DATA LOCAL INFILE "'.$projectDirectory.'/'.$slideInfoFile.'"
-	// 			INTO TABLE slides fields terminated by \',\' lines
-	// 			terminated by \'\n\' (name, x_size, y_size, pyramid_path, scale)';
-	//
-	// 	if( $result = mysqli_query($link, $sql) ) {
-	// 		mysqli_free_result($result);
-	// 	}
-	// 	else{
-	// 		echo "<script type='text/javascript'>window.alert('Boundaries: Cannot import slide information to database !! ');
-	// 		window.location.href = '../data.html';</script>";
-	// 		exit;
-	// 	}
-	// 	mysqli_close($link);
-	// }
-	//
-	// if( file_exists($projectDirectory.'/slidelist.txt') ) {
-	// 	$cmd = '/bin/rm '.$projectDirectory.'/slidelist.txt';
-	// 	exec($cmd, $output, $result);
-	// }
-
 	// create a slide list
-	$cmd = '/bin/bash ../scripts/gen_slide_list.sh '.$projectDirectory.'/'.$slideInfoFile.' '.$projectDirectory.'/slidelist.txt';
-	// $cmd = '/bin/bash ../scripts/gen_slide_list.sh '.$projectDirectory.'/'.$slideInfoFile.' '.$projectDirectory.'/slidelist.txt';
-	exec($cmd, $output, $result);
-	// $cmd = exec('/bin/bash ./gen_slide_list.sh /fastdata/features/BRCA/BRCA-pyramids-1.csv /fastdata/features/BRCA/slidelist.txt', $output, $result);
-
-	if( $result != 0 ) {
-		echo "<script type='text/javascript'>window.alert('Cannot create slide list');
-		window.location.href = '../data.html';</script>";
-		exit;
-	}
+	$old_path = getcwd();
+	chdir('/var/www/html/HistomicsML/scripts/');
+	$output = shell_exec('./gen_slide_list.sh '.$projectDirectory.'/slide_info.csv slidelist.txt');
 
 	/************	Start dataset importing************/
-
-	$out = $guestAccount.' '.$guestPass.' '.$datasetName.' '.$_POST['project'].'/'.$featureFile.' '.$projectDirectory.'/slidelist.txt';
-
+	// $out = $guestAccount.' '.$guestPass.' '.$datasetName.' '.$_POST['project'].'/'.$featureFile.' '.$projectDirectory.'/slidelist.txt';
 	// add datasets and dataset_slides tables
-	$result = shell_exec('python ../scripts/create_dataset_importtab.py '.escapeshellarg($dbAddress).' '.escapeshellarg($guestAccount).' '.escapeshellarg($guestPass).' '.escapeshellarg($datasetName).' '.$_POST['project'].'/'.escapeshellarg($featureFile).' '.$_POST['project'].'/'.escapeshellarg($pcaFile).' '.escapeshellarg($projectDirectory.'/slidelist.txt'));
-
-	write_log("INFO"," Directory".$out);
+	$result = shell_exec('python create_dataset_importtab.py '.escapeshellarg($dbAddress).' '.escapeshellarg($guestAccount).' '.escapeshellarg($guestPass).' '.escapeshellarg($datasetName).' '.$_POST['project'].'/'.escapeshellarg($featureFile).' '.$_POST['project'].'/'.escapeshellarg($pcaFile).' /var/www/html/HistomicsML/scripts/slidelist.txt');
+	// write_log("INFO"," Directory".$out);
 
 	if( $result != 0 ) {
 		echo "<script type='text/javascript'>window.alert('Dataset: Cannot import dataset to database !! ');
