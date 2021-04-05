@@ -19,6 +19,7 @@ Use the docker pull command to download the dataset creation container. Use ``ca
 
 .. code-block:: bash
 
+  $ docker pull cancerdatascience/hml_dataset_superpixel:1.0
   $ docker pull cancerdatascience/hml_dataset_cpu:1.0
   #use the GPU-enabled docker if runnnig on a GPU system
   $ docker pull cancerdatascience/hml_dataset_gpu:1.0
@@ -95,7 +96,7 @@ Use ``SuperpixelSegmentation.py`` to generate superpixel boundaries and centroid
 .. code-block:: bash
 
   $ cd myproject
-  $ docker run -it --rm --name createboundary -v "$PWD":/"${PWD##*/}" cancerdatascience/hml_dataset_gpu:1.0 python scripts/SuperpixelSegmentation.py --projectName "${PWD##*/}" --superpixelSize 64 --patchSize 128
+  $ docker run -it --rm --name createboundary -v "$PWD":/"${PWD##*/}" cancerdatascience/hml_dataset_superpixel:1.0 python scripts/SuperpixelSegmentation.py --projectName "${PWD##*/}" --superpixelSize 64 --patchSize 128
 
 Parameters of the superpixel segmentation script ``SuperpixelSegmentation.py`` can be adjusted to change the size, shape, and threshold of superpixels to discard background regions
 
